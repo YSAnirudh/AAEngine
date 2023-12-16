@@ -55,6 +55,7 @@ project "AAEngine"
 		{
 			"AA_PLATFORM_WINDOWS",
 			"AA_BUILD_DLL",
+			"AA_ENABLE_ASSERTS",
 		}
 
 		postbuildcommands
@@ -64,14 +65,17 @@ project "AAEngine"
 
 	filter "configurations:Debug"
 		defines "AA_DEBUG"
+		buildoptions "/MDd"
 		symbols "on"
 		
 	filter "configurations:Release"
 		defines "AA_RELEASE"
+		buildoptions "/MD"
 		optimize "speed"
 		
 	filter "configurations:Shipping"
 		defines "AA_SHIPPING"
+		buildoptions "/MD"
 		optimize "speed"
 		symbols "off"
 
@@ -113,12 +117,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "AA_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 		
 	filter "configurations:Release"
 		defines "AA_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 		
 	filter "configurations:Shipping"
 		defines "AA_SHIPPING"
+		buildoptions "/MD"
 		optimize "On"

@@ -61,9 +61,6 @@
     <ClInclude Include="Source\Engine\Core\Memory\CoreMemory.h">
       <Filter>Engine\Core\Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Memory\RemoveReference.h">
-      <Filter>Engine\Core\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Core\Memory\UniquePointer.h">
       <Filter>Engine\Core\Memory</Filter>
     </ClInclude>
@@ -91,6 +88,13 @@
     <ClInclude Include="Source\Platform\Windows\Window\WindowsWindow.h">
       <Filter>Platform\Windows\Window</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Memory\IncludesMemory.h" />
+    <ClInclude Include="Source\Engine\Core\Templates\AATemplates.h" />
+    <ClInclude Include="Source\Engine\Core\Templates\AATypeTraits.h" />
+    <ClInclude Include="Source\Engine\Core\Templates\RemoveReference.h" />
+    <ClInclude Include="Source\Engine\Tests\TesterFile.h" />
+    <ClInclude Include="Source\Engine\Core\Profiling\Timer.h" />
+    <ClInclude Include="Source\Engine\Core\Templates\EnableIf.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\AA_PreCompiledHeaders.cpp">
@@ -111,5 +115,6 @@
     <ClCompile Include="Source\Platform\Windows\Window\WindowsWindow.cpp">
       <Filter>Platform\Windows\Window</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Tests\TesterFile.cpp" />
   </ItemGroup>
 </Project>

@@ -165,8 +165,10 @@
     <ClInclude Include="Source\Engine\Core\Math\CoreMath.h" />
     <ClInclude Include="Source\Engine\Core\Memory\CoreMemory.h" />
     <ClInclude Include="Source\Engine\Core\Memory\IncludesMemory.h" />
+    <ClInclude Include="Source\Engine\Core\Profiling\Timer.h" />
     <ClInclude Include="Source\Engine\Core\Templates\AATemplates.h" />
     <ClInclude Include="Source\Engine\Core\Templates\AATypeTraits.h" />
+    <ClInclude Include="Source\Engine\Core\Templates\EnableIf.h" />
     <ClInclude Include="Source\Engine\Core\Templates\RemoveReference.h" />
     <ClInclude Include="Source\Engine\Core\Memory\UniquePointer.h" />
     <ClInclude Include="Source\Engine\Core\MouseCodes.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="Source\Engine\EventSystem\Event.h" />
     <ClInclude Include="Source\Engine\EventSystem\KeyEvents.h" />
     <ClInclude Include="Source\Engine\EventSystem\MouseEvents.h" />
+    <ClInclude Include="Source\Engine\Tests\TesterFile.h" />
     <ClInclude Include="Source\Engine\Window\Window.h" />
     <ClInclude Include="Source\Platform\Windows\Window\WindowsWindow.h" />
   </ItemGroup>
@@ -185,6 +188,7 @@
     <ClCompile Include="Source\Engine\Core\EngineApplication.cpp" />
     <ClCompile Include="Source\Engine\Core\Logging\Log.cpp" />
     <ClCompile Include="Source\Engine\Core\Math\Color.cpp" />
+    <ClCompile Include="Source\Engine\Tests\TesterFile.cpp" />
     <ClCompile Include="Source\Engine\Window\Window.cpp" />
     <ClCompile Include="Source\Platform\Windows\Window\WindowsWindow.cpp" />
   </ItemGroup>

@@ -2,6 +2,10 @@
 #include "EngineApplication.h"
 #include "EventSystem/Event.h"
 
+#ifdef AA_RELEASE
+#include "Tests/TesterFile.h"
+#endif // AA_DEBUG
+
 namespace AAEngine {
 
 	CEngineApplication::CEngineApplication()
@@ -16,9 +20,17 @@ namespace AAEngine {
 
 	void CEngineApplication::Run()
 	{
+		/*
+		* Useful for Running Tests on Custom Libraries
+		*/
+#ifdef AA_RELEASE
+		CTester::RunTester();
+#endif // AA_DEBUG
+
+
 		while(bIsApplicationRunning) 
 		{
-			ApplicationWindow->Tick();
+			//ApplicationWindow->Tick();
 		}
 	}
 

@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <mutex>
 #include <chrono>
+#include <vector>
+#include <array>
 
 #include <string>
 #include <sstream>
