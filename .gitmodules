@@ -1,0 +1,3 @@
+[submodule "AAEngine/ThirdParty/GLFW"]
+	path = AAEngine/ThirdParty/GLFW
+	url = https://github.com/glfw/glfw.git

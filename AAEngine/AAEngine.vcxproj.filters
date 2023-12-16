@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core">
+      <UniqueIdentifier>{130D9B61-7FC2-1357-08B7-0D2E746B0A5B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Logging">
+      <UniqueIdentifier>{A9506308-15B2-4016-9E1F-87C80A8077D5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Math">
+      <UniqueIdentifier>{CC955B1D-B88E-7A6F-E1C0-5FF4CD185A7B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Memory">
+      <UniqueIdentifier>{1BF1DCE2-07D5-9D38-7035-988B5C3888BA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\EventSystem">
+      <UniqueIdentifier>{11AEBD3C-FD91-7E92-66F2-78E552F56814}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window">
+      <UniqueIdentifier>{6210CB62-CED0-4699-970B-9016038B8B75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows\Window">
+      <UniqueIdentifier>{CBCFF26C-3707-3B04-4011-9F27ACC761FD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\AAEngine.h" />
+    <ClInclude Include="Source\Engine\AA_PreCompiledHeaders.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Core.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\EngineApplication.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\EntryPoint.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\KeyCodes.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Logging\Log.h">
+      <Filter>Engine\Core\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Math\Color.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Math\CoreMath.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Memory\CoreMemory.h">
+      <Filter>Engine\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Memory\RemoveReference.h">
+      <Filter>Engine\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Memory\UniquePointer.h">
+      <Filter>Engine\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\MouseCodes.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EventSystem\ApplicationEvents.h">
+      <Filter>Engine\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EventSystem\CoreEvents.h">
+      <Filter>Engine\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EventSystem\Event.h">
+      <Filter>Engine\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EventSystem\KeyEvents.h">
+      <Filter>Engine\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EventSystem\MouseEvents.h">
+      <Filter>Engine\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Window\Window.h">
+      <Filter>Engine\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\Windows\Window\WindowsWindow.h">
+      <Filter>Platform\Windows\Window</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Engine\AA_PreCompiledHeaders.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\EngineApplication.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Logging\Log.cpp">
+      <Filter>Engine\Core\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Math\Color.cpp">
+      <Filter>Engine\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Window\Window.cpp">
+      <Filter>Engine\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\Windows\Window\WindowsWindow.cpp">
+      <Filter>Platform\Windows\Window</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
