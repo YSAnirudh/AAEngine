@@ -99,6 +99,13 @@ namespace AAEngine {
 		virtual std::string ToString() const { return GetName(); }
 
 		/*
+		* Getter for whether the event is handled or not
+		*
+		* @returns true if the Event is handled, false otherwise
+		*/
+		bool IsHandled() const { return bHandled; }
+
+		/*
 		* Virtual Function to return whether the Event is of a Category or not
 		* Useful for Logging Events
 		*

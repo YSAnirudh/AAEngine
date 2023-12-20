@@ -9,8 +9,10 @@ outputdirectory = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 --- Including folders relative to the Root, mostly ThirdParty Libs
 includeDirs = {}
 includeDirs["GLFW"] = "AAEngine/ThirdParty/GLFW/include"
+includeDirs["GLAD"] = "AAEngine/ThirdParty/GLAD/include"
 
 include "AAEngine/ThirdParty/GLFW"
+include "AAEngine/ThirdParty/GLAD"
 
 project "AAEngine"
 	location "AAEngine"
@@ -37,12 +39,14 @@ project "AAEngine"
 		"%{prj.name}/Source",
 		"%{prj.name}/Source/Engine",
 		"%{prj.name}/Source/Engine/Core",
-		"%{includeDirs.GLFW}"
+		"%{includeDirs.GLFW}",
+		"%{includeDirs.GLAD}"
 	}
 
 	links
 	{
 		"GLFW",
+		"GLAD",
 		"opengl32.lib"
 	}
 
@@ -55,7 +59,7 @@ project "AAEngine"
 		{
 			"AA_PLATFORM_WINDOWS",
 			"AA_BUILD_DLL",
-			"AA_ENABLE_ASSERTS",
+			"GLFW_INCLUDE_NONE",
 		}
 
 		postbuildcommands
@@ -64,7 +68,11 @@ project "AAEngine"
 		}
 
 	filter "configurations:Debug"
-		defines "AA_DEBUG"
+		defines
+		{
+			"AA_DEBUG",
+			"AA_ENABLE_ASSERTS"
+		}
 		buildoptions "/MDd"
 		symbols "on"
 		

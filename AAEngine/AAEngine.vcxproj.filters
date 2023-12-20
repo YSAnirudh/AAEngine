@@ -7,6 +7,9 @@
     <Filter Include="Engine\Core">
       <UniqueIdentifier>{130D9B61-7FC2-1357-08B7-0D2E746B0A5B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Containers">
+      <UniqueIdentifier>{B89DE2A4-A497-0BF7-8D04-A207799D7163}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Core\Logging">
       <UniqueIdentifier>{A9506308-15B2-4016-9E1F-87C80A8077D5}</UniqueIdentifier>
     </Filter>
@@ -16,8 +19,20 @@
     <Filter Include="Engine\Core\Memory">
       <UniqueIdentifier>{1BF1DCE2-07D5-9D38-7035-988B5C3888BA}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Profiling">
+      <UniqueIdentifier>{4C1DADAA-B889-68A5-817D-0003EDA88A0D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Templates">
+      <UniqueIdentifier>{B19DD6FA-1D0A-92F5-E6FD-29535229B45D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\EventSystem">
       <UniqueIdentifier>{11AEBD3C-FD91-7E92-66F2-78E552F56814}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\LayerSystem">
+      <UniqueIdentifier>{CC99DCBE-B87D-9D14-21DE-97670DE18796}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Tests">
+      <UniqueIdentifier>{DDDA2A96-C93D-BA3A-72C3-F2F05E0586BD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Window">
       <UniqueIdentifier>{6210CB62-CED0-4699-970B-9016038B8B75}</UniqueIdentifier>
@@ -36,6 +51,15 @@
     <ClInclude Include="Source\AAEngine.h" />
     <ClInclude Include="Source\Engine\AA_PreCompiledHeaders.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Containers\Array.h">
+      <Filter>Engine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Containers\CoreContainers.h">
+      <Filter>Engine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Containers\StaticArray.h">
+      <Filter>Engine\Core\Containers</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Core.h">
       <Filter>Engine\Core</Filter>
@@ -61,11 +85,32 @@
     <ClInclude Include="Source\Engine\Core\Memory\CoreMemory.h">
       <Filter>Engine\Core\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Memory\IncludesMemory.h">
+      <Filter>Engine\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Memory\Memory.h">
+      <Filter>Engine\Core\Memory</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Core\Memory\UniquePointer.h">
       <Filter>Engine\Core\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\MouseCodes.h">
       <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Profiling\Timer.h">
+      <Filter>Engine\Core\Profiling</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Templates\AATemplates.h">
+      <Filter>Engine\Core\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Templates\AATypeTraits.h">
+      <Filter>Engine\Core\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Templates\EnableIf.h">
+      <Filter>Engine\Core\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Templates\RemoveReference.h">
+      <Filter>Engine\Core\Templates</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\EventSystem\ApplicationEvents.h">
       <Filter>Engine\EventSystem</Filter>
@@ -82,19 +127,21 @@
     <ClInclude Include="Source\Engine\EventSystem\MouseEvents.h">
       <Filter>Engine\EventSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\LayerSystem\Layer.h">
+      <Filter>Engine\LayerSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\LayerSystem\LayerStack.h">
+      <Filter>Engine\LayerSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Tests\TesterFile.h">
+      <Filter>Engine\Tests</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Window\Window.h">
       <Filter>Engine\Window</Filter>
     </ClInclude>
     <ClInclude Include="Source\Platform\Windows\Window\WindowsWindow.h">
       <Filter>Platform\Windows\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Memory\IncludesMemory.h" />
-    <ClInclude Include="Source\Engine\Core\Templates\AATemplates.h" />
-    <ClInclude Include="Source\Engine\Core\Templates\AATypeTraits.h" />
-    <ClInclude Include="Source\Engine\Core\Templates\RemoveReference.h" />
-    <ClInclude Include="Source\Engine\Tests\TesterFile.h" />
-    <ClInclude Include="Source\Engine\Core\Profiling\Timer.h" />
-    <ClInclude Include="Source\Engine\Core\Templates\EnableIf.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\AA_PreCompiledHeaders.cpp">
@@ -109,12 +156,23 @@
     <ClCompile Include="Source\Engine\Core\Math\Color.cpp">
       <Filter>Engine\Core\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Memory\Memory.cpp">
+      <Filter>Engine\Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\LayerSystem\Layer.cpp">
+      <Filter>Engine\LayerSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\LayerSystem\LayerStack.cpp">
+      <Filter>Engine\LayerSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Tests\TesterFile.cpp">
+      <Filter>Engine\Tests</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Engine\Window\Window.cpp">
       <Filter>Engine\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\Platform\Windows\Window\WindowsWindow.cpp">
       <Filter>Platform\Windows\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Tests\TesterFile.cpp" />
   </ItemGroup>
 </Project>

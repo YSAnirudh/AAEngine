@@ -79,11 +79,12 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>AA_PreCompiledHeaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;AA_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;GLFW_INCLUDE_NONE;AA_DEBUG;AA_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;ThirdParty\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -102,14 +103,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>AA_PreCompiledHeaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;AA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;GLFW_INCLUDE_NONE;AA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;ThirdParty\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -129,8 +131,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>AA_PreCompiledHeaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;AA_SHIPPING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;GLFW_INCLUDE_NONE;AA_SHIPPING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;ThirdParty\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -138,6 +140,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -156,6 +159,9 @@
   <ItemGroup>
     <ClInclude Include="Source\AAEngine.h" />
     <ClInclude Include="Source\Engine\AA_PreCompiledHeaders.h" />
+    <ClInclude Include="Source\Engine\Core\Containers\Array.h" />
+    <ClInclude Include="Source\Engine\Core\Containers\CoreContainers.h" />
+    <ClInclude Include="Source\Engine\Core\Containers\StaticArray.h" />
     <ClInclude Include="Source\Engine\Core\Core.h" />
     <ClInclude Include="Source\Engine\Core\EngineApplication.h" />
     <ClInclude Include="Source\Engine\Core\EntryPoint.h" />
@@ -165,18 +171,21 @@
     <ClInclude Include="Source\Engine\Core\Math\CoreMath.h" />
     <ClInclude Include="Source\Engine\Core\Memory\CoreMemory.h" />
     <ClInclude Include="Source\Engine\Core\Memory\IncludesMemory.h" />
+    <ClInclude Include="Source\Engine\Core\Memory\Memory.h" />
+    <ClInclude Include="Source\Engine\Core\Memory\UniquePointer.h" />
+    <ClInclude Include="Source\Engine\Core\MouseCodes.h" />
     <ClInclude Include="Source\Engine\Core\Profiling\Timer.h" />
     <ClInclude Include="Source\Engine\Core\Templates\AATemplates.h" />
     <ClInclude Include="Source\Engine\Core\Templates\AATypeTraits.h" />
     <ClInclude Include="Source\Engine\Core\Templates\EnableIf.h" />
     <ClInclude Include="Source\Engine\Core\Templates\RemoveReference.h" />
-    <ClInclude Include="Source\Engine\Core\Memory\UniquePointer.h" />
-    <ClInclude Include="Source\Engine\Core\MouseCodes.h" />
     <ClInclude Include="Source\Engine\EventSystem\ApplicationEvents.h" />
     <ClInclude Include="Source\Engine\EventSystem\CoreEvents.h" />
     <ClInclude Include="Source\Engine\EventSystem\Event.h" />
     <ClInclude Include="Source\Engine\EventSystem\KeyEvents.h" />
     <ClInclude Include="Source\Engine\EventSystem\MouseEvents.h" />
+    <ClInclude Include="Source\Engine\LayerSystem\Layer.h" />
+    <ClInclude Include="Source\Engine\LayerSystem\LayerStack.h" />
     <ClInclude Include="Source\Engine\Tests\TesterFile.h" />
     <ClInclude Include="Source\Engine\Window\Window.h" />
     <ClInclude Include="Source\Platform\Windows\Window\WindowsWindow.h" />
@@ -188,6 +197,9 @@
     <ClCompile Include="Source\Engine\Core\EngineApplication.cpp" />
     <ClCompile Include="Source\Engine\Core\Logging\Log.cpp" />
     <ClCompile Include="Source\Engine\Core\Math\Color.cpp" />
+    <ClCompile Include="Source\Engine\Core\Memory\Memory.cpp" />
+    <ClCompile Include="Source\Engine\LayerSystem\Layer.cpp" />
+    <ClCompile Include="Source\Engine\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="Source\Engine\Tests\TesterFile.cpp" />
     <ClCompile Include="Source\Engine\Window\Window.cpp" />
     <ClCompile Include="Source\Platform\Windows\Window\WindowsWindow.cpp" />
@@ -195,6 +207,9 @@
   <ItemGroup>
     <ProjectReference Include="ThirdParty\GLFW\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="ThirdParty\GLAD\GLAD.vcxproj">
+      <Project>{5D4A857C-4981-860D-F26D-6C10DE83020F}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

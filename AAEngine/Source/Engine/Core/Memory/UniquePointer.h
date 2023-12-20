@@ -385,7 +385,6 @@ namespace AAEngine {
 	{
 		return TUniquePtr<T>(new T(Forward<ArgsT>(Args)...));
 	}
-
 	/*template<class T>
 	TEnableIf<TIsUnBoundedArray<T>::Value, TUniquePtr<T>> make_unique(std::size_t n)
 	{

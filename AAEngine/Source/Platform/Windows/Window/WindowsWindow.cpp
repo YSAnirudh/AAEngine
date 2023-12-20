@@ -3,7 +3,9 @@
 #include "EventSystem/ApplicationEvents.h"
 #include "EventSystem/MouseEvents.h"
 #include "EventSystem/KeyEvents.h"
-#include "GLFW/glfw3.h"
+
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace AAEngine {
 
@@ -68,6 +70,10 @@ namespace AAEngine {
 		}
 
 		glfwMakeContextCurrent(Window);
+
+		int GLADInitSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		AA_CORE_ASSERT(GLADInitSuccess, "Could not Initializee GLAD!");
+
 		glfwSetWindowUserPointer(Window, &WindowData);
 		SetVSync(true);
 

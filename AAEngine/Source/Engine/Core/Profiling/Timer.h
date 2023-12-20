@@ -22,7 +22,7 @@ namespace AAEngine {
 	* Templated Timer class with custom resolution for Time. Ex: Seconds/MicroSeconds
 	*/
 	template<ETimeResolution InTimeResolution>
-	class CTimer
+	class TTimer
 	{
 		/*
 		* Chrono library define
@@ -43,7 +43,7 @@ namespace AAEngine {
 		/*
 		* Default constructor that Starts the time and sets the Timer Name to "Base"
 		*/
-		FORCEINLINE CTimer()
+		FORCEINLINE TTimer()
 		{
 			TimerName = "Base";
 			StartTimepoint = CH_HRClock::now();
@@ -55,7 +55,7 @@ namespace AAEngine {
 		* 
 		* @param InTimerName - rvalue Reference of the Timer name as an std::string
 		*/
-		explicit FORCEINLINE CTimer(std::string&& InTimerName)
+		explicit FORCEINLINE TTimer(std::string&& InTimerName)
 		{
 			TimerName = Move(InTimerName);
 			StartTimepoint = CH_HRClock::now();
@@ -65,7 +65,7 @@ namespace AAEngine {
 		* Destructor that class the Stop function
 		* Stops the Timer and outputs the result
 		*/
-		FORCEINLINE ~CTimer()
+		FORCEINLINE ~TTimer()
 		{
 			Stop();
 		}

@@ -4,6 +4,7 @@
 #include "Engine/EventSystem/Event.h"
 #include "Engine/EventSystem/ApplicationEvents.h"
 #include "Engine/Window/Window.h"
+#include "Engine/LayerSystem/LayerStack.h"
 
 // FORWARD DECLARATIONS
 
@@ -35,6 +36,19 @@ namespace AAEngine {
 		* @param Event - Event& of the Event that needs to be handled
 		*/
 		void HandleEvent(CEvent& Event);
+
+		/*
+		* PushLayer Method used to Push new Layers onto the Layer Stack.
+		*
+		* @param Layer - Layer* of the layer to push onto the Layer Stack
+		*/
+		void PushLayer(CLayer* Layer);
+		/*
+		* PushOverlay Method used to Push new Overlays onto the Layer Stack.
+		*
+		* @param Overlay - Layer* of the overlay to push onto the Layer Stack
+		*/
+		void PushOverlay(CLayer* Overlay);
 	private:
 		// EVENT Handling functions
 		/*
@@ -50,6 +64,11 @@ namespace AAEngine {
 		* boolean to check if the Application is still running.
 		*/
 		bool bIsApplicationRunning = true;
+
+		/*
+		* Layer Stack for the application to handle Layers
+		*/
+		CLayerStack LayerStack;
 	};
 
 	// To be defined on the CLIENT of AAEngine

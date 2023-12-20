@@ -4,14 +4,16 @@
 
 #ifdef AA_RELEASE
 #include "Tests/TesterFile.h"
+#elif AA_DEBUG
+#include "Tests/TesterFile.h"
 #endif // AA_DEBUG
 
 namespace AAEngine {
 
 	CEngineApplication::CEngineApplication()
 	{
-		ApplicationWindow = TUniquePtr<IWindow>(IWindow::Create());
-		ApplicationWindow->SetEventCallbackFunction(BIND_EVENT_FUNCTION(this, &CEngineApplication::HandleEvent));
+		//ApplicationWindow = TUniquePtr<IWindow>(IWindow::Create());
+		//ApplicationWindow->SetEventCallbackFunction(BIND_EVENT_FUNCTION(this, &CEngineApplication::HandleEvent));
 	}
 
 	CEngineApplication::~CEngineApplication()
@@ -25,11 +27,18 @@ namespace AAEngine {
 		*/
 #ifdef AA_RELEASE
 		CTester::RunTester();
-#endif // AA_DEBUG
+#elif AA_DEBUG
+		CTester::RunTester();
+#endif
 
 
 		while(bIsApplicationRunning) 
 		{
+			for (CLayer* Layer : LayerStack)
+			{
+				Layer->OnUpdate();
+			}
+
 			//ApplicationWindow->Tick();
 		}
 	}
@@ -42,6 +51,24 @@ namespace AAEngine {
 		CEventHandler EventHandler(Event);
 		EventHandler.HandleEvent<CWindowCloseEvent>(BIND_EVENT_FUNCTION(this, &CEngineApplication::OnWindowClose));
 
+		for (auto It = LayerStack.end(); It != LayerStack.begin(); )
+		{
+			(*--It)->OnEvent(Event);
+			if (Event.IsHandled())
+			{
+				break;
+			}
+		}
+	}
+
+	void CEngineApplication::PushLayer(CLayer* Layer)
+	{
+		LayerStack.PushLayer(Layer);
+	}
+
+	void CEngineApplication::PushOverlay(CLayer* Overlay)
+	{
+		LayerStack.PushOverlay(Overlay);
 	}
 	
 	bool CEngineApplication::OnWindowClose(const CWindowCloseEvent& Event)
