@@ -1,3 +1,6 @@
 [submodule "AAEngine/ThirdParty/GLFW"]
 	path = AAEngine/ThirdParty/GLFW
 	url = https://github.com/glfw/glfw.git
+[submodule "AAEngine/ThirdParty/ImGui"]
+	path = AAEngine/ThirdParty/ImGui
+	url = https://github.com/YSAnirudh/imgui

@@ -173,6 +173,15 @@ namespace AAEngine {
 				}
 			});
 
+		glfwSetCharCallback(Window,
+			[](GLFWwindow* Window, unsigned int KeyCode)
+			{
+				FWindowData& UserPointerWindowData = *(FWindowData*)glfwGetWindowUserPointer(Window);
+
+				CKeyTypedEvent Event(KeyCode);
+				UserPointerWindowData.EventCallback(Event);
+			});
+
 		// MOUSE Callbacks
 
 		// Mouse Move

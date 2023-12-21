@@ -1,6 +1,7 @@
 #include "AA_PreCompiledHeaders.h"
 #include "EngineApplication.h"
 #include "EventSystem/Event.h"
+#include "Input/Input.h"
 
 #ifdef AA_RELEASE
 #include "Tests/TesterFile.h"
@@ -8,12 +9,20 @@
 #include "Tests/TesterFile.h"
 #endif // AA_DEBUG
 
+// Temp
+#include <glad/glad.h>
+
 namespace AAEngine {
+
+	CEngineApplication* CEngineApplication::EngineApplicationInstance = nullptr;
 
 	CEngineApplication::CEngineApplication()
 	{
-		//ApplicationWindow = TUniquePtr<IWindow>(IWindow::Create());
-		//ApplicationWindow->SetEventCallbackFunction(BIND_EVENT_FUNCTION(this, &CEngineApplication::HandleEvent));
+		AA_CORE_ASSERT(!EngineApplicationInstance, "Instance Already Present! Invalid Static ref.");
+		EngineApplicationInstance = this;
+
+		ApplicationWindow = TUniquePtr<IWindow>(IWindow::Create());
+		ApplicationWindow->SetEventCallbackFunction(BIND_EVENT_FUNCTION(this, &CEngineApplication::HandleEvent));
 	}
 
 	CEngineApplication::~CEngineApplication()
@@ -34,12 +43,14 @@ namespace AAEngine {
 
 		while(bIsApplicationRunning) 
 		{
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
 			for (CLayer* Layer : LayerStack)
 			{
 				Layer->OnUpdate();
 			}
 
-			//ApplicationWindow->Tick();
+			ApplicationWindow->Tick();
 		}
 	}
 

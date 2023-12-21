@@ -18,6 +18,7 @@ namespace AAEngine {
 	void CLayerStack::PushLayer(CLayer* NewLayer)
 	{
 		LayerInsertPos = LayerStack.Emplace(LayerInsertPos, NewLayer);
+		NewLayer->OnAttach();
 	}
 
 	void CLayerStack::PopLayer(CLayer* NewLayer)
@@ -27,12 +28,14 @@ namespace AAEngine {
 		{
 			LayerStack.RemoveAt(it);
 			LayerInsertPos--;
+			(*it)->OnDetach();
 		}
 	}
 
 	void CLayerStack::PushOverlay(CLayer* NewOverlay)
 	{
 		LayerStack.EmplaceBack(NewOverlay);
+		NewOverlay->OnAttach();
 	}
 
 	void CLayerStack::PopOverlay(CLayer* NewOverlay)
@@ -41,6 +44,7 @@ namespace AAEngine {
 		if (it != LayerStack.end())
 		{
 			LayerStack.RemoveAt(it);
+			(*it)->OnDetach();
 		}
 	}
 }

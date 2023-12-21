@@ -41,6 +41,11 @@
 	#error AA Engine only supports Windows!
 #endif
 
+#ifdef AA_DEBUG
+	#define AA_ENABLE_ASSERTS
+#endif
+
+
 #ifdef AA_ENABLE_ASSERTS
 	#define AA_CORE_ASSERT(x, ...)		{ if (!x) { AA_CORE_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
 	#define AA_ASSERT(x, ...)			{ if (!x) { AA_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }

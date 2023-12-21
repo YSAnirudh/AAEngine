@@ -17,7 +17,7 @@ namespace AAEngine {
 		None = 0,
 		Window_CloseEvent, Window_ResizeEvent, Window_MovedEvent, Window_FocusedEvent, Window_LostFocusEvent,
 		Mouse_ButtonPressedEvent, Mouse_ButtonReleasedEvent, Mouse_MovedEvent, Mouse_ScrollEvent,
-		Keyboard_KeyPressedEvent, Keyboard_KeyReleasedEvent
+		Keyboard_KeyPressedEvent, Keyboard_KeyReleasedEvent, Keyboard_KeyTypedEvent
 	};
 
 	/*

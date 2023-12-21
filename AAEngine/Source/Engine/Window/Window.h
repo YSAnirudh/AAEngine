@@ -79,6 +79,13 @@ namespace AAEngine {
 		virtual bool IsVSync() const = 0;
 		
 		/*
+		* Pure Virtual Getter to get the Platform Specific Window.
+		*
+		* @returns void* of Platform Specific Window.
+		*/
+		virtual void* GetNativeWindow() const = 0;
+
+		/*
 		* Pure Virtual Create method to be implemented per platform
 		* Used for the Creation of a Window
 		*

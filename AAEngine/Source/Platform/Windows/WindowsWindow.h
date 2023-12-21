@@ -36,20 +36,27 @@ namespace AAEngine {
 		*
 		* @returns Window Width of the Window
 		*/
-		virtual unsigned int GetWindowWidth() const override { return WindowData.WindowWidth; }
+		FORCEINLINE virtual unsigned int GetWindowWidth() const override { return WindowData.WindowWidth; }
 		/*
 		* Overriden Virtual Getter Function to get the Window Height
 		*
 		* @returns Window Height of the Window
 		*/
-		virtual unsigned int GetWindowHeight() const override { return WindowData.WindowHeight; }
+		FORCEINLINE virtual unsigned int GetWindowHeight() const override { return WindowData.WindowHeight; }
 
 		/*
 		* Overriden Virtual Function to set the Event Callback Function for this Window
 		*
 		* @param EventCallback - const EventCallbackFunction& event callback function used to handle callbacks set for this window
 		*/
-		virtual void SetEventCallbackFunction(const EventCallbackFunction& EventCallback) override { WindowData.EventCallback = EventCallback; }
+		FORCEINLINE virtual void SetEventCallbackFunction(const EventCallbackFunction& EventCallback) override { WindowData.EventCallback = EventCallback; }
+
+		/*
+		* Overriden Virtual function to get Windows specific Window.
+		* 
+		* @returns Windows specific Window*
+		*/
+		FORCEINLINE virtual void* GetNativeWindow() const override { return Window; }
 
 		/*
 		* Overriden Virtual Function to set if the VSync for this window is enabled

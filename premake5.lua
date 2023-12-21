@@ -2,6 +2,7 @@
 
 workspace "AAEngine"
 	architecture "x64"
+	startproject "Sandbox"
 	configurations { 'Debug', 'Release', 'Shipping' }
 
 outputdirectory = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
@@ -10,16 +11,20 @@ outputdirectory = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 includeDirs = {}
 includeDirs["GLFW"] = "AAEngine/ThirdParty/GLFW/include"
 includeDirs["GLAD"] = "AAEngine/ThirdParty/GLAD/include"
+includeDirs["ImGui"] = "AAEngine/ThirdParty/ImGui"
 
-include "AAEngine/ThirdParty/GLFW"
-include "AAEngine/ThirdParty/GLAD"
+group "Dependencies"
+	include "AAEngine/ThirdParty/GLFW"
+	include "AAEngine/ThirdParty/GLAD"
+	include "AAEngine/ThirdParty/ImGui"
+
+group ""
 
 project "AAEngine"
 	location "AAEngine"
 	kind "SharedLib"
 	language "C++"
-
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("Binaries/" .. outputdirectory .. "/%{prj.name}")
 	objdir ("Intermediate/" .. outputdirectory .. "/%{prj.name}")
@@ -40,19 +45,30 @@ project "AAEngine"
 		"%{prj.name}/Source/Engine",
 		"%{prj.name}/Source/Engine/Core",
 		"%{includeDirs.GLFW}",
-		"%{includeDirs.GLAD}"
+		"%{includeDirs.GLAD}",
+		"%{includeDirs.ImGui}"
 	}
 
 	links
 	{
 		"GLFW",
 		"GLAD",
+		"ImGui",
 		"opengl32.lib"
+	}
+
+	disablewarnings
+	{
+		"4251"
+	}
+
+	linkoptions
+	{
+		"-IGNORE:4251"
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -64,26 +80,22 @@ project "AAEngine"
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../Binaries/" .. outputdirectory .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../Binaries/" .. outputdirectory .. "/Sandbox/\"")
 		}
 
 	filter "configurations:Debug"
-		defines
-		{
-			"AA_DEBUG",
-			"AA_ENABLE_ASSERTS"
-		}
-		buildoptions "/MDd"
+		defines "AA_DEBUG"
+		runtime "Debug"
 		symbols "on"
 		
 	filter "configurations:Release"
 		defines "AA_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "speed"
 		
 	filter "configurations:Shipping"
 		defines "AA_SHIPPING"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "speed"
 		symbols "off"
 
@@ -91,6 +103,7 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	staticruntime "on"
 
@@ -125,15 +138,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "AA_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 		
 	filter "configurations:Release"
 		defines "AA_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 		
 	filter "configurations:Shipping"
 		defines "AA_SHIPPING"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"

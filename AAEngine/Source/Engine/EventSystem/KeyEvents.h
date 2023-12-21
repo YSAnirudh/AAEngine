@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Event.h"
-#include "Core/KeyCodes.h"
+#include "Input/KeyCodes.h"
 
 namespace AAEngine {
 	/*
@@ -118,6 +118,41 @@ namespace AAEngine {
 		* MACRO for overriding Event Type based functions from Event
 		*/
 		EVENT_CLASS_TYPE(Keyboard_KeyReleasedEvent)
+
+	private:
+	};
+
+	/*
+	* KeyTypedEvent class to define an KeyEvent for when a Key is released
+	*/
+	class AA_ENGINE_API CKeyTypedEvent : public CKeyEvent
+	{
+	public:
+		/*
+		* Constructor that takes in a KeyCode for registering which key has been typed
+		*
+		* @param KeyCode - KeyCode associated with a Key Release
+		*/
+		CKeyTypedEvent(const EKeyCode KeyCode)
+			: CKeyEvent(KeyCode) {}
+
+		/*
+		* Overriden Virtual Function to return an std::string for the KeyTypedEvent
+		* Useful for Logging Events
+		*
+		* @returns KeyTypedEvent represented as a String
+		*/
+		virtual std::string ToString() const override
+		{
+			std::stringstream SS;
+			SS << "KeyTypedEvent: " << KeyCode;
+			return SS.str();
+		}
+
+		/*
+		* MACRO for overriding Event Type based functions from Event
+		*/
+		EVENT_CLASS_TYPE(Keyboard_KeyTypedEvent)
 
 	private:
 	};

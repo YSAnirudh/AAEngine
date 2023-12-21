@@ -8,7 +8,7 @@ namespace AAEngine
 	*/
 	using EKeyCode = unsigned int;
 
-	namespace Key
+	namespace FKey
 	{
 		/*
 		* Key Codes as uint16_t for tracking Key Codes associated with each key
@@ -16,6 +16,7 @@ namespace AAEngine
 		*/
 		enum : EKeyCode
 		{
+			None = 0,
 			// Special Characters
 			Space = 32,
 			Apostrophe = 39, /* ' */

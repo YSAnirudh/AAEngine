@@ -49,7 +49,21 @@ namespace AAEngine {
 		* @param Overlay - Layer* of the overlay to push onto the Layer Stack
 		*/
 		void PushOverlay(CLayer* Overlay);
-	private:
+
+		/*
+		* Inline Getter function to return a reference to the Application Window
+		* 
+		* @returns Reference to the Application Window
+		*/
+		FORCEINLINE IWindow& GetWindow() { return *ApplicationWindow; }
+
+		/*
+		* Inline Static Getter function to return a static reference to the Application
+		*
+		* @returns Reference to the Application
+		*/
+		FORCEINLINE static CEngineApplication& Get() { return *EngineApplicationInstance; }
+	protected:
 		// EVENT Handling functions
 		/*
 		* 
@@ -69,6 +83,13 @@ namespace AAEngine {
 		* Layer Stack for the application to handle Layers
 		*/
 		CLayerStack LayerStack;
+
+	private:
+		/*
+		* Static Singleton instance of the Application.
+		* Only one application possible.
+		*/
+		static CEngineApplication* EngineApplicationInstance;
 	};
 
 	// To be defined on the CLIENT of AAEngine

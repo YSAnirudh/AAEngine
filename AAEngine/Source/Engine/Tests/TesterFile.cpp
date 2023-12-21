@@ -8,20 +8,26 @@ namespace AAEngine {
 
 	struct Vector
 	{
-		float x, y, z;
+		float x;
+		std::string Hello;
+		float y, z;
 		Vector() = default;
-		Vector(float x, float y, float z) : x(x), y(y), z(z)
+		Vector(float x, float y, float z) : x(x), y(y), z(z), Hello("Hello")
+		{
+		}
+
+		Vector(const std::string& NewString) : x(0.0f), y(0.0f), z(0.0f), Hello(NewString)
 		{
 		}
 
 		Vector(const Vector& NewVec)
-			: x(NewVec.x), y(NewVec.y), z(NewVec.z)
+			: x(NewVec.x), y(NewVec.y), z(NewVec.z), Hello(NewVec.Hello)
 		{
 			//std::cout << "Copy\n";
 		}
 
 		Vector(Vector&& NewVec) noexcept
-			: x(NewVec.x), y(NewVec.y), z(NewVec.z)
+			: x(NewVec.x), y(NewVec.y), z(NewVec.z), Hello(NewVec.Hello)
 		{
 			//std::cout << "Move\n";
 		}
@@ -37,6 +43,7 @@ namespace AAEngine {
 			x = NewVec.x;
 			y = NewVec.y;
 			z = NewVec.z;
+			Hello = NewVec.Hello;
 			return *this;
 		}
 
@@ -46,13 +53,14 @@ namespace AAEngine {
 			x = NewVec.x;
 			y = NewVec.y;
 			z = NewVec.z;
+			Hello = NewVec.Hello;
 			return *this;
 		}
 
 	};
 	std::ostream& operator<<(std::ostream& Out, const Vector& OutVec)
 	{
-		Out << OutVec.x << " " << OutVec.y << " " << OutVec.z;
+		Out << OutVec.x << " " << OutVec.y << " " << OutVec.z << " " << OutVec.Hello;
 		return Out;
 	}
 
@@ -150,15 +158,15 @@ namespace AAEngine {
 		//	}*/
 		//}
 
-		TArray<std::string> VectorOfUnique;
+		TArray<Vector> VectorOfUnique;
 		VectorOfUnique.RemoveAt(0);
-		VectorOfUnique.PushBack("Hello");
+		VectorOfUnique.EmplaceBack("Hello");
 		//VectorOfUnique.EmplaceBack(1.f, 1.f, 3.f);
 		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
 		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
 		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
 		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
-		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
+		VectorOfUnique.Emplace(VectorOfUnique.begin(), "Hello Sar cvaddu");
 		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
 		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
 		//VectorOfUnique.PushBack("Helloasdasd");

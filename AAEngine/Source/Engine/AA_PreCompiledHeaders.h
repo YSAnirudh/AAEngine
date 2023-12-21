@@ -17,6 +17,10 @@
 	#include "Windows.h"
 #endif
 
+#if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 // AA Engine Precompiled headers
 #include "Core/Logging/Log.h"
 

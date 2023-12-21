@@ -1,4 +1,4 @@
---- premake5.lua = GLFW
+--- premake5.lua = GLAD
 
 project "GLAD"
 	kind "StaticLib"

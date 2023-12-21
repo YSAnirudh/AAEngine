@@ -79,12 +79,12 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>AA_PreCompiledHeaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;GLFW_INCLUDE_NONE;AA_DEBUG;AA_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;ThirdParty\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;GLFW_INCLUDE_NONE;AA_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;ThirdParty\GLAD\include;ThirdParty\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -93,9 +93,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\Binaries\Debug-windows-x86_64\AAEngine\AAEngine.lib</ImportLibrary>
+      <AdditionalOptions>-IGNORE:4251 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Binaries\Debug-windows-x86_64\AAEngine\AAEngine.dll\ (xcopy /Q /E /Y /I ..\Binaries\Debug-windows-x86_64\AAEngine\AAEngine.dll ..\Binaries\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\Binaries\Debug-windows-x86_64\AAEngine\AAEngine.dll ..\Binaries\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\Binaries\Debug-windows-x86_64\AAEngine\AAEngine.dll\ (xcopy /Q /E /Y /I ..\Binaries\Debug-windows-x86_64\AAEngine\AAEngine.dll "..\Binaries\Debug-windows-x86_64\Sandbox\" &gt; nul) ELSE (xcopy /Q /Y /I ..\Binaries\Debug-windows-x86_64\AAEngine\AAEngine.dll "..\Binaries\Debug-windows-x86_64\Sandbox\" &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -103,15 +104,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>AA_PreCompiledHeaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;GLFW_INCLUDE_NONE;AA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;ThirdParty\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;ThirdParty\GLAD\include;ThirdParty\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -121,9 +122,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\Binaries\Release-windows-x86_64\AAEngine\AAEngine.lib</ImportLibrary>
+      <AdditionalOptions>-IGNORE:4251 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Binaries\Release-windows-x86_64\AAEngine\AAEngine.dll\ (xcopy /Q /E /Y /I ..\Binaries\Release-windows-x86_64\AAEngine\AAEngine.dll ..\Binaries\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\Binaries\Release-windows-x86_64\AAEngine\AAEngine.dll ..\Binaries\Release-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\Binaries\Release-windows-x86_64\AAEngine\AAEngine.dll\ (xcopy /Q /E /Y /I ..\Binaries\Release-windows-x86_64\AAEngine\AAEngine.dll "..\Binaries\Release-windows-x86_64\Sandbox\" &gt; nul) ELSE (xcopy /Q /Y /I ..\Binaries\Release-windows-x86_64\AAEngine\AAEngine.dll "..\Binaries\Release-windows-x86_64\Sandbox\" &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
@@ -131,16 +133,16 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>AA_PreCompiledHeaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>AA_PLATFORM_WINDOWS;AA_BUILD_DLL;GLFW_INCLUDE_NONE;AA_SHIPPING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;ThirdParty\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source;Source\Engine;Source\Engine\Core;ThirdParty\GLFW\include;ThirdParty\GLAD\include;ThirdParty\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -151,12 +153,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\Binaries\Shipping-windows-x86_64\AAEngine\AAEngine.lib</ImportLibrary>
+      <AdditionalOptions>-IGNORE:4251 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Binaries\Shipping-windows-x86_64\AAEngine\AAEngine.dll\ (xcopy /Q /E /Y /I ..\Binaries\Shipping-windows-x86_64\AAEngine\AAEngine.dll ..\Binaries\Shipping-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\Binaries\Shipping-windows-x86_64\AAEngine\AAEngine.dll ..\Binaries\Shipping-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\Binaries\Shipping-windows-x86_64\AAEngine\AAEngine.dll\ (xcopy /Q /E /Y /I ..\Binaries\Shipping-windows-x86_64\AAEngine\AAEngine.dll "..\Binaries\Shipping-windows-x86_64\Sandbox\" &gt; nul) ELSE (xcopy /Q /Y /I ..\Binaries\Shipping-windows-x86_64\AAEngine\AAEngine.dll "..\Binaries\Shipping-windows-x86_64\Sandbox\" &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Engine\Input\Input.h" />
+    <ClInclude Include="Source\Engine\ImGui\ImGuiCodes.h" />
     <ClInclude Include="Source\AAEngine.h" />
     <ClInclude Include="Source\Engine\AA_PreCompiledHeaders.h" />
     <ClInclude Include="Source\Engine\Core\Containers\Array.h" />
@@ -165,7 +170,7 @@
     <ClInclude Include="Source\Engine\Core\Core.h" />
     <ClInclude Include="Source\Engine\Core\EngineApplication.h" />
     <ClInclude Include="Source\Engine\Core\EntryPoint.h" />
-    <ClInclude Include="Source\Engine\Core\KeyCodes.h" />
+    <ClInclude Include="Source\Engine\Input\KeyCodes.h" />
     <ClInclude Include="Source\Engine\Core\Logging\Log.h" />
     <ClInclude Include="Source\Engine\Core\Math\Color.h" />
     <ClInclude Include="Source\Engine\Core\Math\CoreMath.h" />
@@ -173,7 +178,7 @@
     <ClInclude Include="Source\Engine\Core\Memory\IncludesMemory.h" />
     <ClInclude Include="Source\Engine\Core\Memory\Memory.h" />
     <ClInclude Include="Source\Engine\Core\Memory\UniquePointer.h" />
-    <ClInclude Include="Source\Engine\Core\MouseCodes.h" />
+    <ClInclude Include="Source\Engine\Input\MouseCodes.h" />
     <ClInclude Include="Source\Engine\Core\Profiling\Timer.h" />
     <ClInclude Include="Source\Engine\Core\Templates\AATemplates.h" />
     <ClInclude Include="Source\Engine\Core\Templates\AATypeTraits.h" />
@@ -184,11 +189,15 @@
     <ClInclude Include="Source\Engine\EventSystem\Event.h" />
     <ClInclude Include="Source\Engine\EventSystem\KeyEvents.h" />
     <ClInclude Include="Source\Engine\EventSystem\MouseEvents.h" />
+    <ClInclude Include="Source\Engine\ImGui\ImGuiLayer.h" />
     <ClInclude Include="Source\Engine\LayerSystem\Layer.h" />
     <ClInclude Include="Source\Engine\LayerSystem\LayerStack.h" />
     <ClInclude Include="Source\Engine\Tests\TesterFile.h" />
     <ClInclude Include="Source\Engine\Window\Window.h" />
-    <ClInclude Include="Source\Platform\Windows\Window\WindowsWindow.h" />
+    <ClInclude Include="Source\Platform\OpenGL\ImGuiOpenGLLoader.h" />
+    <ClInclude Include="Source\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
+    <ClInclude Include="Source\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="Source\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\AA_PreCompiledHeaders.cpp">
@@ -198,11 +207,14 @@
     <ClCompile Include="Source\Engine\Core\Logging\Log.cpp" />
     <ClCompile Include="Source\Engine\Core\Math\Color.cpp" />
     <ClCompile Include="Source\Engine\Core\Memory\Memory.cpp" />
+    <ClCompile Include="Source\Engine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="Source\Engine\LayerSystem\Layer.cpp" />
     <ClCompile Include="Source\Engine\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="Source\Engine\Tests\TesterFile.cpp" />
     <ClCompile Include="Source\Engine\Window\Window.cpp" />
-    <ClCompile Include="Source\Platform\Windows\Window\WindowsWindow.cpp" />
+    <ClCompile Include="Source\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
+    <ClCompile Include="Source\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ThirdParty\GLFW\GLFW.vcxproj">
@@ -210,6 +222,9 @@
     </ProjectReference>
     <ProjectReference Include="ThirdParty\GLAD\GLAD.vcxproj">
       <Project>{5D4A857C-4981-860D-F26D-6C10DE83020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="ThirdParty\ImGui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
