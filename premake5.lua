@@ -24,6 +24,7 @@ project "AAEngine"
 	location "AAEngine"
 	kind "SharedLib"
 	language "C++"
+	cppdialect "C++17"
 	staticruntime "off"
 
 	targetdir ("Binaries/" .. outputdirectory .. "/%{prj.name}")
@@ -68,14 +69,15 @@ project "AAEngine"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
 		{
 			"AA_PLATFORM_WINDOWS",
+			"AA_DYNAMIC_LINK",
 			"AA_BUILD_DLL",
 			"GLFW_INCLUDE_NONE",
+			"_CRT_SECURE_NO_WARNINGS"
 		}
 
 		postbuildcommands
@@ -103,9 +105,8 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
 	staticruntime "off"
-
-	staticruntime "on"
 
 	targetdir ("Binaries/" .. outputdirectory .. "/%{prj.name}")
 	objdir ("Intermediate/" .. outputdirectory .. "/%{prj.name}")
@@ -124,29 +125,38 @@ project "Sandbox"
 		"AAEngine/Source/Engine/Core"
 	}
 
+	disablewarnings
+	{
+		"4251"
+	}
+
+	linkoptions
+	{
+		"-IGNORE:4251"
+	}
+
 	links { "AAEngine" }
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
 		{
 			"AA_PLATFORM_WINDOWS",
+			"AA_DYNAMIC_LINK",
 		}
 
 	filter "configurations:Debug"
 		defines "AA_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 		
 	filter "configurations:Release"
 		defines "AA_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "speed"
 		
 	filter "configurations:Shipping"
 		defines "AA_SHIPPING"
 		runtime "Release"
-		optimize "On"
+		optimize "speed"

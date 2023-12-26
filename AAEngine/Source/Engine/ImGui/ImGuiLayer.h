@@ -39,7 +39,16 @@ namespace AAEngine {
         /*
         * Called every frame for updating ImGui and rendering UI elements.
         */
-        virtual void OnUpdate() override;
+        virtual void OnImGuiRender() override;
+
+        /*
+        * Called for every ImGui Layer to call PreFrame ImGui functions.
+        */
+        void Begin();
+        /*
+        * Called for every ImGui Layer to call PostFrame ImGui functions.
+        */
+        void End();
 
         /*
         * Called when an event occurs within the layer.

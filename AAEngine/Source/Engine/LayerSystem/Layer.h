@@ -41,6 +41,12 @@ namespace AAEngine {
         virtual void OnUpdate() {}
 
         /*
+        * Function called to update the ImGui Rendering.
+        * TO DO: Add a wrapper for ImGui functions if and when UI stuff is ImGui Independent
+        */
+        virtual void OnImGuiRender() {}
+
+        /*
         * Function called when an event occurs.
         * @param Event - The event received.
         */

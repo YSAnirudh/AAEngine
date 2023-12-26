@@ -4,7 +4,6 @@
 namespace AAEngine {
 	CLayerStack::CLayerStack()
 	{
-		LayerInsertPos = LayerStack.begin();
 	}
 
 	CLayerStack::~CLayerStack()
@@ -17,7 +16,8 @@ namespace AAEngine {
 
 	void CLayerStack::PushLayer(CLayer* NewLayer)
 	{
-		LayerInsertPos = LayerStack.Emplace(LayerInsertPos, NewLayer);
+		LayerStack.Emplace(LayerStack.begin() + LayerInsertIndex, NewLayer);
+		LayerInsertIndex++;
 		NewLayer->OnAttach();
 	}
 
@@ -27,7 +27,7 @@ namespace AAEngine {
 		if (it != LayerStack.end())
 		{
 			LayerStack.RemoveAt(it);
-			LayerInsertPos--;
+			LayerInsertIndex--;
 			(*it)->OnDetach();
 		}
 	}

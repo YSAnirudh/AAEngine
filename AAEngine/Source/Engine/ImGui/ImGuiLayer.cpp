@@ -9,7 +9,9 @@
 #include "ImGuiCodes.h"
 
 #include "imgui.h"
-#include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_opengl3_loader.h"
 
 // Temp
 #include <GLFW/glfw3.h>
@@ -26,46 +28,80 @@ namespace AAEngine {
 
 	void CImGuiLayer::OnAttach()
 	{
+		// Setup Dear ImGui context
+		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+		//io.ConfigViewportsNoAutoMerge = true;
+		//io.ConfigViewportsNoTaskBarIcon = true;
+
+		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
+		//ImGui::StyleColorsLight();
 
-		ImGuiIO& io = ImGui::GetIO();
+		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+		ImGuiStyle& style = ImGui::GetStyle();
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
 
-		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+		// Setup Platform/Renderer backends
+		GLFWwindow* Window = static_cast<GLFWwindow*>(CEngineApplication::Get().GetWindow().GetNativeWindow());
 
-		//io.AddKeyEvent((ImGuiKey)Key::A, )
-
+		ImGui_ImplGlfw_InitForOpenGL(Window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
 
 	void CImGuiLayer::OnDetach()
 	{
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 	}
 
-	void CImGuiLayer::OnUpdate()
+	void CImGuiLayer::OnImGuiRender()
+	{
+		static bool bShowDemoWindow = false;
+		ImGui::ShowDemoWindow(&bShowDemoWindow);
+	}
+
+	void CImGuiLayer::Begin()
+	{
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+	}
+
+	void CImGuiLayer::End()
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		CEngineApplication& Application = CEngineApplication::Get();
 		io.DisplaySize = ImVec2((float)Application.GetWindow().GetWindowWidth(), (float)Application.GetWindow().GetWindowHeight());
 
-		float Time = (float)glfwGetTime();
-		io.DeltaTime = ImGuiTime > 0.0f ? (Time - ImGuiTime) : 1.0f / 60.0f;
-		ImGuiTime = Time;
-
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui::NewFrame();
-
-		static bool bShowDemoWindow = true;
-		ImGui::ShowDemoWindow(&bShowDemoWindow);
-
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		// Update and Render additional Platform Windows
+		// (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+		//  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
 	}
 
 	void CImGuiLayer::OnEvent(CEvent& Event)
 	{
-		CEventHandler EventHandler(Event);
+		/*CEventHandler EventHandler(Event);
 
 		EventHandler.HandleEvent<CMouseButtonPressedEvent>(BIND_EVENT_FUNCTION(this, &CImGuiLayer::OnMouseButtonPressed));
 		EventHandler.HandleEvent<CMouseButtonReleasedEvent>(BIND_EVENT_FUNCTION(this, &CImGuiLayer::OnMouseButtonReleased));
@@ -76,7 +112,7 @@ namespace AAEngine {
 		EventHandler.HandleEvent<CKeyReleasedEvent>(BIND_EVENT_FUNCTION(this, &CImGuiLayer::OnKeyReleased));
 		EventHandler.HandleEvent<CKeyTypedEvent>(BIND_EVENT_FUNCTION(this, &CImGuiLayer::OnKeyTyped));
 
-		EventHandler.HandleEvent<CWindowResizeEvent>(BIND_EVENT_FUNCTION(this, &CImGuiLayer::OnWindowResized));
+		EventHandler.HandleEvent<CWindowResizeEvent>(BIND_EVENT_FUNCTION(this, &CImGuiLayer::OnWindowResized));*/
 	}
 
 	bool CImGuiLayer::OnKeyPressed(CKeyPressedEvent& Event)

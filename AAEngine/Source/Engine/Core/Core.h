@@ -32,21 +32,25 @@
 
 // DLL import/export
 #ifdef AA_PLATFORM_WINDOWS
-	#ifdef AA_BUILD_DLL
-		#define AA_ENGINE_API __declspec(dllexport)
+	#ifdef AA_DYNAMIC_LINK
+		#ifdef AA_BUILD_DLL
+			#define AA_ENGINE_API __declspec(dllexport)
+		#else
+			#define AA_ENGINE_API __declspec(dllimport)
+		#endif
 	#else
-		#define AA_ENGINE_API __declspec(dllimport)
+		#define AA_ENGINE_API
 	#endif
 #else
 	#error AA Engine only supports Windows!
 #endif
 
 #ifdef AA_DEBUG
-	#define AA_ENABLE_ASSERTS
+	#define AA_ENABLE_ASSERTS 1
 #endif
 
 
-#ifdef AA_ENABLE_ASSERTS
+#if AA_ENABLE_ASSERTS
 	#define AA_CORE_ASSERT(x, ...)		{ if (!x) { AA_CORE_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
 	#define AA_ASSERT(x, ...)			{ if (!x) { AA_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
 #else

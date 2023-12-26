@@ -1,0 +1,15 @@
+#pragma once
+
+#include "Math/Color.h"
+#include "Math/Vector3.h"
+#include "Math/Vector4.h"
+#include "Math/Matrix44.h"
+
+using FVector4f = AAEngine::Math::TVector4<float>;
+using FVector4d = AAEngine::Math::TVector4<double>;
+
+using FVector3f = AAEngine::Math::TVector3<float>;
+using FVector3d = AAEngine::Math::TVector3<double>;
+
+using FMatrix44f = AAEngine::Math::TMatrix44<float>;
+using FMatrix44d = AAEngine::Math::TMatrix44<double>;

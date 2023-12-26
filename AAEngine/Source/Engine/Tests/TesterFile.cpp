@@ -3,6 +3,7 @@
 #include "Profiling/Timer.h"
 #include "Containers/StaticArray.h"
 #include "Containers/Array.h"
+#include "Math/MathForwards.h"
 
 namespace AAEngine {
 
@@ -76,6 +77,20 @@ namespace AAEngine {
 	void CTester::RunTester()
 	{
 		//DynamicArrayTests();
+		MatrixTests();
+	}
+
+	void CTester::MatrixTests()
+	{
+		FMatrix44f Mat(1.0f);
+		FMatrix44f NewMat(0.0f);
+
+		AA_CORE_LOG(Info, "Mat: \n%s", Mat.ToString().c_str());
+		AA_CORE_LOG(Info, "New Mat: \n%s", NewMat.ToString().c_str());
+
+		FMatrix44f ExtraMat(Mat);
+
+		AA_CORE_LOG(Info, "Mat: \n%s", ExtraMat.ToString().c_str());
 	}
 
 	void CTester::StaticArrayTests()
@@ -131,7 +146,7 @@ namespace AAEngine {
 		constexpr ETimeResolution TestTimeResolution = MicroSeconds;
 
 		{
-			std::vector<Vector> VectorOfUnique;
+			std::vector<Math::TVector3<float>> VectorOfUnique;
 			/*for (int i = 0; i < TestSize; i++)
 			{
 				VectorOfUnique.emplace(VectorOfUnique.end());

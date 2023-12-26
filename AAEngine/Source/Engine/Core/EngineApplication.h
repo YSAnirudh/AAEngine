@@ -6,6 +6,8 @@
 #include "Engine/Window/Window.h"
 #include "Engine/LayerSystem/LayerStack.h"
 
+#include "ImGui/ImGuiLayer.h"
+
 // FORWARD DECLARATIONS
 
 namespace AAEngine {
@@ -74,6 +76,12 @@ namespace AAEngine {
 		* Pointer to the Window for our Application.
 		*/
 		TUniquePtr<IWindow> ApplicationWindow = nullptr;
+		
+		/*
+		* Pointer to an ImGui Layer for the Application to handle pre and post frame ImGui code
+		*/
+		CImGuiLayer* ImGuiLayer = nullptr;
+		
 		/*
 		* boolean to check if the Application is still running.
 		*/

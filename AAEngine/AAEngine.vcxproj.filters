@@ -31,6 +31,9 @@
     <Filter Include="Engine\ImGui">
       <UniqueIdentifier>{45756795-31D8-F639-DA5D-2FF0C69FC2BC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Input">
+      <UniqueIdentifier>{1AB06895-0613-F839-AF98-30F09BDAC3BC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\LayerSystem">
       <UniqueIdentifier>{CC99DCBE-B87D-9D14-21DE-97670DE18796}</UniqueIdentifier>
     </Filter>
@@ -43,14 +46,8 @@
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform\OpenGL">
-      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Platform\Windows">
       <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Platform\Windows\Window">
-      <UniqueIdentifier>{CBCFF26C-3707-3B04-4011-9F27ACC761FD}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,9 +73,6 @@
     <ClInclude Include="Source\Engine\Core\EntryPoint.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\KeyCodes.h">
-      <Filter>Engine\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Core\Logging\Log.h">
       <Filter>Engine\Core\Logging</Filter>
     </ClInclude>
@@ -86,6 +80,9 @@
       <Filter>Engine\Core\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Math\CoreMath.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Math\Vector4.h">
       <Filter>Engine\Core\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Memory\CoreMemory.h">
@@ -99,9 +96,6 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Memory\UniquePointer.h">
       <Filter>Engine\Core\Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Core\MouseCodes.h">
-      <Filter>Engine\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Profiling\Timer.h">
       <Filter>Engine\Core\Profiling</Filter>
@@ -133,8 +127,20 @@
     <ClInclude Include="Source\Engine\EventSystem\MouseEvents.h">
       <Filter>Engine\EventSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\ImGui\ImGuiCodes.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\ImGui\ImGuiLayer.h">
       <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input\Input.h">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input\KeyCodes.h">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input\MouseCodes.h">
+      <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\LayerSystem\Layer.h">
       <Filter>Engine\LayerSystem</Filter>
@@ -148,14 +154,11 @@
     <ClInclude Include="Source\Engine\Window\Window.h">
       <Filter>Engine\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Platform\OpenGL\ImGuiOpenGLLoader.h">
-      <Filter>Platform\OpenGL</Filter>
+    <ClInclude Include="Source\Platform\Windows\WindowsInput.h">
+      <Filter>Platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Platform\OpenGL\ImGuiOpenGLRenderer.h">
-      <Filter>Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Platform\Windows\Window\WindowsWindow.h">
-      <Filter>Platform\Windows\Window</Filter>
+    <ClInclude Include="Source\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +177,9 @@
     <ClCompile Include="Source\Engine\Core\Memory\Memory.cpp">
       <Filter>Engine\Core\Memory</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\ImGui\ImGuiBuild.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Engine\ImGui\ImGuiLayer.cpp">
       <Filter>Engine\ImGui</Filter>
     </ClCompile>
@@ -189,11 +195,11 @@
     <ClCompile Include="Source\Engine\Window\Window.cpp">
       <Filter>Engine\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
-      <Filter>Platform\OpenGL</Filter>
+    <ClCompile Include="Source\Platform\Windows\WindowsInput.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Platform\Windows\Window\WindowsWindow.cpp">
-      <Filter>Platform\Windows\Window</Filter>
+    <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

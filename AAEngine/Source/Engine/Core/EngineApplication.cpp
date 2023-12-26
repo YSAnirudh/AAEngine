@@ -23,6 +23,9 @@ namespace AAEngine {
 
 		ApplicationWindow = TUniquePtr<IWindow>(IWindow::Create());
 		ApplicationWindow->SetEventCallbackFunction(BIND_EVENT_FUNCTION(this, &CEngineApplication::HandleEvent));
+
+		ImGuiLayer = new CImGuiLayer();
+		PushOverlay(ImGuiLayer);
 	}
 
 	CEngineApplication::~CEngineApplication()
@@ -44,11 +47,19 @@ namespace AAEngine {
 		while(bIsApplicationRunning) 
 		{
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
 
 			for (CLayer* Layer : LayerStack)
 			{
 				Layer->OnUpdate();
 			}
+
+			ImGuiLayer->Begin();
+			for (CLayer* Layer : LayerStack)
+			{
+				Layer->OnImGuiRender();
+			}
+			ImGuiLayer->End();
 
 			ApplicationWindow->Tick();
 		}

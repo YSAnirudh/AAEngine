@@ -71,8 +71,8 @@ namespace AAEngine {
         TArray<CLayer*> LayerStack;
 
         /*
-         * Iterator pointing to the position where the next layer will be inserted
+         * unsigned int pointing to the position where the next layer will be inserted
          */
-        TArray<CLayer*>::Iterator LayerInsertPos;
+        unsigned int LayerInsertIndex{ 0 };
     };
 }

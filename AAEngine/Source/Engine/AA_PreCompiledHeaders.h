@@ -9,6 +9,7 @@
 #include <chrono>
 #include <vector>
 #include <array>
+#include <math.h>
 
 #include <string>
 #include <sstream>

@@ -7,6 +7,9 @@ namespace AAEngine {
 	public:
 		static void RunTester();
 	private:
+		// Math Lib tests
+		static void MatrixTests();
+
 		// Container Tests
 		static void StaticArrayTests();
 		static void DynamicArrayTests();
