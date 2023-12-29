@@ -42,6 +42,9 @@ namespace AAEngine {
 		*/
 		virtual void SetIndexBuffer(const TSharedPtr<IIndexBuffer>& IndexBuffer) override;
 	private:
+		/*
+		* Vertex Array Index for the Shader
+		*/
 		uint32_t VertexArray;
 	};
 }

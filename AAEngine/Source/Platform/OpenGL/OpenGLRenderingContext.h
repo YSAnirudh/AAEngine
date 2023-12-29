@@ -29,6 +29,9 @@ namespace AAEngine {
 		*/
 		virtual void SwapBuffers() override;
 	private:
+		/*
+		* GLFW Window for the Rendering context
+		*/
 		GLFWwindow* WindowHandle;
 	};
 }

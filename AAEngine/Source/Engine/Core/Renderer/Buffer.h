@@ -72,19 +72,53 @@ namespace AAEngine {
 	*/
 	struct FVertexBufferElement
 	{
+		/* 
+		* Size of the Buffer Elements 
+		* - sizeof * Count
+		*/
 		uint32_t Size;
+		/* 
+		* Offset of the Buffer Elements 
+		* - sizeof * Position of the Element
+		* - Ex: 0,0,0,0,0,0 = Position and Normal
+		*		Position Offset = 0 * sizeof float
+		*		Normal offset = 3 * sizeof float
+		*		
+		*/
 		uint32_t Offset;
+		/*
+		* Name of the variable in the Shader
+		*/
 		std::string Name;
+		/*
+		* Data Type of the Shader Variable
+		*/
 		EShaderVarType Type;
+		/*
+		* Whether values should be normalized from 0.0f to 1.0f
+		*/
 		bool bShouldNormalize;
 
+		/*
+		* Default Constructor
+		*/
 		FVertexBufferElement() = default;
 
+		/*
+		* Constructor that takes in Variable type, the name of the variable in the Shader, and default parameter for whether values should be normalized
+		* 
+		* @param InVarType - Data Type of the Shader Variable
+		* @param InVarName - Name of the Shader Variable in the Shader
+		* @param bShouldNormalize - Default Parameter for whether the values sent into the shader should be normalized between 0.0f and 1.0f
+		*/
 		FVertexBufferElement(EShaderVarType InVarType, const std::string& InVarName, bool bShouldNormalize = false)
 			: Name(InVarName), Type(InVarType), Size(ShaderVariableTypeSize(InVarType)), Offset(0), bShouldNormalize(bShouldNormalize)
 		{
 		}
 
+		/*
+		* Const Getter for the no of Components of a primitive data type the EShaderVarType represents
+		*/
 		FORCEINLINE constexpr uint32_t GetComponentCount() const noexcept { return ShaderVariableTypeCount(Type); }
 	};
 
