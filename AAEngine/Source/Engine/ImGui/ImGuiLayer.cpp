@@ -67,8 +67,8 @@ namespace AAEngine {
 
 	void CImGuiLayer::OnImGuiRender()
 	{
-		static bool bShowDemoWindow = false;
-		ImGui::ShowDemoWindow(&bShowDemoWindow);
+		//static bool bShowDemoWindow = false;
+		//ImGui::ShowDemoWindow(&bShowDemoWindow);
 	}
 
 	void CImGuiLayer::Begin()

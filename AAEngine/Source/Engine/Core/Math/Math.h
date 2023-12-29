@@ -66,6 +66,17 @@ namespace Math {
 		{
 			return (A < B) ? A : B;
 		}
+
+		/** Swaps 2 elements */
+		template<class T>
+		static FORCEINLINE constexpr void Swap(T& A, T& B)
+		{
+			T Temp = B;
+			B = A;
+			A = Temp;
+		}
+
+		
 	};
 
 }

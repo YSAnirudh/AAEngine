@@ -4,8 +4,9 @@
 #include "EventSystem/MouseEvents.h"
 #include "EventSystem/KeyEvents.h"
 
+#include "Platform/OpenGL/OpenGLRenderingContext.h"
+
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
 
 namespace AAEngine {
 
@@ -29,7 +30,7 @@ namespace AAEngine {
 	void CWindowsWindow::Tick()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(Window);
+		RenderingContext->SwapBuffers();
 	}
 
 	IWindow* IWindow::Create(const FWindowProps& WindowProps)
@@ -69,10 +70,8 @@ namespace AAEngine {
 			return;
 		}
 
-		glfwMakeContextCurrent(Window);
-
-		int GLADInitSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		AA_CORE_ASSERT(GLADInitSuccess, "Could not Initializee GLAD!");
+		RenderingContext = new COpenGLRenderingContext(Window);
+		RenderingContext->InitializeContext();
 
 		glfwSetWindowUserPointer(Window, &WindowData);
 		SetVSync(true);
@@ -120,13 +119,13 @@ namespace AAEngine {
 
 				switch (Focused)
 				{
-				case GL_TRUE:
+				case GLFW_TRUE:
 				{
 					CWindowFocusEvent Event;
 					UserPointerWindowData.EventCallback(Event);
 					break;
 				}
-				case GL_FALSE:
+				case GLFW_FALSE:
 				{
 					CWindowLostFocusEvent Event;
 					UserPointerWindowData.EventCallback(Event);

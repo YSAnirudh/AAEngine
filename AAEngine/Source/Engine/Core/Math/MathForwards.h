@@ -1,9 +1,12 @@
 #pragma once
 
-#include "Math/Color.h"
-#include "Math/Vector3.h"
-#include "Math/Vector4.h"
-#include "Math/Matrix44.h"
+namespace AAEngine::Math
+{
+	// Forward declaration of templates
+	template<typename T> struct TVector3;
+	template<typename T> struct TVector4;
+	template<typename T> struct TMatrix44;
+}
 
 using FVector4f = AAEngine::Math::TVector4<float>;
 using FVector4d = AAEngine::Math::TVector4<double>;

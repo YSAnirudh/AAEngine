@@ -240,6 +240,18 @@ namespace AAEngine {
 			: Size(0), Capacity(0), InArray(nullptr) {}
 
 		/*
+		* Constructor for TArray that takes in capacity.
+		* Initializes Size, Capacity, and Allocates Capacity to InArray.
+		* 
+		* @param InitialCapacity - Initial Capacity for the Array
+		*/
+		constexpr TArray(size_t InitialCapacity) noexcept
+			: Size(0), Capacity(InitialCapacity)
+		{
+			ReallocateArray(InitialCapacity);
+		}
+
+		/*
 		* Copy constructor for TArray.
 		* Copies elements from the given NewArray to the current array.
 		*
@@ -269,6 +281,17 @@ namespace AAEngine {
 				new(&InArray[i]) T(Move(NewArray[i]));
 			}
 			Size = NewArray.Size;
+		}
+
+		constexpr TArray(const std::initializer_list<T>& InitList) noexcept
+		{
+			ReallocateArray(InitList.size());
+
+			for (T Elem : InitList)
+			{
+				new(&InArray[Size]) T(Elem);
+				Size++;
+			}
 		}
 
 		/*
@@ -611,7 +634,7 @@ namespace AAEngine {
 		*/
 		constexpr T& operator[](size_t Index) noexcept
 		{
-			AA_CORE_ASSERT(int(Index < Size), "Index Out of Bounds: %d when Size is %d", Index, Size);
+			AA_CORE_ASSERT(int(Index < Capacity), "Index Out of Bounds: %d when Capacity is %d", Index, Size);
 			return InArray[Index];
 		}
 
@@ -623,7 +646,7 @@ namespace AAEngine {
 		*/
 		constexpr const T& operator[](size_t Index) const noexcept
 		{
-			AA_CORE_ASSERT(int(Index < Size), "Index Out of Bounds: %d when Size is %d", Index, Size);
+			AA_CORE_ASSERT(int(Index < Capacity), "Index Out of Bounds: %d when Capacity is %d", Index, Size);
 			return InArray[Index];
 		}
 
@@ -648,25 +671,23 @@ namespace AAEngine {
 		}
 
 		/*
-		* Returns a reference to the first element in the array.
+		* Returns a Pointer to the first element in the array.
 		*
-		* @return T& - Reference to the first element.
+		* @return T* - Pointer to the first element.
 		*/
-		constexpr T& Data() noexcept
+		constexpr T* Data() noexcept
 		{
-			AA_CORE_ASSERT(Size > 0, "Empty Array! Cannot get data.");
-			return InArray[0];
+			return InArray;
 		}
 
 		/*
-		* Returns a const reference to the first element in the array.
+		* Returns a const Pointer to the first element in the array.
 		*
-		* @return const T& - Const reference to the first element.
+		* @return const T* - Const Pointer to the first element.
 		*/
-		constexpr const T& Data() const noexcept
+		constexpr const T* Data() const noexcept
 		{
-			AA_CORE_ASSERT(Size > 0, "Empty Array! Cannot get data.");
-			return InArray[0];
+			return InArray;
 		}
 
 		/*
@@ -676,7 +697,7 @@ namespace AAEngine {
 		*/
 		constexpr T& Front() noexcept
 		{
-			AA_CORE_ASSERT(Size > 0, "Empty Array! Cannot get front.");
+			AA_CORE_ASSERT(int(Size > 0), "Index Out of Bounds: %d when Size is %d", Index, Size);
 			return InArray[0];
 		}
 
@@ -687,7 +708,7 @@ namespace AAEngine {
 		*/
 		constexpr const T& Front() const noexcept
 		{
-			AA_CORE_ASSERT(Size > 0, "Empty Array! Cannot get front.");
+			AA_CORE_ASSERT(int(Size > 0), "Index Out of Bounds: %d when Size is %d", Index, Size);
 			return InArray[0];
 		}
 
@@ -698,7 +719,7 @@ namespace AAEngine {
 		*/
 		constexpr T& Back() noexcept
 		{
-			AA_CORE_ASSERT(Size > 0, "Empty Array! Cannot get back.");
+			AA_CORE_ASSERT(int(Size > 0), "Index Out of Bounds: %d when Size is %d", Index, Size);
 			return InArray[Size - 1];
 		}
 
@@ -709,7 +730,7 @@ namespace AAEngine {
 		*/
 		constexpr const T& Back() const noexcept
 		{
-			AA_CORE_ASSERT(Size > 0, "Empty Array! Cannot get back.");
+			AA_CORE_ASSERT(int(Size > 0), "Index Out of Bounds: %d when Size is %d", Index, Size);
 			return InArray[Size - 1];
 		}
 

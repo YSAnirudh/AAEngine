@@ -49,6 +49,10 @@
 	#define AA_ENABLE_ASSERTS 1
 #endif
 
+#ifndef AA_TESTER_FILE
+	#define AA_TESTER_FILE 0
+#endif
+
 
 #if AA_ENABLE_ASSERTS
 	#define AA_CORE_ASSERT(x, ...)		{ if (!x) { AA_CORE_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
@@ -71,3 +75,4 @@
 #include "Engine/EventSystem/CoreEvents.h"
 #include "Engine/Core/Math/CoreMath.h"
 #include "Engine/Core/Memory/CoreMemory.h"
+#include "Platform/CorePlatform.h"

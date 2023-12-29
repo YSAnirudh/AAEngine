@@ -66,6 +66,11 @@ namespace AAEngine {
 				return TVector3<T>(X + Value, Y + Value, Z + Value);
 			}
 
+			FORCEINLINE constexpr TVector3<T> operator+() const noexcept
+			{
+				return *this;
+			}
+
 			FORCEINLINE constexpr TVector3<T>& operator+=(const TVector3<T>& Vec) noexcept
 			{
 				X += Vec.X; Y += Vec.Y; Z += Vec.Z;
@@ -86,6 +91,11 @@ namespace AAEngine {
 			FORCEINLINE constexpr TVector3<T> operator-(T Value) const noexcept
 			{
 				return TVector3<T>(X - Value, Y - Value, Z - Value);
+			}
+
+			FORCEINLINE constexpr TVector3<T> operator-() const noexcept
+			{
+				return TVector3<T>(-X, -Y, -Z);
 			}
 
 			FORCEINLINE constexpr TVector3<T>& operator-=(const TVector3<T>& Vec) noexcept
@@ -262,7 +272,7 @@ namespace AAEngine {
 				return X * X + Y * Y + Z * Z;
 			}
 
-			FORCEINLINE constexpr T Magnitude() const
+			FORCEINLINE constexpr T Magnitude() const noexcept
 			{
 				return FMath::Sqrt(MagnitudeSquared());
 			}
@@ -272,32 +282,32 @@ namespace AAEngine {
 				return X * X + Y * Y + Z * Z;
 			}
 
-			FORCEINLINE constexpr T Size() const
+			FORCEINLINE constexpr T Size() const noexcept
 			{
 				return FMath::Sqrt(SizeSquared());
 			}
 
-			FORCEINLINE constexpr T Max() const
+			FORCEINLINE constexpr T Max() const noexcept
 			{
 				return FMath::Max(FMath::Max(X, Y), Z);
 			}
 
-			FORCEINLINE constexpr T Min() const
+			FORCEINLINE constexpr T Min() const noexcept
 			{
 				return FMath::Min(FMath::Min(X, Y), Z);
 			}
 
-			FORCEINLINE constexpr T MaxAbs() const
+			FORCEINLINE constexpr T MaxAbs() const noexcept
 			{
 				return FMath::Max(FMath::Max(FMath::Abs(X), FMath::Abs(Y)), FMath::Abs(Z));
 			}
 
-			FORCEINLINE constexpr T MinAbs() const
+			FORCEINLINE constexpr T MinAbs() const noexcept
 			{
 				return FMath::Min(FMath::Min(FMath::Abs(X), FMath::Abs(Y)), FMath::Abs(Z));
 			}
 
-			FORCEINLINE constexpr TVector3<T> GetAbs() const
+			FORCEINLINE constexpr TVector3<T> GetAbs() const noexcept
 			{
 				return TVector3<T>(FMath::Abs(X), FMath::Abs(Y), FMath::Abs(Z));
 			}
@@ -309,5 +319,29 @@ namespace AAEngine {
 				return SS.str();
 			}
 		};
+
+		template<typename T>
+		FORCEINLINE constexpr T DotProduct(const TVector3<T>& Vec1, const TVector3<T>& Vec2) noexcept
+		{
+			return Vec1 | Vec2;
+		}
+
+		template<typename T>
+		FORCEINLINE constexpr TVector3<T> CrossProduct(const TVector3<T>& Vec1, const TVector3<T>& Vec2) noexcept
+		{
+			return Vec1 ^ Vec2;
+		}
+
+		template<typename T>
+		FORCEINLINE constexpr T Distance(const TVector3<T>& Vec1, const TVector3<T>& Vec2) noexcept
+		{
+			return (Vec1 - Vec2).Size();
+		}
+
+		template<typename T>
+		FORCEINLINE constexpr TVector3<T> operator*(T Val, const TVector3<T>& Vec) noexcept
+		{
+			return Vec * Val;
+		}
 	}
 }

@@ -19,11 +19,14 @@ namespace AAEngine {
 
 		/*
 		* Constructor with Title, Width and Height as arguments with default values
+		* Default - 1280,720
 		*/
 		FWindowProps(const std::string& WindowTitle= "AA Engine", unsigned int WindowWidth = 1280, unsigned int WindowHeight = 720)
 			: WindowTitle(WindowTitle), WindowWidth(WindowWidth), WindowHeight(WindowHeight)
 		{}
 	};
+
+	class IRenderingContext;
 
 	/*
 	* A Platform Independent Window class interface to be implemented per platform and Initialized in the AAEngine
@@ -92,7 +95,12 @@ namespace AAEngine {
 		* @param WindowProps used to set WindowTitle, WindowWidth, and WindowHeight
 		*/
 		static IWindow* Create(const FWindowProps& WindowData = FWindowProps());
-	private:
+	protected:
+		/*
+		* Every Window has a rendering context that Initializes and handles Render API specific code
+		* Rendering context for this Window
+		*/
+		IRenderingContext* RenderingContext = nullptr;
 	};
 
 }

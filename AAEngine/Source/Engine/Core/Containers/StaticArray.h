@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include <initializer_list>
 
 namespace AAEngine {
 
@@ -48,7 +49,7 @@ namespace AAEngine {
 		*/
 		constexpr DataType& operator[](size_t Index) noexcept
 		{
-			AA_CORE_ASSERT(int(Index < Size), "Index Out of Bounds: %d when Size is %d", Index, Size);
+			AA_CORE_ASSERT(int(Index < Capacity), "Index Out of Bounds: %d when Capacity is %d", Index, Size);
 			return InternalArray[Index];
 		}
 
@@ -61,7 +62,7 @@ namespace AAEngine {
 		*/
 		constexpr const DataType& operator[](size_t Index) const noexcept
 		{
-			AA_CORE_ASSERT(int(Index < Size), "Index Out of Bounds: %d when Size is %d", Index, Size);
+			AA_CORE_ASSERT(int(Index < Capacity), "Index Out of Bounds: %d when Capacity is %d", Index, Size);
 			return InternalArray[Index];
 		}
 
@@ -85,25 +86,23 @@ namespace AAEngine {
 		}
 
 		/*
-		* Retrieves a reference to the first element in the array (non-const version).
+		* Retrieves a Pointer to the first element in the array (non-const version).
 		* 
-		* @returns Reference to the first element.
+		* @returns Pointer to the first element.
 		*/
-		constexpr DataType& Data() noexcept
+		constexpr DataType* Data() noexcept
 		{
-			AA_CORE_ASSERT(Size > 0, "Empty Array! Cannot get data.");
-			return InternalArray[0];
+			return InternalArray;
 		}
 
 		/*
-		* Retrieves a reference to the first element in the array (const version).
+		* Retrieves a Pointer to the first element in the array (const version).
 		* 
-		* @returns Const reference to the first element.
+		* @returns Const Pointer to the first element.
 		*/
-		constexpr const DataType& Data() const noexcept
+		constexpr const DataType* Data() const noexcept
 		{
-			AA_CORE_ASSERT(Size > 0, "Empty Array! Cannot get data.");
-			return InternalArray[0];
+			return InternalArray;
 		}
 
 		/*

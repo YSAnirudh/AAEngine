@@ -12,6 +12,8 @@ includeDirs = {}
 includeDirs["GLFW"] = "AAEngine/ThirdParty/GLFW/include"
 includeDirs["GLAD"] = "AAEngine/ThirdParty/GLAD/include"
 includeDirs["ImGui"] = "AAEngine/ThirdParty/ImGui"
+-- TEMPORARY FOR TESTING
+includeDirs["glm"] = "AAEngine/ThirdParty/glm"
 
 group "Dependencies"
 	include "AAEngine/ThirdParty/GLFW"
@@ -47,7 +49,8 @@ project "AAEngine"
 		"%{prj.name}/Source/Engine/Core",
 		"%{includeDirs.GLFW}",
 		"%{includeDirs.GLAD}",
-		"%{includeDirs.ImGui}"
+		"%{includeDirs.ImGui}",
+		"%{includeDirs.glm}",
 	}
 
 	links

@@ -3,14 +3,15 @@
 #include "EventSystem/Event.h"
 #include "Input/Input.h"
 
-#ifdef AA_RELEASE
-#include "Tests/TesterFile.h"
-#elif AA_DEBUG
-#include "Tests/TesterFile.h"
-#endif // AA_DEBUG
+#if AA_TESTER_FILE
+	#if defined(AA_RELEASE) || defined(AA_DEBUG)
+		#include "Tests/TesterFile.h"
+	#endif // AA_DEBUG
+#endif
 
 // Temp
-#include <glad/glad.h>
+
+#include "Renderer/IncludesRenderer.h"
 
 namespace AAEngine {
 
@@ -18,6 +19,7 @@ namespace AAEngine {
 
 	CEngineApplication::CEngineApplication()
 	{
+#if !AA_TESTER_FILE
 		AA_CORE_ASSERT(!EngineApplicationInstance, "Instance Already Present! Invalid Static ref.");
 		EngineApplicationInstance = this;
 
@@ -26,6 +28,7 @@ namespace AAEngine {
 
 		ImGuiLayer = new CImGuiLayer();
 		PushOverlay(ImGuiLayer);
+#endif
 	}
 
 	CEngineApplication::~CEngineApplication()
@@ -37,17 +40,75 @@ namespace AAEngine {
 		/*
 		* Useful for Running Tests on Custom Libraries
 		*/
-#ifdef AA_RELEASE
+#if AA_TESTER_FILE
+	#if defined(AA_RELEASE) || defined(AA_DEBUG)
 		CTester::RunTester();
-#elif AA_DEBUG
-		CTester::RunTester();
-#endif
+	#endif
+#else
+
+		const char* VertexSource = R"(
+			#version 460
+			
+			layout(location = 0) in vec3 Position;
+
+			void main()
+			{
+				gl_Position = vec4(Position, 1.0f);
+			}
+			
+		)";
 
 
-		while(bIsApplicationRunning) 
+		const char* FragmentSource = R"(
+			#version 460
+			
+			layout(location = 0) out vec4 Color;
+
+			void main()
+			{
+				Color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+			}
+			
+		)";
+
+		IShader* Shader = IShader::Create(VertexSource, FragmentSource);
+
+		float Positions[9] = {
+			-0.5f, -0.5f, 0.0f,
+			0.0f, 0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f
+		};
+
+		TSharedPtr<IVertexArray> VertexArray;
+		VertexArray.reset(IVertexArray::Create());
+
+		TSharedPtr<IVertexBuffer> VertexBuffer;
+		VertexBuffer.reset(IVertexBuffer::Create(Positions, 9, 0));
+
+		CVertexBufferLayout Layout = {
+			{ EShaderVarType::Float3, "Position" }
+		};
+
+		VertexBuffer->SetLayout(Layout);
+		VertexArray->AddVertexBuffer(VertexBuffer);
+
+		uint32_t Indices[3] = { 0,1,2 };
+		TSharedPtr<IIndexBuffer> IndexBuffer;
+		IndexBuffer.reset(IIndexBuffer::Create(Indices, 3, 0));
+
+		VertexArray->SetIndexBuffer(IndexBuffer);
+		
+		while(bIsApplicationRunning && !AA_TESTER_FILE)
 		{
-			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			CRenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			CRenderCommand::Clear();
+
+			CRenderer::BeginScene();
+
+			Shader->Bind();
+			CRenderer::Submit(VertexArray);
+
+			CRenderer::EndScene();
 
 			for (CLayer* Layer : LayerStack)
 			{
@@ -63,6 +124,8 @@ namespace AAEngine {
 
 			ApplicationWindow->Tick();
 		}
+#endif
+
 	}
 
 	void CEngineApplication::HandleEvent(CEvent& Event)

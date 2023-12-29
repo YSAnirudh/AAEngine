@@ -4,10 +4,17 @@
 #include "Core/Math/Math.h"
 #include "Math/Vector3.h"
 
+#include "Math/VectorRegister.h"
+
 #include <type_traits>
 
 namespace AAEngine {
 namespace Math {
+
+	/*
+	* - Angle Between Vectors
+	* - Projections
+	*/
 
 	template<typename T>
 	struct alignas(16) TVector4
@@ -16,11 +23,14 @@ namespace Math {
 	public:
 		union
 		{
+			T XYZW[4];
 			struct
 			{
-				T X, Y, Z, W;
+				T X;
+				T Y;
+				T Z;
+				T W;
 			};
-			T XYZW[4];
 		};
 
 		AA_ENGINE_API static const TVector4<T> ZeroVector;
@@ -72,6 +82,11 @@ namespace Math {
 			return TVector4<T>(X + Value, Y + Value, Z + Value, W + Value);
 		}
 
+		FORCEINLINE constexpr TVector4<T> operator+() const noexcept
+		{
+			return *this;
+		}
+
 		FORCEINLINE constexpr TVector4<T>& operator+=(const TVector4<T>& Vec) noexcept
 		{
 			X += Vec.X; Y += Vec.Y; Z += Vec.Z; W += Vec.W;
@@ -92,6 +107,11 @@ namespace Math {
 		FORCEINLINE constexpr TVector4<T> operator-(T Value) const noexcept
 		{
 			return TVector4<T>(X - Value, Y - Value, Z - Value, W - Value);
+		}
+
+		FORCEINLINE constexpr TVector4<T> operator-() const noexcept
+		{
+			return TVector4<T>(-X, -Y, -Z, -W);
 		}
 
 		FORCEINLINE constexpr TVector4<T>& operator-=(const TVector4<T>& Vec) noexcept
@@ -177,13 +197,13 @@ namespace Math {
 
 		FORCEINLINE constexpr T& operator[](int Index)
 		{
-			AA_CORE_ASSERT(Index >= 0 && Index < 4, "Cannot access Vector4 with %d Index", Index);
+			//AA_CORE_ASSERT(Index >= 0 && Index < 4, "Cannot access Vector4 with %d Index", Index);
 			return XYZW[Index];
 		}
 
 		FORCEINLINE constexpr const T& operator[](int Index) const
 		{
-			AA_CORE_ASSERT(Index >= 0 && Index < 4, "Cannot access Vector4 with %d Index", Index);
+			//AA_CORE_ASSERT(Index >= 0 && Index < 4, "Cannot access Vector4 with %d Index", Index);
 			return XYZW[Index];
 		}
 
@@ -201,7 +221,7 @@ namespace Math {
 			return X * Vec.X + Y * Vec.Y + Z * Vec.Z;
 		}
 
-		FORCEINLINE constexpr T operator|(const TVector4<T>& Vec) const
+		FORCEINLINE constexpr T operator|(const TVector4<T>& Vec) const noexcept
 		{
 			return Dot(Vec);
 		}
@@ -256,7 +276,7 @@ namespace Math {
 			return X * X + Y * Y + Z * Z + W * W;
 		}
 
-		FORCEINLINE constexpr T Magnitude() const
+		FORCEINLINE constexpr T Magnitude() const noexcept
 		{
 			return FMath::Sqrt(MagnitudeSquared());
 		}
@@ -266,32 +286,32 @@ namespace Math {
 			return X * X + Y * Y + Z * Z + W * W;
 		}
 
-		FORCEINLINE constexpr T Size() const
+		FORCEINLINE constexpr T Size() const noexcept
 		{
 			return FMath::Sqrt(SizeSquared());
 		}
 
-		FORCEINLINE constexpr T Max() const
+		FORCEINLINE constexpr T Max() const noexcept
 		{
 			return FMath::Max(FMath::Max(X, Y), FMath::Max(Z, W));
 		}
 
-		FORCEINLINE constexpr T Min() const
+		FORCEINLINE constexpr T Min() const noexcept
 		{
 			return FMath::Min(FMath::Min(X, Y), FMath::Min(Z, W));
 		}
 
-		FORCEINLINE constexpr T MaxAbs() const
+		FORCEINLINE constexpr T MaxAbs() const noexcept
 		{
 			return FMath::Max(FMath::Max(FMath::Abs(X), FMath::Abs(Y)), FMath::Max(FMath::Abs(Z), FMath::Abs(W)));
 		}
 
-		FORCEINLINE constexpr T MinAbs() const
+		FORCEINLINE constexpr T MinAbs() const noexcept
 		{
 			return FMath::Min(FMath::Min(FMath::Abs(X), FMath::Abs(Y)), FMath::Min(FMath::Abs(Z), FMath::Abs(W)));
 		}
 
-		FORCEINLINE constexpr TVector4<T> GetAbs() const
+		FORCEINLINE constexpr TVector4<T> GetAbs() const noexcept
 		{
 			return TVector4<T>(FMath::Abs(X), FMath::Abs(Y), FMath::Abs(Z), FMath::Abs(W));
 		}
@@ -303,6 +323,24 @@ namespace Math {
 			return SS.str();
 		}
 	};
+
+	template<typename T>
+	FORCEINLINE constexpr T DotProduct(const TVector4<T>& Vec1, const TVector4<T>& Vec2) noexcept
+	{
+		return Vec1 | Vec2;
+	}
+
+	template<typename T>
+	FORCEINLINE constexpr T Distance(const TVector4<T>& Vec1, const TVector4<T>& Vec2) noexcept
+	{
+		return (Vec1 - Vec2).Size();
+	}
+
+	template<typename T>
+	FORCEINLINE constexpr TVector4<T> operator*(T Val, const TVector4<T>& Vec) noexcept
+	{
+		return Vec * Val;
+	}
 
 }
 }
