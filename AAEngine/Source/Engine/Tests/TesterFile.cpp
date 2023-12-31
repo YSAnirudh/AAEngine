@@ -6,9 +6,10 @@
 #include "Math/IncludesMath.h"
 
 #define GLM_FORCE_ALIGNED
-#define GLM_FORCE_SSE2
+//#define GLM_FORCE_SSE2
 // Temporary GLM
-#include <glm/matrix.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace AAEngine {
 
@@ -95,10 +96,29 @@ namespace AAEngine {
 	void CTester::RunTester()
 	{
 		//DynamicArrayTests();
-		//MatrixTests();
+		MatrixTests();
 	}
 
 	void CTester::MatrixTests()
+	{
+		FMatrix44f Mat1({ 1,2,3,4 }, { 1,2,0,4 }, { 1,0,3,4 }, { 0,2,3,4 });
+		glm::mat4 GMat({ 1,2,3,4 }, { 1,2,0,4 }, { 1,0,3,4 }, { 0,2,3,4 });
+		FMatrix44f Mat2({ 1,2,3,4 }, { 1,2,0,4 }, { 1,0,3,4 }, { 0,2,3,4 });
+		constexpr int TestSize = 10000000;
+		constexpr ETimeResolution TestTimeResolution = MilliSeconds;
+		{
+			TTimer<TestTimeResolution> Timer("Mat Add");
+			for (int i = 0; i < TestSize; i++)
+			{
+				//GMat *= glm::mat4(float(rand()) / RAND_MAX);
+				Mat1 *= FMatrix44f(float(rand())/RAND_MAX);
+			}
+		}
+		AA_CORE_LOG(Info, "Mat: \n%s\n", (Mat1 * Mat2).ToString().c_str());
+		
+	}
+
+	void CTester::MatrixGLMTests()
 	{
 		FMatrix44f Mat({ 1,2,3,4 }, { 1,2,0,4 }, { 1,0,3,4 }, { 0,2,3,4 });
 		//AA_CORE_LOG(Info, "Mat: \n%s\n", (Mat.GetInverseFast()).ToString().c_str());
@@ -106,15 +126,28 @@ namespace AAEngine {
 		//PrintGLMMat(glm::inverse(GMat));
 		glm::mat4 GNewMat({ 1,0,0,2 }, { 1,2,0,4 }, { 1,0,3,4 }, { 0,2,3,4 });
 		
+		glm::mat4 X = glm::mat4(1.0f);
+		glm::mat4 Y = glm::mat4(1.0f);
+		glm::mat4 Z = glm::mat4(1.0f);
+
+		X = glm::rotate(X, 45.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+		Y = glm::rotate(Y, 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		Z = glm::rotate(Z, 45.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+
+		glm::mat4 FinalRot = X * Y * Z;
+		FMatrix44f Rot = FMatrix44f::MakeFromRotationXYZ({ 45.f, 45.f, 45.f });
 		FMatrix44f NewMat({ 1,0,0,2 }, { 1,2,0,4 }, { 1,0,3,4 }, { 0,2,3,4 });
 		FMatrix44f Result;
 		FVector4f NewVec(1.0f);
 		FVector4f ResVec = NewVec * Mat * NewMat;
 		glm::vec4 GNewVec(1.0f);
-		glm::vec4 GResVec = GNewVec * GMat * GNewMat;
-
+		glm::vec4 GResVec = GNewMat * GMat * GNewVec;
+		glm::mat4 GProj = glm::perspective(1.5f, 1.0f, 0.01f, 100.f);
+		FMatrix44f Proj = FMatrix44f::MakePerspective(1.5f, 1.0f, 0.01f, 100.f);
 		TArray<FMatrix44f> MyArray;
 		TArray<glm::mat4> GLMArray;
+		AA_CORE_LOG(Info, "Mat: \n%s\n", (Proj).ToString().c_str());
+		PrintGLMMat(GProj);
 
 		constexpr int TestSize = 10000000;
 		constexpr ETimeResolution TestTimeResolution = MilliSeconds;
@@ -193,57 +226,51 @@ namespace AAEngine {
 
 	void CTester::DynamicArrayTests()
 	{
-		/* ~2-5 Times Faster */
-		constexpr int TestSize = 10000000;
-		constexpr ETimeResolution TestTimeResolution = MicroSeconds;
+		/* Faster */
+		constexpr int TestSize = 100000;
+		constexpr ETimeResolution TestTimeResolution = MilliSeconds;
 
 		{
-			FVector4f V = FVector4f(1.0f) + FVector4f(4.0f);
-			std::vector<Math::TVector3<float>> VectorOfUnique;
-			/*for (int i = 0; i < TestSize; i++)
-			{
-				VectorOfUnique.emplace(VectorOfUnique.end());
-			}
+			std::vector<float> VectorOfUnique;
 			TTimer<TestTimeResolution> Timer("STD Array");
-			VectorOfUnique.shrink_to_fit();*/
-			/*while (VectorOfUnique.size() != 0)
+			for (int i = 0; i < TestSize; i++)
 			{
-				VectorOfUnique.pop_back();
+				VectorOfUnique.emplace(VectorOfUnique.begin(), float(rand())/RAND_MAX);
+			}
+		}
+
+		{
+			TArray<float> VectorOfUnique;
+			TTimer<TestTimeResolution> Timer("AA Array");
+			for (int i = 0; i < TestSize; i++)
+			{
+				VectorOfUnique.Emplace(VectorOfUnique.begin(), float(rand()) / RAND_MAX);
+			}
+			//VectorOfUnique.ShrinkToFit();
+			/*while (!VectorOfUnique.IsEmpty())
+			{
+				VectorOfUnique.PopBack();
 			}*/
 		}
 
-		//{
-		//	TArray<Vector> VectorOfUnique;
-		//	for (int i = 0; i < TestSize; i++)
-		//	{
-		//		VectorOfUnique.Emplace(VectorOfUnique.Num());
-		//	}
-		//	TTimer<TestTimeResolution> Timer("AA Array");
-		//	VectorOfUnique.ShrinkToFit();
-		//	/*while (!VectorOfUnique.IsEmpty())
-		//	{
-		//		VectorOfUnique.PopBack();
-		//	}*/
-		//}
+		//TArray<Vector> VectorOfUnique;
+		//VectorOfUnique.RemoveAt(0);
+		//VectorOfUnique.EmplaceBack("Hello");
+		////VectorOfUnique.EmplaceBack(1.f, 1.f, 3.f);
+		//VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
+		//VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
+		//VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
+		//VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
+		//VectorOfUnique.Emplace(VectorOfUnique.begin(), "Hello Sar cvaddu");
+		//VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
+		//VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
+		////VectorOfUnique.PushBack("Helloasdasd");
 
-		TArray<Vector> VectorOfUnique;
-		VectorOfUnique.RemoveAt(0);
-		VectorOfUnique.EmplaceBack("Hello");
-		//VectorOfUnique.EmplaceBack(1.f, 1.f, 3.f);
-		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
-		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
-		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
-		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
-		VectorOfUnique.Emplace(VectorOfUnique.begin(), "Hello Sar cvaddu");
-		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
-		VectorOfUnique.Emplace(VectorOfUnique.end(), "Hello Sar cvaddu");
-		//VectorOfUnique.PushBack("Helloasdasd");
-
-		//TArray<Vector> NewArray;
+		////TArray<Vector> NewArray;
 
 
-		std::cout << "Old Array\n";
-		PrintArray(VectorOfUnique);
+		//std::cout << "Old Array\n";
+		//PrintArray(VectorOfUnique);
 
 		//std::cout << "New Array\n";
 		//PrintArray(NewArray);

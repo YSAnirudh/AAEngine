@@ -1,0 +1,137 @@
+//******************************************************
+//**    DO NOT CHANGE THIS FILE (Build Time File).     *
+//******************************************************
+
+
+//********* MISCELLANEOUS ******************************
+
+#ifndef AA_PROCESSOR_SUPPORT_MMX
+	#define AA_PROCESSOR_SUPPORT_MMX 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_x64
+	#define AA_PROCESSOR_SUPPORT_x64 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_ABM
+	#define AA_PROCESSOR_SUPPORT_ABM 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_RDRAND
+	#define AA_PROCESSOR_SUPPORT_RDRAND 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_BMI1
+	#define AA_PROCESSOR_SUPPORT_BMI1 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_BMI2
+	#define AA_PROCESSOR_SUPPORT_BMI2 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_ADX
+	#define AA_PROCESSOR_SUPPORT_ADX 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_PREFETCHWT1
+	#define AA_PROCESSOR_SUPPORT_PREFETCHWT1 1
+#endif
+
+//********* SIMD - 128-Bit *****************************
+
+#ifndef AA_PROCESSOR_SUPPORT_SSE
+	#define AA_PROCESSOR_SUPPORT_SSE 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_SSE2
+	#define AA_PROCESSOR_SUPPORT_SSE2 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_SSE3
+	#define AA_PROCESSOR_SUPPORT_SSE3 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_SSSE3
+	#define AA_PROCESSOR_SUPPORT_SSSE3 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_SSE41
+	#define AA_PROCESSOR_SUPPORT_SSE41 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_SSE42
+	#define AA_PROCESSOR_SUPPORT_SSE42 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_SSE4a
+	#define AA_PROCESSOR_SUPPORT_SSE4a 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AES
+	#define AA_PROCESSOR_SUPPORT_AES 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_SHA
+	#define AA_PROCESSOR_SUPPORT_SHA 0
+#endif
+
+//********* SIMD - 256-Bit *****************************
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX
+	#define AA_PROCESSOR_SUPPORT_AVX 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_XOP
+	#define AA_PROCESSOR_SUPPORT_XOP 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_FMA3
+	#define AA_PROCESSOR_SUPPORT_FMA3 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_FMA4
+	#define AA_PROCESSOR_SUPPORT_FMA4 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX2
+	#define AA_PROCESSOR_SUPPORT_AVX2 0
+#endif
+
+//********* SIMD - 512-Bit *****************************
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX512F
+	#define AA_PROCESSOR_SUPPORT_AVX512F 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX512CD
+	#define AA_PROCESSOR_SUPPORT_AVX512CD 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX512PF
+	#define AA_PROCESSOR_SUPPORT_AVX512PF 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX512ER
+	#define AA_PROCESSOR_SUPPORT_AVX512ER 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX512VL
+	#define AA_PROCESSOR_SUPPORT_AVX512VL 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX512BW
+	#define AA_PROCESSOR_SUPPORT_AVX512BW 1
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX512DQ
+	#define AA_PROCESSOR_SUPPORT_AVX512DQ 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX512IFMA
+	#define AA_PROCESSOR_SUPPORT_AVX512IFMA 0
+#endif
+
+#ifndef AA_PROCESSOR_SUPPORT_AVX512VBMI
+	#define AA_PROCESSOR_SUPPORT_AVX512VBMI 0
+#endif
+

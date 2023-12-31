@@ -2,7 +2,6 @@
 
 #include "Core/Core.h"
 #include "Math/Vector4.h"
-#include "Platform/PlatformMath.h"
 #include "Core/CoreForwards.h"
 
 #include "Math/VectorRegister.h"
@@ -12,8 +11,12 @@
 namespace AAEngine {
 namespace Math {
 
-	// Row Major - Pre-Multiplication
-	// Left Handed Coordinate System
+	/* 
+	* Row Major - Pre - Multiplication
+	* Left Handed Coordinate System
+	* TO DO:	Need to add Vector Intrinsics to Addition if Performance matches, later
+	*			Currently the way is to use MemCopy which increases the time to compute SISD operations by 0.5x times
+	*/
 	template<typename T>
 	struct alignas(16) TMatrix44
 	{
@@ -22,8 +25,8 @@ namespace Math {
 
 		union
 		{
-			T MLin[16];
-			T M[4][4];
+			alignas(16) T MLin[16];
+			alignas(16) T M[4][4];
 		};
 
 		AA_ENGINE_API static const TMatrix44<T> IdentityMatrix;
@@ -31,10 +34,10 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44() noexcept
 		{
-			for (int i = 0; i < 16; i++)
+			/*for (int i = 0; i < 16; i++)
 			{
-				MLin[i] = 0.0f;
-			}
+				MLin[i] = static_cast<T>(0.0f);
+			}*/
 		}
 
 		FORCEINLINE constexpr TMatrix44(T InVal) noexcept
@@ -49,7 +52,7 @@ namespace Math {
 					}
 					else
 					{
-						M[i][j] = 0.0f;
+						M[i][j] = static_cast<T>(0.0f);
 					}
 				}
 			}
@@ -92,7 +95,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44 operator*(T Val) const noexcept
 		{
-			// Need to add Vector Intrinsics later
 			TMatrix44 Result;
 			for (int i = 0; i < 16; i++)
 			{
@@ -109,7 +111,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44& operator*=(T Val) noexcept
 		{
-			// Need to add Vector Intrinsics later
 			for (int i = 0; i < 16; i++)
 			{
 				MLin[i] *= Val;
@@ -119,7 +120,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44 operator+(const TMatrix44& Mat) const noexcept
 		{
-			// Need to add Vector Intrinsics later
 			TMatrix44 Result;
 			for (int i = 0; i < 16; i++)
 			{
@@ -130,7 +130,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44 operator+(T Val) const noexcept
 		{
-			// Need to add Vector Intrinsics later
 			TMatrix44 Result;
 			for (int i = 0; i < 16; i++)
 			{
@@ -146,7 +145,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44& operator+=(const TMatrix44& Mat) noexcept
 		{
-			// Need to add Vector Intrinsics later
 			for (int i = 0; i < 16; i++)
 			{
 				MLin[i] += Mat.MLin[i];
@@ -156,7 +154,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44& operator+=(T Val) noexcept
 		{
-			// Need to add Vector Intrinsics later
 			for (int i = 0; i < 16; i++)
 			{
 				MLin[i] += Val;
@@ -166,7 +163,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44 operator-(const TMatrix44& Mat) const noexcept
 		{
-			// Need to add Vector Intrinsics later
 			TMatrix44 Result;
 			for (int i = 0; i < 16; i++)
 			{
@@ -177,7 +173,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44 operator-(T Val) const noexcept
 		{
-			// Need to add Vector Intrinsics later
 			TMatrix44 Result;
 			for (int i = 0; i < 16; i++)
 			{
@@ -188,7 +183,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44 operator-() const noexcept
 		{
-			// Need to add Vector Intrinsics later
 			TMatrix44 Result;
 			for (int i = 0; i < 16; i++)
 			{
@@ -199,7 +193,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44& operator-=(const TMatrix44& Mat) noexcept
 		{
-			// Need to add Vector Intrinsics later
 			for (int i = 0; i < 16; i++)
 			{
 				MLin[i] -= Mat.MLin[i];
@@ -209,7 +202,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44& operator-=(T Val) noexcept
 		{
-			// Need to add Vector Intrinsics later
 			for (int i = 0; i < 16; i++)
 			{
 				MLin[i] -= Val;
@@ -219,7 +211,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44 operator/(T Val) const noexcept
 		{
-			// Need to add Vector Intrinsics later
 			TMatrix44 Result;
 			for (int i = 0; i < 16; i++)
 			{
@@ -230,7 +221,6 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44& operator/=(T Val) noexcept
 		{
-			// Need to add Vector Intrinsics later
 			for (int i = 0; i < 16; i++)
 			{
 				MLin[i] /= Val;
@@ -266,14 +256,14 @@ namespace Math {
 
 		FORCEINLINE constexpr void InverseFast() noexcept
 		{
-			AA_CORE_ASSERT(Determinant() != 0.0f, "Determinant 0.0f, will crash in release.");
+			AA_CORE_ASSERT(Determinant() != static_cast<T>(0.0f), "Determinant 0.0f, will crash in release.");
 			MatrixInverse(this, this);
 		}
 
 		FORCEINLINE constexpr void Inverse() noexcept
 		{
 			T Det = Determinant();
-			if (Det == 0.0f)
+			if (Det == static_cast<T>(0.0f))
 			{
 				*this = IdentityMatrix;
 			}
@@ -298,7 +288,7 @@ namespace Math {
 
 		FORCEINLINE constexpr TMatrix44 GetInverseFast() noexcept
 		{
-			AA_CORE_ASSERT(Determinant() != 0.0f, "Determinant 0.0f, will crash in release.");
+			AA_CORE_ASSERT(Determinant() != static_cast<T>(0.0f), "Determinant 0, will crash in release.");
 			
 			TMatrix44 Result;
 			MatrixInverse(&Result, this);
@@ -311,7 +301,7 @@ namespace Math {
 			TMatrix44 Result;
 
 			T Det = Determinant();
-			if (Det == 0.0f)
+			if (Det == static_cast<T>(0))
 			{
 				Result = IdentityMatrix;
 			}
@@ -323,6 +313,12 @@ namespace Math {
 			return Result;
 		}
 
+		/*
+		* Const ToString function to convert out matrix into a String format
+		* Used Printing Our Matrix to the Console for Debugging
+		*
+		* @returns std::string of our matrix in a formatted way.
+		*/
 		FORCEINLINE constexpr std::string ToString() const noexcept
 		{
 			std::stringstream SS;
@@ -333,6 +329,241 @@ namespace Math {
 			return SS.str();
 		}
 
+		/*
+		* Graphics/Transformations Based Matrices and Matrix Transformations
+		* 
+		* NOTE: All Graphics Matrices are Left Handed to reflect the Left Handedness of the AAEngine
+		* 
+		* TO DO: Make Perspective matrices support -1 to 1 and 0 to 1 depending of the Graphics API
+		* TO DO: Convert to Z - Up, Y - Right, X - Forward ???
+		* 
+		* Euler		- Pitch = Y (Right)
+		*			- Yaw = Z (Up)
+		*			- Roll = X (Forward)
+		*/
+
+		FORCEINLINE constexpr static TMatrix44 LookAt(const TVector3<T>& Forward, const TVector3<T>& Up, const TVector3<T>& LookingAt)
+		{
+
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeFromRotationX(float AngleDeg) noexcept
+		{
+			TMatrix44 RotMatrix(static_cast<T>(1.0f));
+
+			T AngleRad = FMath::DegToRad(AngleDeg);
+
+			RotMatrix.M[1][1] = FMath::Cos(AngleRad);
+			RotMatrix.M[2][1] = FMath::Sin(AngleRad);
+			RotMatrix.M[1][2] = -FMath::Sin(AngleRad);
+			RotMatrix.M[2][2] = FMath::Cos(AngleRad);
+
+			return RotMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeFromRotationY(float AngleDeg) noexcept
+		{
+			TMatrix44 RotMatrix(static_cast<T>(1.0f));
+
+			T AngleRad = FMath::DegToRad(AngleDeg);
+
+			RotMatrix.M[0][0] = FMath::Cos(AngleRad);
+			RotMatrix.M[2][0] = -FMath::Sin(AngleRad);
+			RotMatrix.M[0][2] = FMath::Sin(AngleRad);
+			RotMatrix.M[2][2] = FMath::Cos(AngleRad);
+
+			return RotMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeFromRotationZ(float AngleDeg) noexcept
+		{
+			TMatrix44 RotMatrix(static_cast<T>(1.0f));
+
+			T AngleRad = FMath::DegToRad(AngleDeg);
+
+			RotMatrix.M[0][0] = FMath::Cos(AngleRad);
+			RotMatrix.M[1][0] = FMath::Sin(AngleRad);
+			RotMatrix.M[0][1] = -FMath::Sin(AngleRad);
+			RotMatrix.M[1][1] = FMath::Cos(AngleRad);
+
+			return RotMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeFromRotationXYZ(const TEuler<T>& InRotation) noexcept
+		{
+			TMatrix44 XRotMat = MakeFromRotationX(InRotation.Pitch);
+			TMatrix44 YRotMat = MakeFromRotationY(InRotation.Yaw);
+			TMatrix44 ZRotMat = MakeFromRotationZ(InRotation.Roll);
+
+			return XRotMat * YRotMat * ZRotMat;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeFromLocation(const TVector3<T>& InLocation) noexcept
+		{
+			TMatrix44 TranslationMatrix(static_cast<T>(1.0f));
+
+			TranslationMatrix.M[3][0] = InLocation.X;
+			TranslationMatrix.M[3][1] = InLocation.Y;
+			TranslationMatrix.M[3][2] = InLocation.Z;
+
+			return TranslationMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeFromAngleAxis(float AngleDeg, const TVector3<T>& Axis) noexcept
+		{
+			AA_CORE_ASSERT(int(Axis.IsNormalized()), "UnNormalized Axis. Incorrect!");
+
+			TMatrix44 RotMatrix(static_cast<T>(1.0f));
+
+			T AngleRad = FMath::DegToRad(AngleDeg);
+			T CosAngle = FMath::Cos(AngleRad);
+			T SinAngle = FMath::Sin(AngleRad);
+
+			RotMatrix.M[0][0] = (Axis.X * Axis.X * static_cast<T>(1.0f) - CosAngle) + CosAngle;
+			RotMatrix.M[0][1] = (Axis.X * Axis.Y * static_cast<T>(1.0f) - CosAngle) + Axis.Z * SinAngle;
+			RotMatrix.M[0][2] = (Axis.X * Axis.Z * static_cast<T>(1.0f) - CosAngle) - Axis.Y * SinAngle;
+
+			RotMatrix.M[1][0] = (Axis.Y * Axis.X * static_cast<T>(1.0f) - CosAngle) - Axis.Z * SinAngle;
+			RotMatrix.M[1][1] = (Axis.Y * Axis.Y * static_cast<T>(1.0f) - CosAngle) + CosAngle;
+			RotMatrix.M[1][2] = (Axis.Y * Axis.Z * static_cast<T>(1.0f) - CosAngle) + Axis.X * SinAngle;
+			
+			RotMatrix.M[2][0] = (Axis.Z * Axis.X * static_cast<T>(1.0f) - CosAngle) + Axis.Y * SinAngle;
+			RotMatrix.M[2][1] = (Axis.Z * Axis.Y * static_cast<T>(1.0f) - CosAngle) - Axis.X * SinAngle;
+			RotMatrix.M[2][2] = (Axis.Z * Axis.Z * static_cast<T>(1.0f) - CosAngle) + CosAngle;
+
+			return RotMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeFromTransform(const TTransform<T>& InTransform) noexcept
+		{
+			return TMatrix44();
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakePerspective(T FOV, T Aspect, T Near, T Far) noexcept
+		{
+			// Only for OpenGL
+			return MakePerspectiveNegativeOneToOne(FOV, Aspect, Near, Far);
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakePerspectiveNegativeOneToOne(T FOV, T Aspect, T Near, T Far) noexcept
+		{
+			AA_CORE_ASSERT(int(Aspect != static_cast<T>(0.0f)), "Aspect Ratio is 0");
+
+			TMatrix44 PerspectiveProjectionMatrix;
+
+			T TanFOVBy2 = FMath::Tan(FOV / static_cast<T>(2.0f));
+			T OneByFarMinusNear = static_cast<T>(1.0f) / (Far - Near);
+
+			PerspectiveProjectionMatrix.M[0][0] = static_cast<T>(1.0f) / (Aspect * TanFOVBy2);
+			PerspectiveProjectionMatrix.M[1][1] = static_cast<T>(1.0f) / TanFOVBy2;
+			PerspectiveProjectionMatrix.M[2][2] = (Far + Near) * OneByFarMinusNear;
+			PerspectiveProjectionMatrix.M[3][2] = -static_cast<T>(2.0f) * Far * Near * OneByFarMinusNear;
+			PerspectiveProjectionMatrix.M[2][3] = static_cast<T>(1.0f);
+
+			return PerspectiveProjectionMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakePerspectiveZeroToOne(T FOV, T Aspect, T Near, T Far) noexcept
+		{
+			TMatrix44 PerspectiveProjectionMatrix;
+
+			T TanFOVBy2 = FMath::Tan(FOV / static_cast<T>(2.0f));
+			T OneByFarMinusNear = static_cast<T>(1.0f) / (Far - Near);
+
+			PerspectiveProjectionMatrix.M[0][0] = static_cast<T>(1.0f) / (Aspect * TanFOVBy2);
+			PerspectiveProjectionMatrix.M[1][1] = static_cast<T>(1.0f) / TanFOVBy2;
+			PerspectiveProjectionMatrix.M[2][2] = Far * OneByFarMinusNear;
+			PerspectiveProjectionMatrix.M[3][2] = -Far * Near * OneByFarMinusNear;
+			PerspectiveProjectionMatrix.M[2][3] = static_cast<T>(1.0f);
+
+			return PerspectiveProjectionMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakePerspective(T Left, T Right, T Bottom, T Top, T Near, T Far) noexcept
+		{
+			// Only for OpenGL
+			return MakePerspectiveNegativeOneToOne(Left, Right, Bottom, Top, Near, Far);
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakePerspectiveNegativeOneToOne(T Left, T Right, T Bottom, T Top, T Near, T Far) noexcept
+		{
+			TMatrix44 PerspectiveProjectionMatrix;
+
+			T OneByRightMinusLeft = static_cast<T>(1.0f) / (Right - Left);
+			T OneByTopMinusBottom = static_cast<T>(1.0f) / (Top - Bottom);
+			T OneByFarMinusNear = static_cast<T>(1.0f) / (Far - Near);
+
+			PerspectiveProjectionMatrix.M[0][0] = static_cast<T>(2.0f) * Near * OneByRightMinusLeft;
+			PerspectiveProjectionMatrix.M[1][1] = static_cast<T>(2.0f) * Near * OneByTopMinusBottom;
+			PerspectiveProjectionMatrix.M[2][2] = (Far + Near) * OneByFarMinusNear;
+			PerspectiveProjectionMatrix.M[2][0] = -(Right + Left) * OneByRightMinusLeft;
+			PerspectiveProjectionMatrix.M[2][1] = -(Top + Bottom) * OneByTopMinusBottom;
+			PerspectiveProjectionMatrix.M[3][2] = static_cast<T>(1.0f);
+			PerspectiveProjectionMatrix.M[2][3] = -static_cast<T>(2.0f) * Far * Near * OneByFarMinusNear;
+
+			return PerspectiveProjectionMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakePerspectiveZeroToOne(T Left, T Right, T Bottom, T Top, T Near, T Far) noexcept
+		{
+			TMatrix44 PerspectiveProjectionMatrix;
+
+			T OneByRightMinusLeft = static_cast<T>(1.0f) / (Right - Left);
+			T OneByTopMinusBottom = static_cast<T>(1.0f) / (Top - Bottom);
+			T OneByFarMinusNear = static_cast<T>(1.0f) / (Far - Near);
+
+			PerspectiveProjectionMatrix.M[0][0] = static_cast<T>(2.0f) * Near * OneByRightMinusLeft;
+			PerspectiveProjectionMatrix.M[1][1] = static_cast<T>(2.0f) * Near * OneByTopMinusBottom;
+			PerspectiveProjectionMatrix.M[2][2] = Far * OneByFarMinusNear;
+			PerspectiveProjectionMatrix.M[2][0] = -(Right + Left) * OneByRightMinusLeft;
+			PerspectiveProjectionMatrix.M[2][1] = -(Top + Bottom) * OneByTopMinusBottom;
+			PerspectiveProjectionMatrix.M[3][2] = static_cast<T>(1.0f);
+			PerspectiveProjectionMatrix.M[2][3] = -Far * Near * OneByFarMinusNear;
+
+			return PerspectiveProjectionMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeOrthographic(T Left, T Right, T Bottom, T Top, T Near, T Far) noexcept
+		{
+			// Only for OpenGL
+			return MakeOrthographicNegativeOneToOne(Left, Right, Bottom, Top, Near, Far);
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeOrthographicNegativeOneToOne(T Left, T Right, T Bottom, T Top, T Near, T Far) noexcept
+		{
+			TMatrix44 OrthographicProjectionMatrix(static_cast<T>(1.0f));
+
+			T OneByRightMinusLeft = static_cast<T>(1.0f) / (Right - Left);
+			T OneByTopMinusBottom = static_cast<T>(1.0f) / (Top - Bottom);
+			T OneByFarMinusNear = static_cast<T>(1.0f) / (Far - Near);
+
+			OrthographicProjectionMatrix.M[0][0] = static_cast<T>(2.0f) * OneByRightMinusLeft;
+			OrthographicProjectionMatrix.M[1][1] = static_cast<T>(2.0f) * OneByTopMinusBottom;
+			OrthographicProjectionMatrix.M[2][2] = static_cast<T>(2.0f) * OneByFarMinusNear;
+			OrthographicProjectionMatrix.M[3][0] = -(Right + Left) * OneByRightMinusLeft;
+			OrthographicProjectionMatrix.M[3][1] = -(Top + Bottom) * OneByTopMinusBottom;
+			OrthographicProjectionMatrix.M[3][2] = -(Far + Near) * OneByFarMinusNear;
+
+			return OrthographicProjectionMatrix;
+		}
+
+		FORCEINLINE constexpr static TMatrix44 MakeOrthographicZeroToOne(T Left, T Right, T Bottom, T Top, T Near, T Far) noexcept
+		{
+			TMatrix44 OrthographicProjectionMatrix(static_cast<T>(1));
+
+			T OneByRightMinusLeft = static_cast<T>(1.0f) / (Right - Left);
+			T OneByTopMinusBottom = static_cast<T>(1.0f) / (Top - Bottom);
+			T OneByFarMinusNear = static_cast<T>(1.0f) / (Far - Near);
+
+			OrthographicProjectionMatrix.M[0][0] = static_cast<T>(2.0f) * OneByRightMinusLeft;
+			OrthographicProjectionMatrix.M[1][1] = static_cast<T>(2.0f) * OneByTopMinusBottom;
+			OrthographicProjectionMatrix.M[2][2] = OneByFarMinusNear;
+			OrthographicProjectionMatrix.M[3][0] = -(Right + Left) * OneByRightMinusLeft;
+			OrthographicProjectionMatrix.M[3][1] = -(Top + Bottom) * OneByTopMinusBottom;
+			OrthographicProjectionMatrix.M[3][2] = -Near * OneByFarMinusNear;
+
+			return OrthographicProjectionMatrix;
+		}
 	};
 
 	template<typename T>

@@ -71,6 +71,8 @@ project "AAEngine"
 		"-IGNORE:4251"
 	}
 
+	vectorextensions "SSE2"
+
 	filter "system:windows"
 		systemversion "latest"
 

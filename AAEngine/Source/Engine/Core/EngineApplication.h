@@ -92,6 +92,12 @@ namespace AAEngine {
 		*/
 		CLayerStack LayerStack;
 
+		/*
+		* Time At the End of a frame
+		* Used calculate DeltaTime to make sure the movement is frame rate independent
+		*/
+		float LastTrackedTime = 0.0f;
+
 	private:
 		/*
 		* Static Singleton instance of the Application.

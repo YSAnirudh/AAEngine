@@ -48,6 +48,13 @@ namespace AAEngine {
 		* Pure Virtual Tick function for calling Update Events every frame on this Window
 		*/
 		virtual void Tick() = 0;
+		
+		/*
+		* Static Get Current Time function for getting the time stamp of the current time from the start of the application in Seconds
+		* 
+		* @returns Current Time from the start of the Application in Seconds
+		*/
+		static float GetCurrentTimeElapsed();
 
 		/*
 		* Pure Virtual Getter for this Window's Width

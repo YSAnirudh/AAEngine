@@ -108,4 +108,28 @@ namespace AAEngine {
 	{
 		glUseProgram(0);
 	}
+
+	void COpenGLShader::UploadUniformInt(const std::string& UniformName, int Value)
+	{
+		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName.c_str());
+		glUniform1i(Location, Value);
+	}
+
+	void COpenGLShader::UploadUniformVec3(const std::string& UniformName, const FVector3f& Value)
+	{
+		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName.c_str());
+		glUniform3f(Location, Value.X, Value.Y, Value.Z);
+	}
+
+	void COpenGLShader::UploadUniformVec4(const std::string& UniformName, const FVector4f& Value)
+	{
+		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName.c_str());
+		glUniform4f(Location, Value.X, Value.Y, Value.Z, Value.W);
+	}
+
+	void COpenGLShader::UploadUniformMat4(const std::string& UniformName, const FMatrix44f& Value)
+	{
+		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName.c_str());
+		glUniformMatrix4fv(Location, 1, GL_FALSE, Value.MLin);
+	}
 }

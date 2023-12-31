@@ -12,6 +12,11 @@ namespace AAEngine {
 
 	static bool bIsGLFWInitialized = false;
 
+	float IWindow::GetCurrentTimeElapsed()
+	{
+		return (float)glfwGetTime();
+	}
+
 	static void GLFWErrorCallback(int ErrorCode, const char* Description)
 	{
 		AA_CORE_LOG(Error, "GLFW Error (%d): %s", ErrorCode, Description);

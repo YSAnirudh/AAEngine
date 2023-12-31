@@ -3,6 +3,9 @@
 #include "Math/Vector3.h"
 #include "Math/Vector4.h"
 #include "Math/Matrix44.h"
+#include "Math/Euler.h"
+#include "Math/Quaternion.h"
+#include "Math/Transform.h"
 #include "Math/MathForwards.h"
 
 // Double Vector4 Static Consts
@@ -23,5 +26,10 @@ const FVector3f FVector3f::OneVector(1.0f);
 const FMatrix44d FMatrix44d::ZeroMatrix(0.0);
 const FMatrix44d FMatrix44d::IdentityMatrix(1.0);
 // Float Matrix44 Static Consts
-const FMatrix44f FMatrix44f::ZeroMatrix(0.0);
-const FMatrix44f FMatrix44f::IdentityMatrix(1.0);
+const FMatrix44f FMatrix44f::ZeroMatrix(0.0f);
+const FMatrix44f FMatrix44f::IdentityMatrix(1.0f);
+
+// Double Euler Static Consts
+const FEulerd FEulerd::ZeroEuler(0.0);
+// Float Euler Static Consts
+const FEulerf FEulerf::ZeroEuler(0.0f);

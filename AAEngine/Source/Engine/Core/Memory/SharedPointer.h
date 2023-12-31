@@ -7,5 +7,5 @@ namespace AAEngine {
 	template<typename T>
 	using TSharedPtr = std::shared_ptr<T>;
 
-#define MakeShared(...) std::make_shared(##__VA_ARGS__) 
+#define MakeShared std::make_shared 
 }

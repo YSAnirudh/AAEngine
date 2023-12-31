@@ -32,6 +32,11 @@ namespace AAEngine {
 		* Overriden virtual UnBind function to UnBind the shader from the program.
 		*/
 		virtual void UnBind() override;
+
+		void UploadUniformInt(const std::string& UniformName, int Value);
+		void UploadUniformVec3(const std::string& UniformName, const FVector3f& Value);
+		void UploadUniformVec4(const std::string& UniformName, const FVector4f& Value);
+		void UploadUniformMat4(const std::string& UniformName, const FMatrix44f& Value);
 	private:
 		/*
 		* Shader Program for OpenGL

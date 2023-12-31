@@ -12,6 +12,8 @@ namespace AAEngine {
 namespace Math {
 
 	/*
+	* TO DO:
+	* - SIMD support
 	* - Angle Between Vectors
 	* - Projections
 	*/
@@ -37,6 +39,7 @@ namespace Math {
 		AA_ENGINE_API static const TVector4<T> OneVector;
 
 		FORCEINLINE constexpr TVector4() noexcept
+			: X(static_cast<T>(0.0f)), Y(static_cast<T>(0.0f)), Z(static_cast<T>(0.0f)), W(static_cast<T>(0.0f))
 		{}
 
 		FORCEINLINE constexpr TVector4(T InVal) noexcept
@@ -48,7 +51,7 @@ namespace Math {
 		{}
 
 		FORCEINLINE constexpr TVector4(T InX, T InY, T InZ) noexcept
-			: X(InX), Y(InY), Z(InZ)
+			: X(InX), Y(InY), Z(InZ), W(static_cast<T>(0.0f))
 		{}
 
 		FORCEINLINE constexpr TVector4(const TVector4<T>& NewVector) noexcept
@@ -233,7 +236,7 @@ namespace Math {
 
 		FORCEINLINE constexpr bool IsZero() const noexcept
 		{
-			return *this == 0.0f;
+			return *this == static_cast<T>(0.0f);
 		}
 
 		FORCEINLINE constexpr bool IsNearlyZero(T Tolerance = AA_SMALL_NUMBER) const noexcept
@@ -243,7 +246,7 @@ namespace Math {
 
 		FORCEINLINE constexpr bool IsNormalized(T Tolerance = AA_SMALL_NUMBER) const noexcept
 		{
-			return FMath::Abs(1.0f - Size()) < Tolerance;
+			return FMath::Abs(static_cast<T>(0.0f) - Size()) < Tolerance;
 		}
 
 		FORCEINLINE constexpr bool Normalize(T Tolerance = AA_SMALL_NUMBER) const noexcept
@@ -260,7 +263,7 @@ namespace Math {
 		FORCEINLINE constexpr TVector4<T> GetSafeNormal(T Tolerance = AA_SMALL_NUMBER) const noexcept
 		{
 			T SumSquared = X * X + Y * Y + Z * Z + W * W;
-			if (SumSquared == 1.0f)
+			if (SumSquared == static_cast<T>(0.0f))
 			{
 				return *this;
 			}

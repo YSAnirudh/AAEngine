@@ -1,6 +1,14 @@
 #pragma once
 
 /*
+* Important Comment Highlights
+* NOTE - Any notes for functions/classes/files
+* TO DO - To mark something to be done at a later date
+* 
+* These can be searched for in the Code base to identify the Important Comment Highlights to come back to
+*/
+
+/*
 * NAMING CONVENTIONS
 * PREDEFINED Prefixes for classes and data types in AA Engine
 *
@@ -21,6 +29,15 @@
 * 
 */
 
+/*
+* Math - 
+* Z - Forward
+* Y - Up
+* X - Right
+* Left Handed Coordinate System
+* Row Major - Pre-Multiplication Matrices
+*/
+
 // TEST RESULTS TEMPLATE = Update whenever it changes
 /*
 * TEST RESULTS
@@ -28,6 +45,10 @@
 * 1)
 * Speed (Avg) =
 * Speed (Fastest) =
+*/
+
+/*
+* TO DO: Pre Build step of Running ProcessorSIMDInfo.cpp before every Generate Project Files.
 */
 
 // DLL import/export
@@ -50,13 +71,13 @@
 #endif
 
 #ifndef AA_TESTER_FILE
-	#define AA_TESTER_FILE 0
+	#define AA_TESTER_FILE 1
 #endif
 
 
 #if AA_ENABLE_ASSERTS
-	#define AA_CORE_ASSERT(x, ...)		{ if (!x) { AA_CORE_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
-	#define AA_ASSERT(x, ...)			{ if (!x) { AA_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
+	#define AA_CORE_ASSERT(x, ...)		{ if (!int(x)) { AA_CORE_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
+	#define AA_ASSERT(x, ...)			{ if (!int(x)) { AA_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
 #else
 	#define AA_CORE_ASSERT(x, ...)
 	#define AA_ASSERT(x, ...)
@@ -66,10 +87,6 @@
 	#define FORCEINLINE __forceinline
 #else
 	#error AA Engine only supports Windows!
-#endif
-
-#ifndef COMPILER_HAS_GENERATED_COMPARISION_OPERATORS
-	#define COMPILER_HAS_GENERATED_COMPARISION_OPERATORS (__cplusplus >= 202002L)
 #endif
 
 #include "Engine/EventSystem/CoreEvents.h"

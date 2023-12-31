@@ -19,7 +19,7 @@ namespace AAEngine {
 		*/
 		static bool IsKeyPressed(EKeyCode KeyCode)
 		{
-			AA_CORE_ASSERT(InputInstance, "Input Instance is Null! Check initialization in Platform specific Input.");
+			AA_CORE_ASSERT(int(InputInstance != nullptr), "Input Instance is Null! Check initialization in Platform specific Input.");
 
 			return InputInstance->IsKeyPressed_Implementation(KeyCode);
 		}
@@ -33,7 +33,7 @@ namespace AAEngine {
 		*/
 		static bool IsMouseButtonPressed(EMouseCode MouseCode)
 		{
-			AA_CORE_ASSERT(InputInstance, "Input Instance is Null! Check initialization in Platform specific Input.");
+			AA_CORE_ASSERT(int(InputInstance != nullptr), "Input Instance is Null! Check initialization in Platform specific Input.");
 
 			return InputInstance->IsMouseButtonPressed_Implementation(MouseCode);
 		}
@@ -45,7 +45,7 @@ namespace AAEngine {
 		*/
 		static float GetMouseX()
 		{
-			AA_CORE_ASSERT(InputInstance, "Input Instance is Null! Check initialization in Platform specific Input.");
+			AA_CORE_ASSERT(int(InputInstance != nullptr), "Input Instance is Null! Check initialization in Platform specific Input.");
 
 			return InputInstance->GetMouseX_Implementation();
 		}
@@ -56,7 +56,7 @@ namespace AAEngine {
 		*/
 		static float GetMouseY()
 		{
-			AA_CORE_ASSERT(InputInstance, "Input Instance is Null! Check initialization in Platform specific Input.");
+			AA_CORE_ASSERT(int(InputInstance != nullptr), "Input Instance is Null! Check initialization in Platform specific Input.");
 
 			return InputInstance->GetMouseY_Implementation();
 		}

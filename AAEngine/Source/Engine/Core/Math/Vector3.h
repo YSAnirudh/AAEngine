@@ -27,6 +27,7 @@ namespace AAEngine {
 			AA_ENGINE_API static const TVector3<T> OneVector;
 
 			FORCEINLINE constexpr TVector3() noexcept
+				: X(static_cast<T>(0.0f)), Y(static_cast<T>(0.0f)), Z(static_cast<T>(0.0f))
 			{}
 
 			FORCEINLINE constexpr TVector3(T InVal) noexcept
@@ -229,7 +230,7 @@ namespace AAEngine {
 
 			FORCEINLINE constexpr bool IsZero() const noexcept
 			{
-				return *this == 0.0f;
+				return *this == static_cast<T>(0.0f);
 			}
 
 			FORCEINLINE constexpr bool IsNearlyZero(T Tolerance = AA_SMALL_NUMBER) const noexcept
@@ -239,7 +240,7 @@ namespace AAEngine {
 
 			FORCEINLINE constexpr bool IsNormalized(T Tolerance = AA_SMALL_NUMBER) const noexcept
 			{
-				return FMath::Abs(1.0f - Size()) < Tolerance;
+				return FMath::Abs(static_cast<T>(0.0f) - Size()) < Tolerance;
 			}
 
 			FORCEINLINE constexpr bool Normalize(T Tolerance = AA_SMALL_NUMBER) const noexcept
@@ -256,7 +257,7 @@ namespace AAEngine {
 			FORCEINLINE constexpr TVector3<T> GetSafeNormal(T Tolerance = AA_SMALL_NUMBER) const noexcept
 			{
 				T SumSquared = X * X + Y * Y + Z * Z;
-				if (SumSquared == 1.0f)
+				if (SumSquared == static_cast<T>(0.0f))
 				{
 					return *this;
 				}

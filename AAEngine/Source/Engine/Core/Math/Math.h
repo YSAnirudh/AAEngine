@@ -39,6 +39,12 @@ namespace Math {
 		static FORCEINLINE float Abs(float A) noexcept { return fabsf(A); }
 		static FORCEINLINE double Abs(double A) noexcept { return abs(A); }
 
+		static FORCEINLINE float DegToRad(float A) noexcept { return A * AA_PI_BY_180; }
+		static FORCEINLINE double DegToRad(double A) noexcept { return A * AA_DOUBLE_PI_BY_180; }
+
+		static FORCEINLINE float RadToDeg(float A) noexcept { return A * AA_180_BY_PI; }
+		static FORCEINLINE double RadToDeg(double A) noexcept { return A * AA_DOUBLE_180_BY_PI; }
+
 		/** Computes absolute value in a generic way */
 		template<class T>
 		static FORCEINLINE constexpr T Abs(const T A)
@@ -75,7 +81,6 @@ namespace Math {
 			B = A;
 			A = Temp;
 		}
-
 		
 	};
 

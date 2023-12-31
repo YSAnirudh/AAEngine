@@ -3,4 +3,5 @@
 
 namespace AAEngine {
 	
+	CRenderer::FSceneData* CRenderer::SceneData = new FSceneData();
 }

@@ -37,8 +37,10 @@ namespace AAEngine {
 
         /*
         * Function called to update the layer.
+        * 
+        * @param DeltaSeconds - Time between frames to make sure objects move frame-independently
         */
-        virtual void OnUpdate() {}
+        virtual void OnUpdate(float DeltaSeconds) {}
 
         /*
         * Function called to update the ImGui Rendering.

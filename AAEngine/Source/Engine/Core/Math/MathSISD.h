@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Platform/PlatformMath.h"
+#include "Core/Core.h"
+
+#if !AA_PLATFORM_USING_SIMD
 #include "Memory/IncludesMemory.h"
 #include "Math/MathForwards.h"
 
@@ -297,30 +299,6 @@ namespace Math {
 		return ResultVec;
 	}
 
-	/*FORCEINLINE FMatrix44f MatrixScalarMultiply(const FMatrix44f* Mat, float Val)
-	{
-		FMatrix44f ResultMat;
-		
-		for (int i = 0; i < 16; i++)
-		{
-			ResultMat = Mat->MLin[i] * Val;
-		}
-
-		return ResultMat;
-	}
-
-	FORCEINLINE FMatrix44d MatrixScalarMultiply(const FMatrix44d* Mat, double Val)
-	{
-		FMatrix44d ResultMat;
-
-		for (int i = 0; i < 16; i++)
-		{
-			ResultMat = Mat->MLin[i] * Val;
-		}
-
-		return ResultMat;
-	}*/
-
 	FORCEINLINE void MatrixMultiply(FMatrix44f* Result, const FMatrix44f* Mat1, const FMatrix44f* Mat2)
 	{
 		typedef float Float4x4[4][4];
@@ -495,3 +473,4 @@ namespace Math {
 
 }
 }
+#endif

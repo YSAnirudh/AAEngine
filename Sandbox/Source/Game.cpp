@@ -10,7 +10,7 @@ public:
 
 	}
 
-	virtual void OnUpdate() override
+	virtual void OnUpdate(float DeltaSeconds) override
 	{
 		//AA_LOG(Info, "App Update");
 	}

@@ -19,6 +19,9 @@
     <Filter Include="Engine\Core\Memory">
       <UniqueIdentifier>{1BF1DCE2-07D5-9D38-7035-988B5C3888BA}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Renderer">
+      <UniqueIdentifier>{19B6ADAC-0545-3776-AE63-4B719AD1471C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Core\Templates">
       <UniqueIdentifier>{B19DD6FA-1D0A-92F5-E6FD-29535229B45D}</UniqueIdentifier>
     </Filter>
@@ -46,6 +49,9 @@
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Platform\Windows">
       <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
     </Filter>
@@ -59,6 +65,9 @@
       <Filter>Engine\Core\Containers</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Containers\CoreContainers.h">
+      <Filter>Engine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Containers\IncludesContainers.h">
       <Filter>Engine\Core\Containers</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Containers\StaticArray.h">
@@ -85,6 +94,9 @@
     <ClInclude Include="Source\Engine\Core\Math\CoreMath.h">
       <Filter>Engine\Core\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Math\Euler.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Core\Math\IncludesMath.h">
       <Filter>Engine\Core\Math</Filter>
     </ClInclude>
@@ -97,16 +109,28 @@
     <ClInclude Include="Source\Engine\Core\Math\MathSISD.h">
       <Filter>Engine\Core\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Math\MathSSE.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Core\Math\MathUtils.h">
       <Filter>Engine\Core\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Math\Matrix44.h">
       <Filter>Engine\Core\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Math\Quaternion.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Math\Transform.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Core\Math\Vector3.h">
       <Filter>Engine\Core\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Math\Vector4.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Math\VectorRegister.h">
       <Filter>Engine\Core\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Memory\CoreMemory.h">
@@ -118,8 +142,41 @@
     <ClInclude Include="Source\Engine\Core\Memory\Memory.h">
       <Filter>Engine\Core\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Memory\SharedPointer.h">
+      <Filter>Engine\Core\Memory</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Core\Memory\UniquePointer.h">
       <Filter>Engine\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Memory\WeakPointer.h">
+      <Filter>Engine\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Renderer\Buffer.h">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Renderer\Camera.h">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Renderer\IncludesRenderer.h">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Renderer\RenderCommand.h">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Renderer\Renderer.h">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Renderer\RendererAPI.h">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Renderer\RenderingContext.h">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Renderer\Shader.h">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Renderer\VertexArray.h">
+      <Filter>Engine\Core\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Templates\AATemplates.h">
       <Filter>Engine\Core\Templates</Filter>
@@ -181,7 +238,22 @@
     <ClInclude Include="Source\Platform\CorePlatform.h">
       <Filter>Platform</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Platform\PlatformMath.h">
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLRenderingContext.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLShader.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\PlatformProcessorDefines.h">
       <Filter>Platform</Filter>
     </ClInclude>
     <ClInclude Include="Source\Platform\Windows\WindowsInput.h">
@@ -190,23 +262,6 @@
     <ClInclude Include="Source\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Math\VectorRegister.h" />
-    <ClInclude Include="Source\Engine\Core\Renderer\RenderingContext.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLRenderingContext.h" />
-    <ClInclude Include="Source\Engine\Core\Renderer\Buffer.h" />
-    <ClInclude Include="Source\Engine\Core\Renderer\Shader.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLShader.h" />
-    <ClInclude Include="Source\Engine\Core\Containers\IncludesContainers.h" />
-    <ClInclude Include="Source\Engine\Core\Renderer\Renderer.h" />
-    <ClInclude Include="Source\Engine\Core\Renderer\IncludesRenderer.h" />
-    <ClInclude Include="Source\Engine\Core\Memory\SharedPointer.h" />
-    <ClInclude Include="Source\Engine\Core\Memory\WeakPointer.h" />
-    <ClInclude Include="Source\Engine\Core\Renderer\VertexArray.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="Source\Engine\Core\Renderer\RendererAPI.h" />
-    <ClInclude Include="Source\Engine\Core\Renderer\RenderCommand.h" />
-    <ClInclude Include="Source\Platform\OpenGL\OpenGLRendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\AA_PreCompiledHeaders.cpp">
@@ -220,6 +275,30 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Core\Math\Math.cpp">
       <Filter>Engine\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Renderer\Buffer.cpp">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Renderer\Camera.cpp">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Renderer\RenderCommand.cpp">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Renderer\Renderer.cpp">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Renderer\RendererAPI.cpp">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Renderer\RenderingContext.cpp">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Renderer\Shader.cpp">
+      <Filter>Engine\Core\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Renderer\VertexArray.cpp">
+      <Filter>Engine\Core\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\ImGui\ImGuiBuild.cpp">
       <Filter>Engine\ImGui</Filter>
@@ -239,23 +318,26 @@
     <ClCompile Include="Source\Engine\Window\Window.cpp">
       <Filter>Engine\Window</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLRenderingContext.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Platform\Windows\WindowsInput.cpp">
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Core\Renderer\RenderingContext.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLRenderingContext.cpp" />
-    <ClCompile Include="Source\Engine\Core\Renderer\Buffer.cpp" />
-    <ClCompile Include="Source\Engine\Core\Renderer\Shader.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLShader.cpp" />
-    <ClCompile Include="Source\Engine\Core\Renderer\Renderer.cpp" />
-    <ClCompile Include="Source\Engine\Core\Renderer\VertexArray.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="Source\Engine\Core\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="Source\Engine\Core\Renderer\RenderCommand.cpp" />
-    <ClCompile Include="Source\Platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
 </Project>

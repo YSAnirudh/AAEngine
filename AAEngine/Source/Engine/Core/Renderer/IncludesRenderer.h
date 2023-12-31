@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Renderer/Buffer.h"
+#include "Core/Renderer/Camera.h"
 #include "Core/Renderer/Renderer.h"
 #include "Core/Renderer/RendererAPI.h"
 #include "Core/Renderer/RenderCommand.h"

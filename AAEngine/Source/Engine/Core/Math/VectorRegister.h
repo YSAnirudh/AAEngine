@@ -1,10 +1,9 @@
 #pragma once
 
-#if AA_PLATFORM_ENABLE_SIMD_INTRINSICS
-
-	// Currently No SIMD
-	#include "Math/MathSISD.h"
+#if AA_PLATFORM_ENABLE_SIMD_INTRINSICS_SSE2
+	#include "Math/MathSSE.h"
 #else
+	// Currently Only SSE
 	#include "Math/MathSISD.h"
 #endif
 

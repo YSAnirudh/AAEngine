@@ -9,6 +9,7 @@ namespace AAEngine {
 	private:
 		// Math Lib tests
 		static void MatrixTests();
+		static void MatrixGLMTests();
 
 		// Container Tests
 		static void StaticArrayTests();

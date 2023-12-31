@@ -8,7 +8,7 @@ namespace AAEngine
 	*/
 	using EMouseCode = unsigned int;
 
-	namespace Mouse
+	namespace FMouse
 	{
 		/*
 		* Mouse Codes as uint16_t for tracking Mouse Codes associated with each mouse button
