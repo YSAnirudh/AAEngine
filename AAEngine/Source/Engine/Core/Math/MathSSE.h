@@ -2,11 +2,10 @@
 
 #include "Core/Core.h"
 
-#if AA_PLATFORM_ENABLE_SIMD_INTRINSICS_SSE2
+#if AA_PLATFORM_USING_SIMD
 #include "Memory/IncludesMemory.h"
 #include "Math/MathForwards.h"
-
-#include <immintrin.h>
+#include "Platform/IncludesSIMD.h"
 
 namespace AAEngine {
 namespace Math {

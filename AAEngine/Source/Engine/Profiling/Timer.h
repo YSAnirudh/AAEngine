@@ -46,6 +46,7 @@ namespace AAEngine {
 		FORCEINLINE TTimer()
 		{
 			TimerName = "Base";
+			bLogResult = true;
 			StartTimepoint = CH_HRClock::now();
 		}
 
@@ -55,9 +56,10 @@ namespace AAEngine {
 		* 
 		* @param InTimerName - rvalue Reference of the Timer name as an std::string
 		*/
-		explicit FORCEINLINE TTimer(std::string&& InTimerName)
+		explicit FORCEINLINE TTimer(std::string&& InTimerName, bool bInLogResult = true)
 		{
 			TimerName = Move(InTimerName);
+			bLogResult = bInLogResult;
 			StartTimepoint = CH_HRClock::now();
 		}
 
@@ -75,12 +77,16 @@ namespace AAEngine {
 		* 1) Stops the Timer
 		* 2) Outputs the Time in the Template Time resolution arguments
 		*/
-		void Stop()
+		long long Stop()
 		{
 			CH_TP<CH_HRClock> EndTimepoint = CH_HRClock::now();
 
 			long long Duration = CalculateTime(EndTimepoint);
-			AA_CORE_LOG(Info, "%s Timer Duration: %ld", TimerName.c_str(), Duration);
+			if (bLogResult)
+			{
+				AA_CORE_LOG(Info, "%s Timer Duration: %ld", TimerName.c_str(), Duration);
+			}
+			return Duration;
 		}
 
 		/*
@@ -89,14 +95,18 @@ namespace AAEngine {
 		* 2) Outputs the Time in the Template Time resolution arguments
 		* 3) Resets the StartTime
 		*/
-		void Reset()
+		long long Reset()
 		{
 			CH_TP<CH_HRClock> EndTimepoint = CH_HRClock::now();
 
 			long long Duration = CalculateTime(EndTimepoint);
-			AA_CORE_LOG(Info, "Resetting Timer. Current %s Timer Duration: %ld", TimerName.c_str(), Duration);
+			if (bLogResult)
+			{
+				AA_CORE_LOG(Info, "Resetting Timer. Current %s Timer Duration: %ld", TimerName.c_str(), Duration);
+			}
 
 			StartTimepoint = CH_HRClock::now();
+			return Duration;
 		}
 	private:
 		/*
@@ -152,5 +162,10 @@ namespace AAEngine {
 		* TO DO? : Maybe not needed? Overhead
 		*/
 		std::string TimerName;
+
+		/*
+		* Should we log result to the console?
+		*/
+		bool bLogResult = true;
 	};
 }

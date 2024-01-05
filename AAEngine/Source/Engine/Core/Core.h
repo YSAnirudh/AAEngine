@@ -1,6 +1,10 @@
 #pragma once
 
 /*
+* I AM GOING TO BE THE GREATEST GAME DEVELOPER EVER
+*/
+
+/*
 * Important Comment Highlights
 * NOTE - Any notes for functions/classes/files
 * TO DO - To mark something to be done at a later date
@@ -76,8 +80,8 @@
 
 
 #if AA_ENABLE_ASSERTS
-	#define AA_CORE_ASSERT(x, ...)		{ if (!int(x)) { AA_CORE_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
-	#define AA_ASSERT(x, ...)			{ if (!int(x)) { AA_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
+	#define AA_CORE_ASSERT(x, ...)		{ if (!(x)) { AA_CORE_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
+	#define AA_ASSERT(x, ...)			{ if (!(x)) { AA_LOG(Error, "Assertion Failed: %s", __VA_ARGS__); __debugbreak(); } }
 #else
 	#define AA_CORE_ASSERT(x, ...)
 	#define AA_ASSERT(x, ...)

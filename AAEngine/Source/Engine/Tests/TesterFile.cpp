@@ -6,7 +6,7 @@
 #include "Math/IncludesMath.h"
 
 #define GLM_FORCE_ALIGNED
-//#define GLM_FORCE_SSE2
+//#define GLM_FORCE_AVX2
 // Temporary GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -96,7 +96,8 @@ namespace AAEngine {
 	void CTester::RunTester()
 	{
 		//DynamicArrayTests();
-		MatrixTests();
+		//MatrixTests();
+		AlgorithmTests();
 	}
 
 	void CTester::MatrixTests()
@@ -110,8 +111,8 @@ namespace AAEngine {
 			TTimer<TestTimeResolution> Timer("Mat Add");
 			for (int i = 0; i < TestSize; i++)
 			{
-				//GMat *= glm::mat4(float(rand()) / RAND_MAX);
-				Mat1 *= FMatrix44f(float(rand())/RAND_MAX);
+				GMat *= glm::mat4(float(rand()) / RAND_MAX);
+				//Mat1 *= FMatrix44f(float(rand())/RAND_MAX);
 			}
 		}
 		AA_CORE_LOG(Info, "Mat: \n%s\n", (Mat1 * Mat2).ToString().c_str());
@@ -178,6 +179,47 @@ namespace AAEngine {
 		PrintGLMMat(GResVec);*/
 	}
 
+	void CTester::AlgorithmTests()
+	{
+		constexpr int TestSize = 10000000;
+		constexpr int TestIter = 10;
+		constexpr ETimeResolution TestTimeResolution = MilliSeconds;
+		{
+			long long Dur = 0;
+			TTimer<TestTimeResolution> Timer("AA Sort", false);
+			for (int i = 0; i < TestIter; i++)
+			{
+				TArray<float> ToSortAA(TestSize);
+				for (int i = 0; i < TestSize; i++)
+				{
+					ToSortAA.EmplaceBack(/*float(TestSize - i)); */ float(rand()) / RAND_MAX);
+				}
+				Timer.Reset();
+				ToSortAA.Sort();
+				Dur += Timer.Reset();
+				//AA_CORE_LOG(Info, "SortedArray: %s", (ToSortAA).ToString().c_str());
+			}
+			AA_CORE_LOG(Info, "Average Time AA: %f", (float)Dur / TestIter);
+		}
+
+		{
+			long long Dur = 0;
+			TTimer<TestTimeResolution> Timer("STD Sort", false);
+			for (int i = 0; i < TestIter; i++)
+			{
+				std::vector<float> ToSort;
+				for (int i = 0; i < TestSize; i++)
+				{
+					ToSort.emplace_back(float(rand()) / RAND_MAX);
+				}
+				Timer.Reset();
+				std::sort(ToSort.begin(), ToSort.end());
+				Dur += Timer.Reset();
+			}
+			AA_CORE_LOG(Info, "Average Time STD: %f", (float)Dur / TestIter);
+		}
+	}
+
 	void CTester::StaticArrayTests()
 	{
 		constexpr int TestSize = 1;
@@ -231,21 +273,33 @@ namespace AAEngine {
 		constexpr ETimeResolution TestTimeResolution = MilliSeconds;
 
 		{
-			std::vector<float> VectorOfUnique;
-			TTimer<TestTimeResolution> Timer("STD Array");
-			for (int i = 0; i < TestSize; i++)
+			long long Dur = 0;
+			TTimer<TestTimeResolution> Timer("STD Array", false);
+			for (int testNum = 0; testNum < 10; testNum++)
 			{
-				VectorOfUnique.emplace(VectorOfUnique.begin(), float(rand())/RAND_MAX);
+				std::vector<float> VectorOfUnique;
+				Dur += Timer.Reset();
+				for (int i = 0; i < TestSize; i++)
+				{
+					VectorOfUnique.emplace(VectorOfUnique.begin(), float(rand())/RAND_MAX);
+				}
 			}
+			AA_CORE_LOG(Info, "Average Time STD: %f", (float)Dur * 0.01);
 		}
 
 		{
-			TArray<float> VectorOfUnique;
-			TTimer<TestTimeResolution> Timer("AA Array");
-			for (int i = 0; i < TestSize; i++)
+			long long Dur = 0;
+			TTimer<TestTimeResolution> Timer("AA Array", false);
+			for (int testNum = 0; testNum < 10; testNum++)
 			{
-				VectorOfUnique.Emplace(VectorOfUnique.begin(), float(rand()) / RAND_MAX);
+				TArray<float> VectorOfUnique;
+				Dur += Timer.Reset();
+				for (int i = 0; i < TestSize; i++)
+				{
+					VectorOfUnique.Emplace(VectorOfUnique.begin(), float(rand()) / RAND_MAX);
+				}
 			}
+			AA_CORE_LOG(Info, "Average Time AA: %f", (float)Dur * 0.01);
 			//VectorOfUnique.ShrinkToFit();
 			/*while (!VectorOfUnique.IsEmpty())
 			{

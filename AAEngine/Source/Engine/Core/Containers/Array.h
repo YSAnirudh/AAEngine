@@ -4,6 +4,7 @@
 
 #include "Templates/AATemplates.h"
 #include "Memory/Memory.h"
+#include "Algorithms.h"
 
 namespace AAEngine {
 
@@ -22,7 +23,7 @@ namespace AAEngine {
 		/*
 		* Default constructor for DynArrayIterator.
 		*/
-		constexpr DynArrayIterator() noexcept
+		FORCEINLINE constexpr DynArrayIterator() noexcept
 			: Pointer(nullptr)
 		{
 		}
@@ -34,7 +35,7 @@ namespace AAEngine {
 		* 
 		* @param Offset - Offset for the iterator.
 		*/
-		constexpr DynArrayIterator(PtrType Data, size_t Offset = 0) noexcept
+		FORCEINLINE constexpr DynArrayIterator(PtrType Data, size_t Offset = 0) noexcept
 			: Pointer(Data + Offset)
 		{
 		}
@@ -44,7 +45,7 @@ namespace AAEngine {
 		* 
 		* @returns Reference to the value at the iterator.
 		*/
-		constexpr RefType operator*() const noexcept
+		FORCEINLINE constexpr RefType operator*() const noexcept
 		{
 			return *Pointer;
 		}
@@ -54,7 +55,7 @@ namespace AAEngine {
 		* 
 		* @returns Pointer to the value at the iterator.
 		*/
-		constexpr PtrType operator->() const noexcept
+		FORCEINLINE constexpr PtrType operator->() const noexcept
 		{
 			return Pointer;
 		}
@@ -64,7 +65,7 @@ namespace AAEngine {
 		*
 		* @returns Reference to the updated iterator.
 		*/
-		constexpr DynArrayIterator& operator++() noexcept
+		FORCEINLINE constexpr DynArrayIterator& operator++() noexcept
 		{
 			++Pointer;
 			return *this;
@@ -75,7 +76,7 @@ namespace AAEngine {
 		*
 		* @returns Copy of the current iterator before increment.
 		*/
-		constexpr DynArrayIterator operator++(int) noexcept
+		FORCEINLINE constexpr DynArrayIterator operator++(int) noexcept
 		{
 			DynArrayIterator It = *this;
 			++Pointer;
@@ -87,7 +88,7 @@ namespace AAEngine {
 		*
 		* @returns Reference to the updated iterator.
 		*/
-		constexpr DynArrayIterator& operator--() noexcept
+		FORCEINLINE constexpr DynArrayIterator& operator--() noexcept
 		{
 			Pointer--;
 			return *this;
@@ -98,7 +99,7 @@ namespace AAEngine {
 		*
 		* @returns Copy of the current iterator before decrement.
 		*/
-		constexpr DynArrayIterator operator--(int) noexcept
+		FORCEINLINE constexpr DynArrayIterator operator--(int) noexcept
 		{
 			DynArrayIterator It = *this;
 			--(*this);
@@ -112,7 +113,7 @@ namespace AAEngine {
 		* 
 		* @returns Reference to the updated iterator.
 		*/
-		constexpr DynArrayIterator& operator-=(ptrdiff_t Offset) noexcept
+		FORCEINLINE constexpr DynArrayIterator& operator-=(ptrdiff_t Offset) noexcept
 		{
 			Pointer -= Offset;
 			return *this;
@@ -125,7 +126,7 @@ namespace AAEngine {
 		* 
 		* @returns Reference to the updated iterator.
 		*/
-		constexpr DynArrayIterator& operator+=(ptrdiff_t Offset) noexcept
+		FORCEINLINE constexpr DynArrayIterator& operator+=(ptrdiff_t Offset) noexcept
 		{
 			Pointer += Offset;
 			return *this;
@@ -138,7 +139,7 @@ namespace AAEngine {
 		* 
 		* @returns Distance between the iterators' pointers.
 		*/
-		constexpr ptrdiff_t operator-(const DynArrayIterator& Right) const noexcept
+		FORCEINLINE constexpr ptrdiff_t operator-(const DynArrayIterator& Right) const noexcept
 		{
 			return Pointer - Right.Pointer;
 		}
@@ -150,7 +151,7 @@ namespace AAEngine {
 		* 
 		* @returns New iterator moved by the specified offset.
 		*/
-		constexpr DynArrayIterator operator+(const ptrdiff_t Offset) const noexcept
+		FORCEINLINE constexpr DynArrayIterator operator+(const ptrdiff_t Offset) const noexcept
 		{
 			DynArrayIterator It = *this;
 			It += Offset;
@@ -164,7 +165,7 @@ namespace AAEngine {
 		* 
 		* @returns New iterator moved by the specified offset.
 		*/
-		constexpr DynArrayIterator operator-(const ptrdiff_t Offset) const noexcept
+		FORCEINLINE constexpr DynArrayIterator operator-(const ptrdiff_t Offset) const noexcept
 		{
 			DynArrayIterator It = *this;
 			It -= Offset;
@@ -178,7 +179,7 @@ namespace AAEngine {
 		* 
 		* @returns Value at the specified offset.
 		*/
-		constexpr RefType operator[](const ptrdiff_t Offset) const noexcept
+		FORCEINLINE constexpr RefType operator[](const ptrdiff_t Offset) const noexcept
 		{
 			return Pointer[Offset];
 		}
@@ -190,7 +191,7 @@ namespace AAEngine {
 		* 
 		* @returns True if the iterators are pointing to the same location, false otherwise.
 		*/
-		constexpr bool operator==(const DynArrayIterator& Other) const noexcept
+		FORCEINLINE constexpr bool operator==(const DynArrayIterator& Other) const noexcept
 		{
 			return Other.Pointer == Pointer;
 		}
@@ -202,7 +203,7 @@ namespace AAEngine {
 		* 
 		* @returns True if the iterators are not pointing to the same location, false otherwise.
 		*/
-		constexpr bool operator!=(const DynArrayIterator& Other) const noexcept
+		FORCEINLINE constexpr bool operator!=(const DynArrayIterator& Other) const noexcept
 		{
 			return Other.Pointer != Pointer;
 		}
@@ -212,7 +213,7 @@ namespace AAEngine {
 		* 
 		* @returns Pointer stored in the iterator.
 		*/
-		constexpr PtrType Get() const noexcept
+		FORCEINLINE constexpr PtrType Get() const noexcept
 		{
 			return Pointer;
 		}
@@ -236,7 +237,7 @@ namespace AAEngine {
 		* Default constructor for TArray.
 		* Initializes Size, Capacity, and the array pointer to nullptr.
 		*/
-		constexpr TArray() noexcept
+		FORCEINLINE constexpr TArray() noexcept
 			: Size(0), Capacity(0), InArray(nullptr) {}
 
 		/*
@@ -245,7 +246,7 @@ namespace AAEngine {
 		* 
 		* @param InitialCapacity - Initial Capacity for the Array
 		*/
-		constexpr TArray(size_t InitialCapacity) noexcept
+		FORCEINLINE constexpr TArray(size_t InitialCapacity) noexcept
 			: Size(0), Capacity(InitialCapacity)
 		{
 			ReallocateArray(InitialCapacity);
@@ -257,7 +258,7 @@ namespace AAEngine {
 		*
 		* @param NewArray - The array to copy from.
 		*/
-		constexpr TArray(const TArray& NewArray) noexcept
+		FORCEINLINE constexpr TArray(const TArray& NewArray) noexcept
 		{
 			ReallocateArray(NewArray.Capacity);
 			for (size_t i = 0; i < NewArray.Size; i++)
@@ -273,7 +274,7 @@ namespace AAEngine {
 		*
 		* @param NewArray - The array to move from.
 		*/
-		constexpr TArray(TArray&& NewArray) noexcept
+		FORCEINLINE constexpr TArray(TArray&& NewArray) noexcept
 		{
 			ReallocateArray(NewArray.Capacity);
 			for (size_t i = 0; i < NewArray.Size; i++)
@@ -283,7 +284,7 @@ namespace AAEngine {
 			Size = NewArray.Size;
 		}
 
-		constexpr TArray(const std::initializer_list<T>& InitList) noexcept
+		FORCEINLINE constexpr TArray(const std::initializer_list<T>& InitList) noexcept
 		{
 			ReallocateArray(InitList.size());
 
@@ -302,7 +303,7 @@ namespace AAEngine {
 		*
 		* @returns Reference to the updated array.
 		*/
-		constexpr TArray& operator=(const TArray& NewArray) noexcept
+		FORCEINLINE constexpr TArray& operator=(const TArray& NewArray) noexcept
 		{
 			AssignArray(NewArray);
 			return *this;
@@ -316,7 +317,7 @@ namespace AAEngine {
 		*
 		* @returns Reference to the updated array.
 		*/
-		constexpr TArray& operator=(TArray&& NewArray) noexcept
+		FORCEINLINE constexpr TArray& operator=(TArray&& NewArray) noexcept
 		{
 			AssignArray(Move(NewArray));
 			return *this;
@@ -326,7 +327,7 @@ namespace AAEngine {
 		* Destructor for TArray.
 		* Clears the array by calling the Clear() function and deletes the memory allocated for the array.
 		*/
-		~TArray()
+		FORCEINLINE ~TArray()
 		{
 			Clear();
 			if (InArray)
@@ -340,7 +341,7 @@ namespace AAEngine {
 		*
 		* @param Element - The element to insert.
 		*/
-		constexpr void PushBack(const T& Element) noexcept
+		FORCEINLINE constexpr void PushBack(const T& Element) noexcept
 		{
 			if (Size >= Capacity)
 			{
@@ -355,7 +356,7 @@ namespace AAEngine {
 		*
 		* @param Element - The element to move.
 		*/
-		constexpr void PushBack(T&& Element) noexcept
+		FORCEINLINE constexpr void PushBack(T&& Element) noexcept
 		{
 			if (Size >= Capacity)
 			{
@@ -373,7 +374,7 @@ namespace AAEngine {
 		* @returns Reference to the newly emplaced element.
 		*/
 		template<typename... DirectArgs>
-		constexpr T& EmplaceBack(DirectArgs&&... Args) noexcept
+		FORCEINLINE constexpr T& EmplaceBack(DirectArgs&&... Args) noexcept
 		{
 			return Emplace(Size, Args...);
 		}
@@ -387,7 +388,7 @@ namespace AAEngine {
 		* @returns Reference to the newly emplaced element.
 		*/
 		template<typename... DirectArgs>
-		constexpr T& Emplace(size_t Position, DirectArgs&&... Args) noexcept
+		FORCEINLINE constexpr T& Emplace(size_t Position, DirectArgs&&... Args) noexcept
 		{
 			if (Size >= Capacity)
 			{
@@ -419,7 +420,7 @@ namespace AAEngine {
 		 * @returns Iterator pointing to the newly emplaced element.
 		 */
 		template<typename... DirectArgs>
-		constexpr Iterator Emplace(Iterator It, DirectArgs&&... Args) noexcept
+		FORCEINLINE constexpr Iterator Emplace(Iterator It, DirectArgs&&... Args) noexcept
 		{
 			if (Size >= Capacity)
 			{
@@ -449,7 +450,7 @@ namespace AAEngine {
 		* @param Position - The position where the element should be inserted.
 		* @param Element - The element to insert.
 		*/
-		constexpr void InsertAt(size_t Position, const T& Element) noexcept
+		FORCEINLINE constexpr void InsertAt(size_t Position, const T& Element) noexcept
 		{
 			if (Size >= Capacity)
 			{
@@ -476,7 +477,7 @@ namespace AAEngine {
 		* @param Position - The position where the element should be inserted.
 		* @param Element - The element to move.
 		*/
-		constexpr void InsertAt(size_t Position, T&& Element) noexcept
+		FORCEINLINE constexpr void InsertAt(size_t Position, T&& Element) noexcept
 		{
 			if (Size >= Capacity)
 			{
@@ -505,7 +506,7 @@ namespace AAEngine {
 		*
 		* @returns Iterator pointing to the newly inserted element.
 		*/
-		constexpr Iterator InsertAt(Iterator It, const T& Element) noexcept
+		FORCEINLINE constexpr Iterator InsertAt(Iterator It, const T& Element) noexcept
 		{
 			return Emplace(It, Element);
 		}
@@ -518,7 +519,7 @@ namespace AAEngine {
 		*
 		* @returns Iterator pointing to the newly inserted element.
 		*/
-		constexpr Iterator InsertAt(Iterator It, T&& Element) noexcept
+		FORCEINLINE constexpr Iterator InsertAt(Iterator It, T&& Element) noexcept
 		{
 			return Emplace(It, Move(Element));
 		}
@@ -529,7 +530,7 @@ namespace AAEngine {
 		*
 		* @param Position - The position of the element to remove.
 		*/
-		constexpr void RemoveAt(size_t Position) noexcept
+		FORCEINLINE constexpr void RemoveAt(size_t Position) noexcept
 		{
 			if (Size <= 1)
 			{
@@ -553,7 +554,7 @@ namespace AAEngine {
 		*
 		* @param It - The iterator pointing to the element to remove.
 		*/
-		constexpr void RemoveAt(Iterator It) noexcept
+		FORCEINLINE constexpr void RemoveAt(Iterator It) noexcept
 		{
 			auto Pos = It - begin();
 			RemoveAt(Pos);
@@ -562,7 +563,7 @@ namespace AAEngine {
 		/*
 		* Removes the last element from the array.
 		*/
-		constexpr void PopBack() noexcept
+		FORCEINLINE constexpr void PopBack() noexcept
 		{
 			if (Size > 0)
 			{
@@ -576,7 +577,7 @@ namespace AAEngine {
 		*
 		* @param NewCapacity - The new capacity to reserve.
 		*/
-		constexpr void Reserve(size_t NewCapacity) noexcept
+		FORCEINLINE constexpr void Reserve(size_t NewCapacity) noexcept
 		{
 			if (NewCapacity > Capacity)
 			{
@@ -587,7 +588,7 @@ namespace AAEngine {
 		/*
 		* Reduces the capacity of the array to match its size.
 		*/
-		constexpr void ShrinkToFit() noexcept
+		FORCEINLINE constexpr void ShrinkToFit() noexcept
 		{
 			if (Capacity > Size)
 			{
@@ -599,7 +600,7 @@ namespace AAEngine {
 		/*
 		* Clears the array by destructing all elements.
 		*/
-		constexpr void Clear() noexcept
+		FORCEINLINE constexpr void Clear() noexcept
 		{
 			for (size_t i = 0; i < Size; i++)
 			{
@@ -614,7 +615,7 @@ namespace AAEngine {
 		* @param ToFind - The element to find.
 		* @return Iterator - Iterator pointing to the found element. If not found, returns end().
 		*/
-		constexpr Iterator Find(const T& ToFind) noexcept
+		FORCEINLINE constexpr Iterator Find(const T& ToFind) noexcept
 		{
 			for (Iterator it = begin(); it != end(); it++)
 			{
@@ -632,7 +633,7 @@ namespace AAEngine {
 		* @param Index - The index of the element to access.
 		* @return T& - Reference to the element at the specified index.
 		*/
-		constexpr T& operator[](size_t Index) noexcept
+		FORCEINLINE constexpr T& operator[](size_t Index) noexcept
 		{
 			AA_CORE_ASSERT(int(Index < Capacity), "Index Out of Bounds: %d when Capacity is %d", Index, Size);
 			return InArray[Index];
@@ -644,7 +645,7 @@ namespace AAEngine {
 		* @param Index - The index of the element to access.
 		* @return const T& - Const reference to the element at the specified index.
 		*/
-		constexpr const T& operator[](size_t Index) const noexcept
+		FORCEINLINE constexpr const T& operator[](size_t Index) const noexcept
 		{
 			AA_CORE_ASSERT(int(Index < Capacity), "Index Out of Bounds: %d when Capacity is %d", Index, Size);
 			return InArray[Index];
@@ -655,7 +656,7 @@ namespace AAEngine {
 		*
 		* @return size_t - Number of elements in the array.
 		*/
-		constexpr size_t Num() const noexcept
+		FORCEINLINE constexpr size_t Num() const noexcept
 		{
 			return Size;
 		}
@@ -665,7 +666,7 @@ namespace AAEngine {
 		*
 		* @return bool - True if the array is empty, false otherwise.
 		*/
-		constexpr bool IsEmpty() const noexcept
+		FORCEINLINE constexpr bool IsEmpty() const noexcept
 		{
 			return Size == 0;
 		}
@@ -675,7 +676,7 @@ namespace AAEngine {
 		*
 		* @return T* - Pointer to the first element.
 		*/
-		constexpr T* Data() noexcept
+		FORCEINLINE constexpr T* Data() noexcept
 		{
 			return InArray;
 		}
@@ -685,7 +686,7 @@ namespace AAEngine {
 		*
 		* @return const T* - Const Pointer to the first element.
 		*/
-		constexpr const T* Data() const noexcept
+		FORCEINLINE constexpr const T* Data() const noexcept
 		{
 			return InArray;
 		}
@@ -695,7 +696,7 @@ namespace AAEngine {
 		*
 		* @return T& - Reference to the first element.
 		*/
-		constexpr T& Front() noexcept
+		FORCEINLINE constexpr T& Front() noexcept
 		{
 			AA_CORE_ASSERT(int(Size > 0), "Index Out of Bounds: %d when Size is %d", Index, Size);
 			return InArray[0];
@@ -706,7 +707,7 @@ namespace AAEngine {
 		*
 		* @return const T& - Const reference to the first element.
 		*/
-		constexpr const T& Front() const noexcept
+		FORCEINLINE constexpr const T& Front() const noexcept
 		{
 			AA_CORE_ASSERT(int(Size > 0), "Index Out of Bounds: %d when Size is %d", Index, Size);
 			return InArray[0];
@@ -717,7 +718,7 @@ namespace AAEngine {
 		*
 		* @return T& - Reference to the last element.
 		*/
-		constexpr T& Back() noexcept
+		FORCEINLINE constexpr T& Back() noexcept
 		{
 			AA_CORE_ASSERT(int(Size > 0), "Index Out of Bounds: %d when Size is %d", Index, Size);
 			return InArray[Size - 1];
@@ -728,10 +729,53 @@ namespace AAEngine {
 		*
 		* @return const T& - Const reference to the last element.
 		*/
-		constexpr const T& Back() const noexcept
+		FORCEINLINE constexpr const T& Back() const noexcept
 		{
 			AA_CORE_ASSERT(int(Size > 0), "Index Out of Bounds: %d when Size is %d", Index, Size);
 			return InArray[Size - 1];
+		}
+
+		/*
+		* Sorts the elements in the Array
+		* Uses Quick Sort
+		*/
+		FORCEINLINE constexpr void Sort() noexcept
+		{
+			Algorithms::QuickSort(InArray, Size);
+		}
+
+		/*
+		* Sorts the elements in the Array
+		* Uses Quick Sort
+		*/
+		template<class Predicate>
+		FORCEINLINE constexpr void Sort(Predicate Pred) noexcept
+		{
+			Algorithms::QuickSort(InArray, Size, Pred);
+		}
+
+		/*
+		* Const ToString function to convert out array into a String format
+		* Used for Printing Our Array to the Console for Debugging
+		*
+		* @returns std::string of our array in a formatted way.
+		*/
+		FORCEINLINE constexpr std::string ToString() const noexcept
+		{
+			std::stringstream SS;
+			SS << "[";
+			for (size_t i = 0; i < Size; i++)
+			{
+				if (i == Size - 1)
+				{
+					SS << InArray[i] << "]";
+				}
+				else
+				{
+					SS << InArray[i] << ", ";
+				}
+			}
+			return SS.str();
 		}
 
 

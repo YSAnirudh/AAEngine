@@ -12,6 +12,7 @@ namespace AAEngine {
 		static void MatrixGLMTests();
 
 		// Container Tests
+		static void AlgorithmTests();
 		static void StaticArrayTests();
 		static void DynamicArrayTests();
 

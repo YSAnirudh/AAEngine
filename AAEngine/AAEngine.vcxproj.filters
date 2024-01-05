@@ -262,6 +262,8 @@
     <ClInclude Include="Source\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Platform\IncludesSIMD.h" />
+    <ClInclude Include="Source\Engine\Core\Containers\Algorithms.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\AA_PreCompiledHeaders.cpp">
