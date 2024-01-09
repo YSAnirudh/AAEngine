@@ -60,6 +60,9 @@ namespace AAEngine {
 			case ELogVerbosity::NoLogging:
 				SET_PLATFORM_LOG_COLOR(FColor::White);
 				return;
+			case ELogVerbosity::Info:
+				SET_PLATFORM_LOG_COLOR(FColor::Green);
+				break;
 			case ELogVerbosity::Trace:
 				SET_PLATFORM_LOG_COLOR(FColor::White);
 				break;

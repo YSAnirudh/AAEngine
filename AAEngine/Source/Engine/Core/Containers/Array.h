@@ -747,6 +747,9 @@ namespace AAEngine {
 		/*
 		* Sorts the elements in the Array
 		* Uses Quick Sort
+		* 
+		* @param Pred - A Predicate function that 'overrides the () operator taking in 2 (const T&/ T&&) and comparing them returning a bool'
+		*				bool operator()(const T& A, const T& B) const { return A < B; } => Sorted List { ... A, ..., B, ...} A comes before B
 		*/
 		template<class Predicate>
 		FORCEINLINE constexpr void Sort(Predicate Pred) noexcept

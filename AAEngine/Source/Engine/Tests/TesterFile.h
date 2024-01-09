@@ -13,6 +13,7 @@ namespace AAEngine {
 
 		// Container Tests
 		static void AlgorithmTests();
+		static void TreeTests();
 		static void StaticArrayTests();
 		static void DynamicArrayTests();
 

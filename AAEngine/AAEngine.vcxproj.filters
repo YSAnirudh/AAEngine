@@ -264,6 +264,9 @@
     </ClInclude>
     <ClInclude Include="Source\Platform\IncludesSIMD.h" />
     <ClInclude Include="Source\Engine\Core\Containers\Algorithms.h" />
+    <ClInclude Include="Source\Engine\Core\Containers\Stack.h" />
+    <ClInclude Include="Source\Engine\Core\Containers\BinarySearchTree.h" />
+    <ClInclude Include="Source\Engine\Core\Containers\RedBlackTree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\AA_PreCompiledHeaders.cpp">

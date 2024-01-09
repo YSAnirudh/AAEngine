@@ -75,7 +75,7 @@
 #endif
 
 #ifndef AA_TESTER_FILE
-	#define AA_TESTER_FILE 1
+	#define AA_TESTER_FILE 0
 #endif
 
 
@@ -92,6 +92,8 @@
 #else
 	#error AA Engine only supports Windows!
 #endif
+
+//#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
 
 #include "Engine/EventSystem/CoreEvents.h"
 #include "Engine/Core/Math/CoreMath.h"

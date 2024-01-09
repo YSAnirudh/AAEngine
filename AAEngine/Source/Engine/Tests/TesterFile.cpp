@@ -5,9 +5,18 @@
 #include "Containers/Array.h"
 #include "Math/IncludesMath.h"
 
+
+//#define _CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
+#include "Containers/BinarySearchTree.h"
+#include "Containers/RedBlackTree.h"
+
 #define GLM_FORCE_ALIGNED
 //#define GLM_FORCE_AVX2
 // Temporary GLM
+#include <deque>
+#include <map>
+#include <set>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -97,7 +106,8 @@ namespace AAEngine {
 	{
 		//DynamicArrayTests();
 		//MatrixTests();
-		AlgorithmTests();
+		//AlgorithmTests();
+		//TreeTests();
 	}
 
 	void CTester::MatrixTests()
@@ -181,8 +191,8 @@ namespace AAEngine {
 
 	void CTester::AlgorithmTests()
 	{
-		constexpr int TestSize = 10000000;
-		constexpr int TestIter = 10;
+		constexpr int TestSize = 10;
+		constexpr int TestIter = 1;
 		constexpr ETimeResolution TestTimeResolution = MilliSeconds;
 		{
 			long long Dur = 0;
@@ -197,7 +207,7 @@ namespace AAEngine {
 				Timer.Reset();
 				ToSortAA.Sort();
 				Dur += Timer.Reset();
-				//AA_CORE_LOG(Info, "SortedArray: %s", (ToSortAA).ToString().c_str());
+				AA_CORE_LOG(Info, "SortedArray: %s", (ToSortAA).ToString().c_str());
 			}
 			AA_CORE_LOG(Info, "Average Time AA: %f", (float)Dur / TestIter);
 		}
@@ -218,6 +228,153 @@ namespace AAEngine {
 			}
 			AA_CORE_LOG(Info, "Average Time STD: %f", (float)Dur / TestIter);
 		}
+	}
+
+	void CTester::TreeTests()
+	{
+		std::deque<float> Temp;
+		std::map<float, float> Temp2;
+		std::set<float> Temp3;
+
+
+
+		// BinarySearchTree tests
+		TBinarySearchTree<float> Tree;
+		TRedBlackTree<float> RBTree;
+		RBTree.Insert(5.0f);
+		if (Tree.Search(15.f))
+		{
+			AA_CORE_LOG(Info, "Found 15");
+		}
+		else
+		{
+			AA_CORE_LOG(Info, "NO Found 15");
+		}
+		Temp3.insert(5.0f);
+		Temp3.insert(24.0f);
+		Temp3.insert(4.0f);
+		Temp3.insert(15.0f);
+		Temp3.insert(14.0f);
+		Temp3.insert(7.0f);
+		Temp3.insert(17.0f);
+		Temp3.insert(13.0f);
+		Temp3.insert(25.0f);
+		Temp3.insert(3.0f);
+		Temp3.insert(27.0f);
+		Temp3.insert(23.0f);
+
+		for (auto& T : Temp3)
+		{
+			std::cout << T << "\n";
+		}
+		std::cout <<"\n";
+
+		RBTree.Insert(5.0f);
+		RBTree.Insert(24.0f);
+		RBTree.Insert(4.0f);
+		RBTree.Insert(15.0f);
+		RBTree.Insert(14.0f);
+		RBTree.Insert(7.0f);
+		RBTree.Insert(17.0f);
+		RBTree.Insert(13.0f);
+		RBTree.Insert(25.0f);
+		RBTree.Insert(3.0f);
+		RBTree.Insert(27.0f);
+		RBTree.Insert(23.0f);
+
+		RBTree.InOrderPrint();
+		AA_CORE_LOG(Info, "Size AA: %d", sizeof(RBTree));
+		AA_CORE_LOG(Info, "Size AA: %d", sizeof(Temp3));
+		RBTree.Remove(15.0f);
+
+		//RBTree.InOrderPrint();
+		RBTree.Remove(17.0f);
+
+		//RBTree.InOrderPrint();
+		RBTree.Remove(14.0f);
+
+		//RBTree.InOrderPrint();
+		RBTree.Remove(25.0f);
+
+		//RBTree.InOrderPrint();
+		//return;
+
+		if (Tree.Search(15.f))
+		{
+			AA_CORE_LOG(Info, "Found 15");
+		}
+		else
+		{
+			AA_CORE_LOG(Info, "NO Found 15");
+		}
+		AA_CORE_LOG(Info, "No of Elemts AA: %d", Tree.Num());
+		Tree.Clear();
+		Tree.Insert(13.0f);
+		Tree.Insert(25.0f);
+		Tree.Insert(3.0f);
+		AA_CORE_LOG(Info, "No of Elemts AA: %d", Tree.Num());
+		Tree.Insert(27.0f);
+		//Tree.InOrderPrint();
+
+
+		//constexpr int TestSize = 1000000;
+		//constexpr int TestIter = 10;
+		//constexpr ETimeResolution TestTimeResolution = MilliSeconds;
+		//{
+		//	long long Dur = 0;
+		//	TTimer<TestTimeResolution> Timer("AA Tree", false);
+		//	for (int testNum = 0; testNum < TestIter; testNum++)
+		//	{
+		//		TRedBlackTree<float> VectorOfUnique;
+		//		Dur += Timer.Reset();
+		//		for (int i = 0; i < TestSize; i++)
+		//		{
+		//			VectorOfUnique.Insert(float(rand()) / RAND_MAX);
+		//		}
+		//		//AA_CORE_LOG(Info, "No of Elemts AA: %d", VectorOfUnique.Num());
+		//		for (auto it = VectorOfUnique.begin(); it != VectorOfUnique.end();)
+		//		{
+		//			float ValToDel = it->Value;
+		//			it++;
+		//			//VectorOfUnique.InOrderPrint();
+		//			VectorOfUnique.Remove(ValToDel);
+		//			//VectorOfUnique.InOrderPrint();
+		//		}
+		//		//AA_CORE_LOG(Info, "No of Elemts AA After: %d", VectorOfUnique.Num());
+		//	}
+		//	AA_CORE_LOG(Info, "Average Time AA: %f", (float)Dur / TestIter);
+		//	//VectorOfUnique.ShrinkToFit();
+		//	/*while (!VectorOfUnique.IsEmpty())
+		//	{
+		//		VectorOfUnique.PopBack();
+		//	}*/
+		//}
+		//{
+		//	long long Dur = 0;
+		//	TTimer<TestTimeResolution> Timer("STD set", false);
+		//	for (int testNum = 0; testNum < TestIter; testNum++)
+		//	{
+		//		std::set<float> VectorOfUnique;
+		//		Dur += Timer.Reset();
+		//		for (int i = 0; i < TestSize; i++)
+		//		{
+		//			VectorOfUnique.emplace(float(rand()) / RAND_MAX);
+		//		}
+		//		//AA_CORE_LOG(Info, "No of Elemts AA: %d", VectorOfUnique.size());
+		//		for (auto it = VectorOfUnique.begin(); it != VectorOfUnique.end();)
+		//		{
+		//			float ValToDel = *it;
+		//			it++;
+		//			VectorOfUnique.erase(ValToDel);
+		//		}
+		//	}
+		//	AA_CORE_LOG(Info, "Average Time STD: %f", (float)Dur / TestIter);
+		//	//VectorOfUnique.ShrinkToFit();
+		//	/*while (!VectorOfUnique.IsEmpty())
+		//	{
+		//		VectorOfUnique.PopBack();
+		//	}*/
+		//}
 	}
 
 	void CTester::StaticArrayTests()
@@ -370,14 +527,14 @@ namespace AAEngine {
 			}
 		}
 
-		{
+		/*{
 			std::array<std::unique_ptr<int>, TestSize> VectorOfUnique;
 			TTimer<TestTimeResolution> Timer("STD New");
 			for (int i = 0; i < TestSize; i++)
 			{
 				VectorOfUnique[i] = std::unique_ptr<int>(new int);
 			}
-		}
+		}*/
 
 		{
 			std::array<TUniquePtr<int>, TestSize> VectorOfUnique;
@@ -388,22 +545,22 @@ namespace AAEngine {
 			}
 		}
 
-		{
+		/*{
 			std::array<TUniquePtr<int>, TestSize> VectorOfUnique;
 			TTimer<TestTimeResolution> Timer("AA New");
 			for (int i = 0; i < TestSize; i++)
 			{
 				VectorOfUnique[i] = TUniquePtr<int>(new int);
 			}
-		}
+		}*/
 
-		{
+		/*{
 			std::array<TUniquePtr<int>, TestSize> VectorOfUnique;
 			TTimer<TestTimeResolution> Timer("Raw New");
 			for (int i = 0; i < TestSize; i++)
 			{
 				VectorOfUnique[i] = new int;
 			}
-		}
+		}*/
 	}
 }
