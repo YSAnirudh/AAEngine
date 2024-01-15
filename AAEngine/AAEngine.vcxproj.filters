@@ -262,11 +262,21 @@
     <ClInclude Include="Source\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Platform\IncludesSIMD.h" />
-    <ClInclude Include="Source\Engine\Core\Containers\Algorithms.h" />
-    <ClInclude Include="Source\Engine\Core\Containers\Stack.h" />
-    <ClInclude Include="Source\Engine\Core\Containers\BinarySearchTree.h" />
-    <ClInclude Include="Source\Engine\Core\Containers\RedBlackTree.h" />
+    <ClInclude Include="Source\Engine\Core\Containers\RedBlackTree.h">
+      <Filter>Engine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Containers\BinarySearchTree.h">
+      <Filter>Engine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Containers\Algorithms.h">
+      <Filter>Engine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Containers\Stack.h">
+      <Filter>Engine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\IncludesSIMD.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\AA_PreCompiledHeaders.cpp">
@@ -344,5 +354,8 @@
     <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Engine\Shaders\TestGLShader.glsl" />
   </ItemGroup>
 </Project>

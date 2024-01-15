@@ -53,6 +53,7 @@
 
 /*
 * TO DO: Pre Build step of Running ProcessorSIMDInfo.cpp before every Generate Project Files.
+* TO DO: Take out Shared Pointers?
 */
 
 // DLL import/export

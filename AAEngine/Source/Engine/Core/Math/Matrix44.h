@@ -449,7 +449,7 @@ namespace Math {
 		{
 			AA_CORE_ASSERT(int(Aspect != static_cast<T>(0.0f)), "Aspect Ratio is 0");
 
-			TMatrix44 PerspectiveProjectionMatrix;
+			TMatrix44 PerspectiveProjectionMatrix(static_cast<T>(0.0f));
 
 			T TanFOVBy2 = FMath::Tan(FOV / static_cast<T>(2.0f));
 			T OneByFarMinusNear = static_cast<T>(1.0f) / (Far - Near);
@@ -465,7 +465,7 @@ namespace Math {
 
 		FORCEINLINE constexpr static TMatrix44 MakePerspectiveZeroToOne(T FOV, T Aspect, T Near, T Far) noexcept
 		{
-			TMatrix44 PerspectiveProjectionMatrix;
+			TMatrix44 PerspectiveProjectionMatrix(static_cast<T>(0.0f));
 
 			T TanFOVBy2 = FMath::Tan(FOV / static_cast<T>(2.0f));
 			T OneByFarMinusNear = static_cast<T>(1.0f) / (Far - Near);
@@ -487,7 +487,7 @@ namespace Math {
 
 		FORCEINLINE constexpr static TMatrix44 MakePerspectiveNegativeOneToOne(T Left, T Right, T Bottom, T Top, T Near, T Far) noexcept
 		{
-			TMatrix44 PerspectiveProjectionMatrix;
+			TMatrix44 PerspectiveProjectionMatrix(static_cast<T>(0.0f));
 
 			T OneByRightMinusLeft = static_cast<T>(1.0f) / (Right - Left);
 			T OneByTopMinusBottom = static_cast<T>(1.0f) / (Top - Bottom);
@@ -506,7 +506,7 @@ namespace Math {
 
 		FORCEINLINE constexpr static TMatrix44 MakePerspectiveZeroToOne(T Left, T Right, T Bottom, T Top, T Near, T Far) noexcept
 		{
-			TMatrix44 PerspectiveProjectionMatrix;
+			TMatrix44 PerspectiveProjectionMatrix(static_cast<T>(0.0f));
 
 			T OneByRightMinusLeft = static_cast<T>(1.0f) / (Right - Left);
 			T OneByTopMinusBottom = static_cast<T>(1.0f) / (Top - Bottom);

@@ -81,6 +81,7 @@ namespace AAEngine {
 
 		TSharedPtr<IShader> Shader;//akeUnique<IShader>(IShader::Create(VertexSource, FragmentSource));
 		Shader.reset(IShader::Create(VertexSource, FragmentSource));
+		//Shader.reset(IShader::Create("../AAEngine/Source/Engine/Shaders/TestGLShader.glsl"));
 
 		float Positions[3 * 8] = {
 			-5.0f,	-5.0f, -5.0f,

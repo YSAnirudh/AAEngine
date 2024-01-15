@@ -13,6 +13,7 @@
 
 #include <string>
 #include <sstream>
+#include <fstream>
 
 #ifdef AA_PLATFORM_WINDOWS
 	#include "Windows.h"
