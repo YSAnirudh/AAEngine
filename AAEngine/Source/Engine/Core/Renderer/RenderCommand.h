@@ -12,6 +12,14 @@ namespace AAEngine {
 	public:
 		/*
 		* Static Renderer API Call
+		* Static Init method to Initialize the Renederer
+		*/
+		FORCEINLINE static void Init()
+		{
+			RendererAPI->Init();
+		}
+		/*
+		* Static Renderer API Call
 		* Static Clear method to clear Buffers before starting a frame
 		*/
 		FORCEINLINE static void Clear()

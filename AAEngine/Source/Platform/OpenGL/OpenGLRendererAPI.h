@@ -11,6 +11,10 @@ namespace AAEngine {
 	{
 	public:
 		/*
+		* Overriden Virtual Clear method to initialize the renderer
+		*/
+		virtual void Init() override;
+		/*
 		* Overriden Virtual Clear method to clear Buffers before starting a frame
 		*/
 		virtual void Clear() override;

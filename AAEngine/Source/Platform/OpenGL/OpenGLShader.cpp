@@ -5,17 +5,43 @@
 
 namespace AAEngine {
 
-	COpenGLShader::COpenGLShader(const std::string& VertexShaderSource, const std::string& FragmentShaderSource)
+	COpenGLShader::COpenGLShader(const std::string& ShaderName, const std::string& VertexShaderSource, const std::string& FragmentShaderSource)
+		: ShaderName(ShaderName)
 	{
-		TArray<FShaderData> ShaderData(2);
-		ShaderData.PushBack({ VertexShaderSource, EShaderType::SHT_Vertex });
-		ShaderData.PushBack({ FragmentShaderSource, EShaderType::SHT_Fragment });
+		TMap<EShaderType, std::string> ShaderData;
+		ShaderData[EShaderType::SHT_Vertex] = VertexShaderSource;
+		ShaderData[EShaderType::SHT_Fragment] = FragmentShaderSource;
+		CompileShaders(ShaderData);
+	}
+
+	COpenGLShader::COpenGLShader(std::string&& ShaderName, const std::string& VertexShaderSource, const std::string& FragmentShaderSource)
+		: ShaderName(Move(ShaderName))
+	{
+		TMap<EShaderType, std::string> ShaderData;
+		ShaderData[EShaderType::SHT_Vertex] = VertexShaderSource;
+		ShaderData[EShaderType::SHT_Fragment] = FragmentShaderSource;
 		CompileShaders(ShaderData);
 	}
 
 	COpenGLShader::COpenGLShader(const std::string& ShaderFilePath)
 	{
-		TArray<FShaderData> ShaderData = ParseShaderSourceIntoShaderData(ReadShaderSourceFromFile(ShaderFilePath));
+		TMap<EShaderType, std::string> ShaderData = ParseShaderSourceIntoShaderData(ReadShaderSourceFromFile(ShaderFilePath));
+		CompileShaders(ShaderData);
+
+		ShaderName = ExtractShaderNameFromFilePath(ShaderFilePath);
+	}
+
+	COpenGLShader::COpenGLShader(const std::string& ShaderName, const std::string& ShaderFilePath)
+		: ShaderName(ShaderName)
+	{
+		TMap<EShaderType, std::string> ShaderData = ParseShaderSourceIntoShaderData(ReadShaderSourceFromFile(ShaderFilePath));
+		CompileShaders(ShaderData);
+	}
+
+	COpenGLShader::COpenGLShader(std::string&& ShaderName, const std::string& ShaderFilePath)
+		: ShaderName(Move(ShaderName))
+	{
+		TMap<EShaderType, std::string> ShaderData = ParseShaderSourceIntoShaderData(ReadShaderSourceFromFile(ShaderFilePath));
 		CompileShaders(ShaderData);
 	}
 
@@ -76,10 +102,9 @@ namespace AAEngine {
 		return "";
 	}
 
-	// TO DO Replace with HashMap
-	TArray<FShaderData> COpenGLShader::ParseShaderSourceIntoShaderData(const std::string& ShaderSource)
+	TMap<EShaderType, std::string> COpenGLShader::ParseShaderSourceIntoShaderData(const std::string& ShaderSource)
 	{
-		TArray<FShaderData> ShaderDataArray;
+		TMap<EShaderType, std::string> ShaderDataArray;
 		const char* StringMatch = "#aa_shader_type";
 		size_t ShaderTypeLength = strlen(StringMatch);
 
@@ -87,8 +112,7 @@ namespace AAEngine {
 
 		while (TypePos != std::string::npos)
 		{
-			// TO DO: Make this Flexible
-			// TO DO: Make sure there is only one instance of a shader type (Solution: Hash Map)
+			// TO DO: Make this Flexible (parsing shaderTypes)
 			//size_t LinePos = ShaderSource.find_first_of("#aa_shader_type", TypePos);
 			size_t LinePos = ShaderSource.find_first_of("\r\n", TypePos);
 
@@ -96,32 +120,48 @@ namespace AAEngine {
 
 			size_t ShaderNamePos = TypePos + ShaderTypeLength + 1;
 
-			std::string ShaderName = ShaderSource.substr(ShaderNamePos, LinePos - ShaderNamePos);
+			std::string ShaderNameType = ShaderSource.substr(ShaderNamePos, LinePos - ShaderNamePos);
 
-			EShaderType CurrShaderType = AAShaderStringToEnum(ShaderName);
+			EShaderType CurrShaderType = AAShaderStringToEnum(ShaderNameType);
 			AA_CORE_ASSERT(int(CurrShaderType != EShaderType::SHT_None), "Invalid Shader Type specified!");
 
 			size_t NextLinePos = ShaderSource.find_first_not_of("\r\n", LinePos);
 			TypePos = ShaderSource.find(StringMatch, NextLinePos);
+
+			if (CurrShaderType == EShaderType::SHT_None)
+			{
+				AA_CORE_LOG(Error, "Tried parsing Invalid Shader Type. Skipping!");
+				continue;
+			}
+
 			std::string SingleShaderSource = ShaderSource.substr(NextLinePos, TypePos - (NextLinePos == std::string::npos ? ShaderSource.size() - 1 : NextLinePos));
 
-			// TO DO: First allocate then assign. not emplace/push
-			ShaderDataArray.PushBack({ SingleShaderSource, CurrShaderType });
-			AA_CORE_LOG(Info, "%s", SingleShaderSource.c_str());
+			ShaderDataArray[CurrShaderType] = SingleShaderSource;
+			
+			// Shader Source Log
+			// AA_CORE_LOG(Info, "%s", SingleShaderSource.c_str());
 		}
 
 		return ShaderDataArray;
 	}
 
-	void COpenGLShader::CompileShaders(const TArray<FShaderData>& ShaderDataArray)
+	void COpenGLShader::CompileShaders(const TMap<EShaderType, std::string>& ShaderDataArray)
 	{
-		GLenum Program = glCreateProgram();
-		TArray<GLenum> ShaderIDs(ShaderDataArray.Num());
-		for (const FShaderData& ShaderData : ShaderDataArray)
+		if (ShaderDataArray.size() == 0)
 		{
-			uint32_t ShaderCode = glCreateShader(AAShaderEnumToAPIEnum(ShaderData.ShaderType));
+			AA_CORE_LOG(Error, "Compile Error! No Shader Sources present in the Shader Map!");
+			return;
+		}
 
-			const GLchar* Source = ShaderData.ShaderSource.c_str();
+		GLenum Program = glCreateProgram();
+		TStaticArray<GLenum, AA_NUM_SHADER_TYPES> ShaderIDs;
+
+		int CurrShaderNum = 0;
+		for (const auto& ShaderData : ShaderDataArray)
+		{
+			uint32_t ShaderCode = glCreateShader(AAShaderEnumToAPIEnum(ShaderData.first));
+
+			const GLchar* Source = ShaderData.second.c_str();
 			glShaderSource(ShaderCode, 1, &Source, 0);
 
 			glCompileShader(ShaderCode);
@@ -141,31 +181,30 @@ namespace AAEngine {
 				glDeleteShader(ShaderCode);
 
 				AA_CORE_LOG(Error, "Shader Info: %s", Message.Data());
-				AA_CORE_ASSERT(false, AAShaderEnumToString(ShaderData.ShaderType).append("Shader Compilation Error!").c_str());
+				AA_CORE_ASSERT(false, AAShaderEnumToString(ShaderData.first).append("Shader Compilation Error!").c_str());
 				break;
 			}
 			glAttachShader(Program, ShaderCode);
-			ShaderIDs.PushBack(ShaderCode);
+			ShaderIDs[CurrShaderNum] = ShaderCode;
+			CurrShaderNum++;
 		}
 
-		// PROGRAM CREATION AND LINKING
-		ShaderProgram = Program;
+		// PROGRAM LINKING
+		glLinkProgram(Program);
 
-		glLinkProgram(ShaderProgram);
-
-		GLint ShaderLinkStatus;
-		glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &ShaderLinkStatus);
+		GLint ShaderLinkStatus = 0;
+		glGetProgramiv(Program, GL_LINK_STATUS, &ShaderLinkStatus);
 
 		if (ShaderLinkStatus == GL_FALSE)
 		{
 			GLint MaxLength = 0;
-			glGetProgramiv(ShaderProgram, GL_INFO_LOG_LENGTH, &MaxLength);
+			glGetProgramiv(Program, GL_INFO_LOG_LENGTH, &MaxLength);
 
 			TArray<GLchar> Message(MaxLength);
 
-			glGetProgramInfoLog(ShaderProgram, MaxLength * sizeof(GLchar), &MaxLength, &Message[0]);
+			glGetProgramInfoLog(Program, MaxLength * sizeof(GLchar), &MaxLength, &Message[0]);
 
-			glDeleteProgram(ShaderProgram);
+			glDeleteProgram(Program);
 
 			for (GLenum Code : ShaderIDs)
 			{
@@ -176,6 +215,8 @@ namespace AAEngine {
 			AA_CORE_ASSERT(false, "Shader Linking Error!");
 			return;
 		}
+
+		ShaderProgram = Program;
 
 		for (GLenum Code : ShaderIDs)
 		{

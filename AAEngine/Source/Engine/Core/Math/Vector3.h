@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 #include "Core/Core.h"
 #include "Core/Math/Math.h"
@@ -133,23 +132,23 @@ namespace AAEngine {
 				return *this;
 			}
 
-			FORCEINLINE constexpr TVector3<T> operator/(const TVector3<T>& Vec) const
+			FORCEINLINE constexpr TVector3<T> operator/(const TVector3<T>& Vec) const noexcept
 			{
 				return TVector3<T>(X / Vec.X, Y / Vec.Y, Z / Vec.Z);
 			}
 
-			FORCEINLINE constexpr TVector3<T> operator/(T Value) const
+			FORCEINLINE constexpr TVector3<T> operator/(T Value) const noexcept
 			{
 				return TVector3<T>(X / Value, Y / Value, Z / Value);
 			}
 
-			FORCEINLINE constexpr TVector3<T>& operator/=(const TVector3<T>& Vec)
+			FORCEINLINE constexpr TVector3<T>& operator/=(const TVector3<T>& Vec) noexcept
 			{
 				X /= Vec.X; Y /= Vec.Y; Z /= Vec.Z;
 				return *this;
 			}
 
-			FORCEINLINE constexpr TVector3<T>& operator/=(T Value)
+			FORCEINLINE constexpr TVector3<T>& operator/=(T Value) noexcept
 			{
 				X /= Value; Y /= Value; Z /= Value;
 				return *this;
@@ -235,7 +234,7 @@ namespace AAEngine {
 
 			FORCEINLINE constexpr bool IsNearlyZero(T Tolerance = AA_SMALL_NUMBER) const noexcept
 			{
-				return FMath::Abs(X) < Tolerance && FMath::Abs(Y) < Tolerance && FMath::Abs(Z) < Tolerance
+				return FMath::Abs(X) < Tolerance && FMath::Abs(Y) < Tolerance && FMath::Abs(Z) < Tolerance;
 			}
 
 			FORCEINLINE constexpr bool IsNormalized(T Tolerance = AA_SMALL_NUMBER) const noexcept

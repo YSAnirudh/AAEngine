@@ -60,7 +60,7 @@ namespace AAEngine {
 		* 
 		* @returns A Platform indepentent Vertex Array
 		*/
-		static IVertexArray* Create();
+		static TSharedPtr<IVertexArray> Create();
 	protected:
 		/*
 		* Pointer to the Index Buffer linked to the vertex Array

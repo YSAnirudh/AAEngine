@@ -2,6 +2,8 @@
 
 namespace AAEngine {
 
+#define AA_NUM_SHADER_TYPES 2
+
 	/*
 	* Enum indicating the Shader Types currently supported by AA Engine
 	*/
@@ -10,21 +12,6 @@ namespace AAEngine {
 		SHT_None,
 		SHT_Vertex,
 		SHT_Fragment,
-	};
-
-	/*
-	* Struct of data containing the Source code for the Shader along with it's type.
-	* 
-	* There can be only one shader type per IShader object
-	*/
-	struct FShaderData
-	{
-		FShaderData(const std::string& ShaderSrc, EShaderType ShType)
-			: ShaderSource(ShaderSrc), ShaderType(ShType) {}
-		FShaderData(EShaderType ShType, const std::string& ShaderSrc)
-			: ShaderSource(ShaderSrc), ShaderType(ShType) {}
-		std::string ShaderSource;
-		EShaderType ShaderType;
 	};
 
 	/*
@@ -49,19 +36,49 @@ namespace AAEngine {
 		virtual void UnBind() = 0;
 
 		/*
+		* Pure virtual GetName function to get the name of the Shader.
+		* 
+		* @returns Name of the Shader.
+		*/
+		virtual std::string GetName() = 0;
+
+		/*
 		* Static create method as create method doesn't vary based on instances.
 		*
+		* @param ShaderName - Name of the Shader
 		* @param VertexShaderSource - std::string of the Vertex Shader Code.
 		* @param FragmentShaderSource - std::string of the Fragment Shader Code.
+		* 
+		* @returns Pointer Ref to the Shader that was created
 		*/
-		static IShader* Create(const std::string& VertexShaderSource, const std::string& FragmentShaderSource);
+		static TSharedPtr<IShader> Create(const std::string& ShaderName, const std::string& VertexShaderSource, const std::string& FragmentShaderSource);
 		/*
 		* Static create method as create method doesn't vary based on instances.
 		*
 		* @param ShaderFilePath - Path to the shader file
+		* 
+		* @returns Pointer Ref to the Shader that was created
 		*/
-		static IShader* Create(const std::string& ShaderFilePath);
+		static TSharedPtr<IShader> Create(const std::string& ShaderFilePath);
+		/*
+		* Static create method as create method doesn't vary based on instances.
+		*
+		* @param ShaderName - Name of the Shader
+		* @param ShaderFilePath - Path to the shader file
+		*
+		* @returns Pointer Ref to the Shader that was created
+		*/
+		static TSharedPtr<IShader> Create(const std::string& ShaderName, const std::string& ShaderFilePath);
+		static TSharedPtr<IShader> Create(std::string&& ShaderName, const std::string& ShaderFilePath);
 
+
+		static std::string ExtractShaderNameFromFilePath(const std::string& ShaderFilePath)
+		{
+			auto LastSlash = ShaderFilePath.find_last_of("/\\");
+			LastSlash = LastSlash == std::string::npos ? 0 : LastSlash + 1;
+			auto DotAfterSlash = ShaderFilePath.rfind('.');
+			return ShaderFilePath.substr(LastSlash, (DotAfterSlash == std::string::npos ? ShaderFilePath.size() : DotAfterSlash) - LastSlash);
+		}
 	protected:
 
 		/*
@@ -114,6 +131,80 @@ namespace AAEngine {
 		* @returns The unsigned int for the API specific shader enum (Ex: OpenGL - GL_VERTEX_SHADER)
 		*/
 		FORCEINLINE virtual unsigned int AAShaderEnumToAPIEnum(EShaderType ShaderType) = 0;
+	};
+
+	/*
+	* Platform and API independent Shader Library Class that stores all the Shaders for AA Engine.
+	*/
+	class CShaderLibrary
+	{
+	public:
+
+		/*
+		* Function to add a shader to the Shader Library.
+		* 
+		* @param ShaderName - Name of the Shader to add to the Library.
+		* @param NewShader - Shader Ref to add to the Library.
+		*/
+		void AddShader(const std::string& ShaderName, const TSharedPtr<IShader>& NewShader);
+		/*
+		* Function to add a shader to the Shader Library.
+		*
+		* @param NewShader - Shader Ref to add to the Library.
+		*/
+		void AddShader(const TSharedPtr<IShader>& NewShader);
+
+		/*
+		* Function to load a shader into the Shader Library based on Vertex and Fragment Source code as String.
+		*
+		* @param ShaderName - Name of the Shader to add to the Library.
+		* @param VertexShaderSource - std::string of the Vertex Shader Code.
+		* @param FragmentShaderSource - std::string of the Fragment Shader Code.
+		* 
+		* @returns Shader Ref to the Loaded shader.
+		*/
+		TSharedPtr<IShader> LoadShader(const std::string& ShaderName, const std::string& VertexSource, const std::string& FragmentSource);
+		/*
+		* Function to load a shader into the Shader Library based on FilePath.
+		*
+		* @param ShaderName - Name of the Shader to add to the Library.
+		* @param FilePath - std::string of the Path to the Shader.
+		*
+		* @returns Shader Ref to the Loaded shader.
+		*/
+		TSharedPtr<IShader> LoadShader(const std::string& ShaderName, const std::string& FilePath);
+		/*
+		* Function to load a shader into the Shader Library based on FilePath, Shader Name will be file name.
+		*
+		* @param FilePath - std::string of the Path to the Shader.
+		*
+		* @returns Shader Ref to the Loaded shader.
+		*/
+		TSharedPtr<IShader> LoadShader(const std::string& FilePath);
+
+		/*
+		* Function to get a Shader from the Shader Library by Shader Name
+		*
+		* @param ShaderName - Name of the Shader to get from the Library.
+		*
+		* @returns Shader Ref to the Loaded shader.
+		*/
+		TSharedPtr<IShader> GetShader(const std::string& ShaderName);
+		
+		/*
+		* Function to get a Shader from the Shader Library by Shader Name
+		*
+		* @param ShaderName - Name of the Shader to check in the Library.
+		*
+		* @returns true if Shader with Name exists false otherwise 
+		*/
+		bool Exists(const std::string& ShaderName);
+
+	private:
+		/*
+		* Hash Map like structure to store Shaders based on their names.
+		*/
+		TMap<std::string, TSharedPtr<IShader>> ShaderLibrary;
 	};
 
 

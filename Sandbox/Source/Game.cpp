@@ -17,7 +17,7 @@ public:
 
 	virtual void OnEvent(AAEngine::CEvent& Event) override
 	{
-		//AA_LOG(Info, "Event: %s", Event.ToString().c_str());
+		// AA_LOG(Info, "Event: %s", Event.ToString().c_str());
 	}
 };
 

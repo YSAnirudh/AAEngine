@@ -20,6 +20,10 @@ namespace AAEngine {
 		};
 	public:
 		/*
+		* Pure Virtual Init method to initialize the renderer
+		*/
+		virtual void Init() = 0;
+		/*
 		* Pure Virtual Clear method to clear Buffers before starting a frame
 		*/
 		virtual void Clear() = 0;

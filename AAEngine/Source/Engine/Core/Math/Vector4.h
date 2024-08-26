@@ -151,23 +151,23 @@ namespace Math {
 			return *this;
 		}
 
-		FORCEINLINE constexpr TVector4<T> operator/(const TVector4<T>& Vec) const
+		FORCEINLINE constexpr TVector4<T> operator/(const TVector4<T>& Vec) const noexcept
 		{
 			return TVector4<T>(X / Vec.X, Y / Vec.Y, Z / Vec.Z, W / Vec.W);
 		}
 
-		FORCEINLINE constexpr TVector4<T> operator/(T Value) const
+		FORCEINLINE constexpr TVector4<T> operator/(T Value) const noexcept
 		{
 			return TVector4<T>(X / Value, Y / Value, Z / Value, W / Value);
 		}
 
-		FORCEINLINE constexpr TVector4<T>& operator/=(const TVector4<T>& Vec)
+		FORCEINLINE constexpr TVector4<T>& operator/=(const TVector4<T>& Vec) noexcept
 		{
 			X /= Vec.X; Y /= Vec.Y; Z /= Vec.Z; W /= Vec.W;
 			return *this;
 		}
 
-		FORCEINLINE constexpr TVector4<T>& operator/=(T Value)
+		FORCEINLINE constexpr TVector4<T>& operator/=(T Value) noexcept
 		{
 			X /= Value; Y /= Value; Z /= Value; W /= Value;
 			return *this;
@@ -241,7 +241,7 @@ namespace Math {
 
 		FORCEINLINE constexpr bool IsNearlyZero(T Tolerance = AA_SMALL_NUMBER) const noexcept
 		{
-			return FMath::Abs(X) < Tolerance && FMath::Abs(Y) < Tolerance && FMath::Abs(Z) < Tolerance && FMath::Abs(W) < Tolerance
+			return FMath::Abs(X) < Tolerance && FMath::Abs(Y) < Tolerance && FMath::Abs(Z) < Tolerance && FMath::Abs(W) < Tolerance;
 		}
 
 		FORCEINLINE constexpr bool IsNormalized(T Tolerance = AA_SMALL_NUMBER) const noexcept

@@ -14,6 +14,14 @@ namespace AAEngine {
 	{
 	public:
 		/*
+		* Initialization of Renderer
+		*/
+		static void Init()
+		{
+			CRenderCommand::Init();
+		}
+
+		/*
 		* Before we begin a scene render
 		*/
 		static void BeginScene(CCamera& Camera)
@@ -21,7 +29,7 @@ namespace AAEngine {
 			SceneData->ViewProjectionMatrix = Camera.GetCameraViewProjectionMatrix();
 		}
 		/*
-		* After we begin a scene render
+		* After we end a scene render
 		*/
 		static void EndScene() {}
 

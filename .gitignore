@@ -4,6 +4,12 @@
 Binaries/
 Intermediate/
 
+.vs/
+
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
 # Prerequisites
 *.d
 

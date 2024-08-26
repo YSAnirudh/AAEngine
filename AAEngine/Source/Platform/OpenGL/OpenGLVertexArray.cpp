@@ -43,7 +43,7 @@ namespace AAEngine {
 				GL_FLOAT,
 				Elem.bShouldNormalize ? GL_TRUE : GL_FALSE,
 				Layout.GetStride(),
-				(const void*)Elem.Offset
+				reinterpret_cast<const void*>(Elem.Offset)
 			);
 		}
 

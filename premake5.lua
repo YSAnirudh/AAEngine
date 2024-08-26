@@ -12,6 +12,7 @@ includeDirs = {}
 includeDirs["GLFW"] = "AAEngine/ThirdParty/GLFW/include"
 includeDirs["GLAD"] = "AAEngine/ThirdParty/GLAD/include"
 includeDirs["ImGui"] = "AAEngine/ThirdParty/ImGui"
+includeDirs["stb"] = "AAEngine/ThirdParty/stb"
 -- TEMPORARY FOR TESTING
 includeDirs["glm"] = "AAEngine/ThirdParty/glm"
 
@@ -38,7 +39,9 @@ project "AAEngine"
 	files 
 	{ 
 		"%{prj.name}/Source/**.h",
-		"%{prj.name}/Source/**.cpp"
+		"%{prj.name}/Source/**.cpp",
+		"%{prj.name}/ThirdParty/stb/**.cpp",
+		"%{prj.name}/ThirdParty/stb/**.h"
 	}
 
 	includedirs 
@@ -50,6 +53,8 @@ project "AAEngine"
 		"%{includeDirs.GLFW}",
 		"%{includeDirs.GLAD}",
 		"%{includeDirs.ImGui}",
+		"%{includeDirs.stb}",
+		-- TEMP IMCLUDES
 		"%{includeDirs.glm}",
 	}
 

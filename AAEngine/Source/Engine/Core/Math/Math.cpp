@@ -1,5 +1,6 @@
 #include "AA_PreCompiledHeaders.h"
 
+#include "Math/Vector2.h"
 #include "Math/Vector3.h"
 #include "Math/Vector4.h"
 #include "Math/Matrix44.h"
@@ -21,6 +22,13 @@ const FVector3d FVector3d::OneVector(1.0);
 // Float Vector3 Static Consts
 const FVector3f FVector3f::ZeroVector(0.0f);
 const FVector3f FVector3f::OneVector(1.0f);
+
+// Double Vector3 Static Consts
+const FVector2d FVector2d::ZeroVector(0.0);
+const FVector2d FVector2d::OneVector(1.0);
+// Float Vector3 Static Consts
+const FVector2f FVector2f::ZeroVector(0.0f);
+const FVector2f FVector2f::OneVector(1.0f);
 
 // Double Matrix44 Static Consts
 const FMatrix44d FMatrix44d::ZeroMatrix(0.0);

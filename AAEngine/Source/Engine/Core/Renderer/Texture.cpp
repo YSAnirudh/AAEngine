@@ -1,21 +1,23 @@
 #include "AA_PreCompiledHeaders.h"
-#include "VertexArray.h"
-#include "RendererAPI.h"
+#include "Texture.h"
 
-#include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Renderer/Renderer.h"
+
+#include "Platform/OpenGL/OpenGLTexture.h"
 
 namespace AAEngine {
-	TSharedPtr<IVertexArray> IVertexArray::Create()
-    {
+	
+	TSharedPtr<ITexture2D> ITexture2D::Create(const std::string& FilePath)
+	{
 		switch (IRendererAPI::GetAPI())
 		{
 		case IRendererAPI::EAPI::None:
 			AA_CORE_ASSERT(false, "None API Specified!");
 			return nullptr;
 		case IRendererAPI::EAPI::OpenGL:
-			return MakeShared<COpenGLVertexArray>();
+			return MakeShared<COpenGLTexture2D>(FilePath);
 		}
 		AA_CORE_ASSERT(false, "Unknown API Specified!");
 		return nullptr;
-    }
+	}
 }

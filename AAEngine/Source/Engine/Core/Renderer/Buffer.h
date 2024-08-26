@@ -263,7 +263,7 @@ namespace AAEngine {
 		* 
 		* @returns A Platform indepentent Vertex Buffer
 		*/
-		static IVertexBuffer* Create(float* Vertices, uint32_t Count, uint32_t EnumUsage);
+		static TSharedPtr<IVertexBuffer> Create(float* Vertices, uint32_t Count, uint32_t EnumUsage);
 	private:
 		/*
 		* Layout of the Vertex Buffer
@@ -308,6 +308,6 @@ namespace AAEngine {
 		* 
 		* @returns A Platform indepentent Index Buffer
 		*/
-		static IIndexBuffer* Create(uint32_t* Indices, uint32_t Count, uint32_t EnumUsage);
+		static TSharedPtr<IIndexBuffer> Create(uint32_t* Indices, uint32_t Count, uint32_t EnumUsage);
 	};
 }

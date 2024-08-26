@@ -13,16 +13,28 @@ namespace AAEngine {
 		/*
 		* Contructor that takes in Vertex Shader code and Fragment Shader code as String.
 		* 
+		* @param ShaderName - Name of the Shader
 		* @param VertexShaderSource - Vertex Shader Code
 		* @param FragmentShaderSource - Fragment Shader Code
 		*/
-		COpenGLShader(const std::string& VertexShaderSource, const std::string& FragmentShaderSource);
+		COpenGLShader(const std::string& ShaderName, const std::string& VertexShaderSource, const std::string& FragmentShaderSource);
+		COpenGLShader(std::string&& ShaderName, const std::string& VertexShaderSource, const std::string& FragmentShaderSource);
+		
 		/*
 		* Contructor that takes in Vertex Shader code and Fragment Shader code as String.
 		*
 		* @param ShaderFilePath - Path to the shader file
 		*/
 		COpenGLShader(const std::string& ShaderFilePath);
+
+		/*
+		* Contructor that takes in Vertex Shader code and Fragment Shader code as String.
+		*
+		* @param ShaderName - Name of the Shader
+		* @param ShaderFilePath - Path to the shader file
+		*/
+		COpenGLShader(const std::string& ShaderName, const std::string& ShaderFilePath);
+		COpenGLShader(std::string&& ShaderName, const std::string& ShaderFilePath);
 		
 		/*
 		* Virtual Destructor as we know we will have derived classes
@@ -38,6 +50,16 @@ namespace AAEngine {
 		* Overriden virtual UnBind function to UnBind the shader from the program.
 		*/
 		virtual void UnBind() override;
+
+		/*
+		* Overriden virtual GetName function to get the name of the Shader.
+		*
+		* @returns Name of the Shader.
+		*/
+		virtual std::string GetName() override
+		{
+			return ShaderName;
+		}
 
 
 		/*
@@ -64,11 +86,11 @@ namespace AAEngine {
 		*
 		* @param ShaderSource - Contents of the Shader file.
 		* 
-		* @returns Array of Shader Data (Type of Shader, Shader Source).
+		* @returns Map of Shader Data (Type of Shader, Shader Source).
 		* 
 		* TO DO: Replace Array of shader data with HashMap
 		*/
-		TArray<FShaderData> ParseShaderSourceIntoShaderData(const std::string& ShaderSource);
+		TMap<EShaderType, std::string> ParseShaderSourceIntoShaderData(const std::string& ShaderSource);
 		/*
 		* Function to compile the Shaders in the ShaderData Array.
 		*
@@ -76,7 +98,7 @@ namespace AAEngine {
 		*
 		* TO DO: Replace Array of shader data with HashMap
 		*/
-		void CompileShaders(const TArray<FShaderData>& ShaderDataArray);
+		void CompileShaders(const TMap<EShaderType, std::string>& ShaderDataArray);
 
 		/*
 		* Shader Enum to OpenGL enum function
@@ -88,10 +110,15 @@ namespace AAEngine {
 		FORCEINLINE virtual unsigned int AAShaderEnumToAPIEnum(EShaderType ShaderType) override;
 		
 
+
 	private:
 		/*
 		* Shader Program for OpenGL
 		*/
 		uint32_t ShaderProgram{ 0 };
+		/*
+		* Name of the Shader
+		*/
+		std::string ShaderName;
 	};
 }

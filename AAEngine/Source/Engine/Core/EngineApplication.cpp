@@ -13,6 +13,9 @@
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
+// Temp
+#include <GLFW/glfw3.h>
+
 namespace AAEngine {
 
 	CEngineApplication* CEngineApplication::EngineApplicationInstance = nullptr;
@@ -25,6 +28,8 @@ namespace AAEngine {
 
 		ApplicationWindow = TUniquePtr<IWindow>(IWindow::Create());
 		ApplicationWindow->SetEventCallbackFunction(BIND_EVENT_FUNCTION(this, &CEngineApplication::HandleEvent));
+
+		CRenderer::Init();
 
 		ImGuiLayer = new CImGuiLayer();
 		PushOverlay(ImGuiLayer);
@@ -79,29 +84,31 @@ namespace AAEngine {
 			
 		)";
 
-		TSharedPtr<IShader> Shader;//akeUnique<IShader>(IShader::Create(VertexSource, FragmentSource));
-		Shader.reset(IShader::Create(VertexSource, FragmentSource));
+		std::string FilePath = "../AAEngine/Source/Engine/Shaders/TestGLShader.glsl";
+		//TSharedPtr<IShader> Shader = IShader::Create("Helol", VertexSource, FragmentSource);
+		TSharedPtr<IShader> Shader = IShader::Create(FilePath);
+		
+		//Shader.reset(IShader::Create(VertexSource, FragmentSource));
 		//Shader.reset(IShader::Create("../AAEngine/Source/Engine/Shaders/TestGLShader.glsl"));
 
 		float Positions[3 * 8] = {
-			-5.0f,	-5.0f, -5.0f,
-			-5.0f,	5.0f , -5.0f,
-			5.0f ,	5.0f , -5.0f,
-			5.0f ,	-5.0f, -5.0f,
-			-5.0f,	-5.0f, 5.0f,
-			-5.0f,	5.0f , 5.0f,
-			5.0f ,	5.0f , 5.0f,
-			5.0f ,	-5.0f, 5.0f
+			-1.0f,	-1.0f, -1.0f,// 0.0f,	0.0f, 0.0f,
+			-1.0f,	1.0f , -1.0f,// 0.0f,	0.0f, 0.0f,
+			1.0f ,	1.0f , -1.0f,// 0.0f,	0.0f, 0.0f,
+			1.0f ,	-1.0f, -1.0f,// 0.0f,	0.0f, 0.0f,
+			-1.0f,	-1.0f, 1.0f, //0.0f,	0.0f, 0.0f,
+			-1.0f,	1.0f , 1.0f, //0.0f,	0.0f, 0.0f,
+			1.0f ,	1.0f , 1.0f, //0.0f,	0.0f, 0.0f,
+			1.0f ,	-1.0f, 1.0f //0.0f,	0.0f, 0.0f
 		};
 
-		TSharedPtr<IVertexArray> VertexArray;
-		VertexArray.reset(IVertexArray::Create());
+		TSharedPtr<IVertexArray> VertexArray = IVertexArray::Create();
 
-		TSharedPtr<IVertexBuffer> VertexBuffer;// = MakeShared(IVertexBuffer::Create(Positions, 9, 0));
-		VertexBuffer.reset(IVertexBuffer::Create(Positions, 3 * 8, 0));
+		TSharedPtr<IVertexBuffer> VertexBuffer = IVertexBuffer::Create(Positions, 3 * 8, 0);
 
 		CVertexBufferLayout Layout = {
 			{ EShaderVarType::Float3, "Position" }
+			//{ EShaderVarType::Float3, "Normal" }
 		};
 
 		VertexBuffer->SetLayout(Layout);
@@ -121,8 +128,7 @@ namespace AAEngine {
 			5, 6, 7,
 			7, 4, 5
 		};
-		TSharedPtr<IIndexBuffer> IndexBuffer;
-		IndexBuffer.reset(IIndexBuffer::Create(Indices, 3 * 12, 0));
+		TSharedPtr<IIndexBuffer> IndexBuffer = IIndexBuffer::Create(Indices, 3 * 12, 0);
 
 		VertexArray->SetIndexBuffer(IndexBuffer);
 
@@ -130,8 +136,12 @@ namespace AAEngine {
 		
 		FVector3f CurrentCamPos(0.0f, 0.0f, -1.f);
 		FEulerf CurrentCameraRotation(0.0f);
-		FVector3f Position(0.0f, 0.0f, 7.0f);
+		FVector3f Position(0.0f, 0.0f, 10.f);
 		FEulerf Rotation(0.0f);
+		FVector2f CurrMousePos(CInput::GetMouseX(), CInput::GetMouseY());
+		//FVector2f CurrMousePos
+		float MouseSensitivity = 1.0f;
+		
 		while(bIsApplicationRunning)
 		{
 			/*
@@ -148,56 +158,54 @@ namespace AAEngine {
 			float CameraMoveSpeed = 10.0f * DeltaTime;
 			float CameraTurnSpeed = 45.0f * DeltaTime;
 
+			FVector2f MouseDelta = CurrMousePos - FVector2f(CInput::GetMouseX(), CInput::GetMouseY());
+			CurrMousePos = FVector2f(CInput::GetMouseX(), CInput::GetMouseY());
+			//AA_CORE_LOG(Trace, "CurrMousePos: x: %f, y: %f", CurrMousePos.X, CurrMousePos.Y);
+			//AA_CORE_LOG(Trace, "Mouse Delta: x: %f, y: %f", MouseDelta.X, MouseDelta.Y);
 
 			bool bIsMouseRightPressed = CInput::IsMouseButtonPressed(FMouse::ButtonRight);
-			if (CInput::IsKeyPressed(FKey::W))
+
+			if (bIsMouseRightPressed)
 			{
-				if (bIsMouseRightPressed)
-					CurrentCameraRotation.Pitch += CameraTurnSpeed;
-				else
+				glfwSetInputMode((GLFWwindow*)ApplicationWindow->GetNativeWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+				CurrentCameraRotation.Pitch += CameraTurnSpeed * MouseDelta.Y * 0.25f * MouseSensitivity;
+				CurrentCameraRotation.Yaw += CameraTurnSpeed * MouseDelta.X * 0.25f * MouseSensitivity;
+
+				if (CInput::IsKeyPressed(FKey::W))
+				{
 					CurrentCamPos.Z += CameraMoveSpeed;
-			}
-			else if (CInput::IsKeyPressed(FKey::S))
-			{
-				if (bIsMouseRightPressed)
-					CurrentCameraRotation.Pitch -= CameraTurnSpeed;
-				else
+				}
+				else if (CInput::IsKeyPressed(FKey::S))
+				{
 					CurrentCamPos.Z += -CameraMoveSpeed;
-			}
-			else if (CInput::IsKeyPressed(FKey::E))
-			{
-				if (bIsMouseRightPressed)
-					CurrentCameraRotation.Roll += CameraTurnSpeed;
-				else
+				}
+				else if (CInput::IsKeyPressed(FKey::E))
+				{
 					CurrentCamPos.Y += CameraMoveSpeed;
-			}
-			else if (CInput::IsKeyPressed(FKey::Q))
-			{
-				if (bIsMouseRightPressed)
-					CurrentCameraRotation.Roll -= CameraTurnSpeed;
-				else
+				}
+				else if (CInput::IsKeyPressed(FKey::Q))
+				{
 					CurrentCamPos.Y += -CameraMoveSpeed;
-			}
-			else if (CInput::IsKeyPressed(FKey::D))
-			{
-				if (bIsMouseRightPressed)
-					CurrentCameraRotation.Yaw += CameraTurnSpeed;
-				else
+				}
+				else if (CInput::IsKeyPressed(FKey::D))
+				{
 					CurrentCamPos.X += CameraMoveSpeed;
-			}
-			else if (CInput::IsKeyPressed(FKey::A))
-			{
-				if (bIsMouseRightPressed)
-					CurrentCameraRotation.Yaw -= CameraTurnSpeed;
-				else
+				}
+				else if (CInput::IsKeyPressed(FKey::A))
+				{
 					CurrentCamPos.X += -CameraMoveSpeed;
+				}
+			}
+			else
+			{
+				glfwSetInputMode((GLFWwindow*)ApplicationWindow->GetNativeWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			}
 
 			Camera->SetCameraLocation(CurrentCamPos);
 			Camera->SetCameraRotation(CurrentCameraRotation);
 			
 
-			FMatrix44f Transform = FMatrix44f::MakeFromRotationXYZ(Rotation) * FMatrix44f::MakeFromLocation(Position);
+			FMatrix44f Transform = FMatrix44f::IdentityMatrix; // FMatrix44f::MakeFromRotationXYZ(Rotation) * FMatrix44f::MakeFromLocation(Position);
 			
 			CRenderer::BeginScene(*Camera);
 
@@ -219,6 +227,7 @@ namespace AAEngine {
 
 			ApplicationWindow->Tick();
 		}
+		AA_CORE_LOG(Warning, "Application Closed!");
 #endif
 
 	}

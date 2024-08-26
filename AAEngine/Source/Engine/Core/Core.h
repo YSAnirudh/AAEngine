@@ -72,7 +72,7 @@
 #endif
 
 #ifdef AA_DEBUG
-	#define AA_ENABLE_ASSERTS 1
+	#define AA_ENABLE_ASSERTS 0
 #endif
 
 #ifndef AA_TESTER_FILE
