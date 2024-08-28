@@ -168,32 +168,32 @@ namespace AAEngine {
 			if (bIsMouseRightPressed)
 			{
 				glfwSetInputMode((GLFWwindow*)ApplicationWindow->GetNativeWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-				CurrentCameraRotation.Pitch += CameraTurnSpeed * MouseDelta.Y * 0.25f * MouseSensitivity;
+				CurrentCameraRotation.Pitch -= CameraTurnSpeed * MouseDelta.Y * 0.25f * MouseSensitivity;
 				CurrentCameraRotation.Yaw += CameraTurnSpeed * MouseDelta.X * 0.25f * MouseSensitivity;
 
 				if (CInput::IsKeyPressed(FKey::W))
 				{
-					CurrentCamPos.Z += CameraMoveSpeed;
+					CurrentCamPos.Z -= CameraMoveSpeed;
 				}
 				else if (CInput::IsKeyPressed(FKey::S))
 				{
-					CurrentCamPos.Z += -CameraMoveSpeed;
+					CurrentCamPos.Z += CameraMoveSpeed;
 				}
 				else if (CInput::IsKeyPressed(FKey::E))
 				{
-					CurrentCamPos.Y += CameraMoveSpeed;
+					CurrentCamPos.Y -= CameraMoveSpeed;
 				}
 				else if (CInput::IsKeyPressed(FKey::Q))
 				{
-					CurrentCamPos.Y += -CameraMoveSpeed;
+					CurrentCamPos.Y += CameraMoveSpeed;
 				}
 				else if (CInput::IsKeyPressed(FKey::D))
 				{
-					CurrentCamPos.X += CameraMoveSpeed;
+					CurrentCamPos.X -= CameraMoveSpeed;
 				}
 				else if (CInput::IsKeyPressed(FKey::A))
 				{
-					CurrentCamPos.X += -CameraMoveSpeed;
+					CurrentCamPos.X += CameraMoveSpeed;
 				}
 			}
 			else
@@ -204,11 +204,9 @@ namespace AAEngine {
 			Camera->SetCameraLocation(CurrentCamPos);
 			Camera->SetCameraRotation(CurrentCameraRotation);
 			
-
-			FMatrix44f Transform = FMatrix44f::IdentityMatrix; // FMatrix44f::MakeFromRotationXYZ(Rotation) * FMatrix44f::MakeFromLocation(Position);
-			
+			FMatrix44f Transform = FMatrix44f::MakeFromLocation(FVector3f(0.0f, 0.0f, 5.0f)); // FMatrix44f::MakeFromRotationXYZ(Rotation) * FMatrix44f::MakeFromLocation(Position);
 			CRenderer::BeginScene(*Camera);
-
+			
 			CRenderer::Submit(Shader, VertexArray, Transform);
 
 			CRenderer::EndScene();

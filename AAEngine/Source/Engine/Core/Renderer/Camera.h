@@ -1,5 +1,7 @@
 #pragma once
-
+#define GLM_FORCE_LEFT_HANDED
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/geometric.hpp>
 
 namespace AAEngine {
 
@@ -30,8 +32,11 @@ namespace AAEngine {
 	protected:
 		virtual void CalculateViewMatrix()
 		{
-			ViewMatrix = FMatrix44f::MakeFromLocation(Location) * FMatrix44f::MakeFromRotationXYZ(Rotation);
+			FVector3f LookAtVector = Location + Rotation.ToVector();
+
+			ViewMatrix = FMatrix44f::LookAt(Location, LookAtVector, FVector3f(0.0f, 1.0f, 0.0f));
 			ViewMatrix.InverseFast();
+
 			ViewProjectionMatrix = ViewMatrix * ProjectionMatrix;
 		}
 

@@ -102,6 +102,17 @@ namespace Math {
 			Roll /= Value; Pitch /= Value; Yaw /= Value;
 			return *this;
 		}
+
+		FORCEINLINE constexpr TVector3<T> ToVector() const
+		{
+			TVector3<T> Vector = TVector3<T>::ZeroVector;
+
+			Vector.Z = FMath::Cos(FMath::DegToRad(Yaw)) * FMath::Cos(FMath::DegToRad(Pitch));
+			Vector.X = FMath::Sin(FMath::DegToRad(Yaw)) * FMath::Cos(FMath::DegToRad(Pitch));
+			Vector.Y = FMath::Sin(FMath::DegToRad(Pitch));
+
+			return Vector;
+		}
 	};
 }
 }

@@ -205,13 +205,13 @@ namespace AAEngine {
 				return Dot(Vec);
 			}
 
-			FORCEINLINE constexpr TVector3<T> Cross(const TVector3<T> Vec) noexcept
+			FORCEINLINE constexpr TVector3<T> Cross(const TVector3<T>& Vec) const noexcept
 			{
 				return TVector3<T>
 					(
 						Y * Vec.Z - Z * Vec.Y,
 						-(X * Vec.Z - Z * Vec.X),
-						Y * Vec.X - X * Vec.Y
+						X * Vec.Y - Y * Vec.X
 					);
 			}
 
@@ -318,28 +318,28 @@ namespace AAEngine {
 				SS << "X: " << X << ", Y: " << Y << ", Z: " << Z;
 				return SS.str();
 			}
+
+			template<typename T>
+			FORCEINLINE static constexpr T DotProduct(const TVector3<T>& Vec1, const TVector3<T>& Vec2) noexcept
+			{
+				return Vec1 | Vec2;
+			}
+
+			template<typename T>
+			FORCEINLINE static constexpr TVector3<T> CrossProduct(const TVector3<T>& Vec1, const TVector3<T>& Vec2) noexcept
+			{
+				return Vec1 ^ Vec2;
+			}
+
+			template<typename T>
+			FORCEINLINE static constexpr T Distance(const TVector3<T>& Vec1, const TVector3<T>& Vec2) noexcept
+			{
+				return (Vec1 - Vec2).Size();
+			}
 		};
 
 		template<typename T>
-		FORCEINLINE constexpr T DotProduct(const TVector3<T>& Vec1, const TVector3<T>& Vec2) noexcept
-		{
-			return Vec1 | Vec2;
-		}
-
-		template<typename T>
-		FORCEINLINE constexpr TVector3<T> CrossProduct(const TVector3<T>& Vec1, const TVector3<T>& Vec2) noexcept
-		{
-			return Vec1 ^ Vec2;
-		}
-
-		template<typename T>
-		FORCEINLINE constexpr T Distance(const TVector3<T>& Vec1, const TVector3<T>& Vec2) noexcept
-		{
-			return (Vec1 - Vec2).Size();
-		}
-
-		template<typename T>
-		FORCEINLINE constexpr TVector3<T> operator*(T Val, const TVector3<T>& Vec) noexcept
+		FORCEINLINE static constexpr TVector3<T> operator*(T Val, const TVector3<T>& Vec) noexcept
 		{
 			return Vec * Val;
 		}

@@ -342,9 +342,29 @@ namespace Math {
 		*			- Roll = X (Forward)
 		*/
 
-		FORCEINLINE constexpr static TMatrix44 LookAt(const TVector3<T>& Forward, const TVector3<T>& Up, const TVector3<T>& LookingAt)
+		FORCEINLINE constexpr static TMatrix44 LookAt(const TVector3<T>& Eye, const TVector3<T>& LookingAt, const TVector3<T>& Up)
 		{
+			FVector3f LookDir = LookingAt - Eye;
+			TVector3<T> Forward = LookDir.GetSafeNormal();
+			TVector3<T> Right = TVector3<T>::CrossProduct(Up, Forward).GetSafeNormal();
+			TVector3<T> ViewUp = TVector3<T>::CrossProduct(Forward, Right);
+			
+			TMatrix44 LookAtMatrix = TMatrix44::IdentityMatrix;
 
+			LookAtMatrix.M[0][0] = Right[0];
+			LookAtMatrix.M[1][0] = Right[1];
+			LookAtMatrix.M[2][0] = Right[2];
+			LookAtMatrix.M[0][1] = ViewUp[0];
+			LookAtMatrix.M[1][1] = ViewUp[1];
+			LookAtMatrix.M[2][1] = ViewUp[2];
+			LookAtMatrix.M[0][2] = Forward[0];
+			LookAtMatrix.M[1][2] = Forward[1];
+			LookAtMatrix.M[2][2] = Forward[2];
+			LookAtMatrix.M[3][0] = -Eye.Dot(Right);
+			LookAtMatrix.M[3][1] = -Eye.Dot(ViewUp);
+			LookAtMatrix.M[3][2] = -Eye.Dot(Forward);
+
+			return LookAtMatrix;
 		}
 
 		FORCEINLINE constexpr static TMatrix44 MakeFromRotationX(float AngleDeg) noexcept
@@ -457,8 +477,8 @@ namespace Math {
 			PerspectiveProjectionMatrix.M[0][0] = static_cast<T>(1.0f) / (Aspect * TanFOVBy2);
 			PerspectiveProjectionMatrix.M[1][1] = static_cast<T>(1.0f) / TanFOVBy2;
 			PerspectiveProjectionMatrix.M[2][2] = (Far + Near) * OneByFarMinusNear;
-			PerspectiveProjectionMatrix.M[3][2] = -static_cast<T>(2.0f) * Far * Near * OneByFarMinusNear;
 			PerspectiveProjectionMatrix.M[2][3] = static_cast<T>(1.0f);
+			PerspectiveProjectionMatrix.M[3][2] = -static_cast<T>(2.0f) * Far * Near * OneByFarMinusNear;
 
 			return PerspectiveProjectionMatrix;
 		}
