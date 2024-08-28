@@ -1,7 +1,4 @@
 #pragma once
-#define GLM_FORCE_LEFT_HANDED
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/geometric.hpp>
 
 namespace AAEngine {
 
