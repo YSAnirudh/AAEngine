@@ -18,6 +18,14 @@ namespace AAEngine {
 			None = 0,
 			OpenGL = 1,
 		};
+		/*
+		* Enum to track what Model Loader we are using.
+		*/
+		enum class EModelLoader
+		{
+			None = 0,
+			AssImp = 1,
+		};
 	public:
 		/*
 		* Pure Virtual Init method to initialize the renderer
@@ -46,11 +54,21 @@ namespace AAEngine {
 		* @returns Currently used Graphics API
 		*/
 		static EAPI GetAPI() { return RenderingAPI; }
+		/*
+		* Static GetModelLoader method to get the Currently used Model Loader
+		*
+		* @returns Currently used Model Loader
+		*/
+		static EModelLoader GetModelLoader() { return ModelLoader; }
 
 	protected:
 		/*
 		* Static EAPI variable to track the Currently used Graphics API
 		*/
 		static EAPI RenderingAPI;
+		/*
+		* Static EModelLoader variable to track the Currently used Model Loader
+		*/
+		static EModelLoader ModelLoader;
 	};
 }

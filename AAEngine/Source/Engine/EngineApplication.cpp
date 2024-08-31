@@ -9,7 +9,8 @@
 
 #include "EventSystem/Event.h"
 #include "Input/Input.h"
-#include "Renderer/IncludesRenderer.h"
+#include "Renderer/RendererIncludes.h"
+#include "Primitives/PrimitivesIncludes.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
@@ -91,30 +92,23 @@ namespace AAEngine {
 		//Shader.reset(IShader::Create(VertexSource, FragmentSource));
 		//Shader.reset(IShader::Create("../AAEngine/Source/Engine/Shaders/TestGLShader.glsl"));
 
-		float Positions[3 * 8] = {
-			-1.0f,	-1.0f, -1.0f,// 0.0f,	0.0f, 0.0f,
-			-1.0f,	1.0f , -1.0f,// 0.0f,	0.0f, 0.0f,
-			1.0f ,	1.0f , -1.0f,// 0.0f,	0.0f, 0.0f,
-			1.0f ,	-1.0f, -1.0f,// 0.0f,	0.0f, 0.0f,
-			-1.0f,	-1.0f, 1.0f, //0.0f,	0.0f, 0.0f,
-			-1.0f,	1.0f , 1.0f, //0.0f,	0.0f, 0.0f,
-			1.0f ,	1.0f , 1.0f, //0.0f,	0.0f, 0.0f,
-			1.0f ,	-1.0f, 1.0f //0.0f,	0.0f, 0.0f
+		constexpr uint32_t VertexBufferSize = 8 /* Stride */ * 8 /* Num Vertices */;
+		constexpr uint32_t IndexBufferSize = 3 * 12;
+
+		CVertexBufferLayout Layout = CVertexBufferLayout::PhongLayout;
+
+		TArray<float> Vertices = {
+			-0.5f,	-0.5f, -0.5f,	0.0f, 0.0f, 0.0f,		0.0f, 0.0f,
+			-0.5f,	 0.5f, -0.5f,	0.0f, 0.0f, 0.0f,		0.0f, 1.0f,
+			 0.5f,	 0.5f, -0.5f,	0.0f, 0.0f, 0.0f,		1.0f, 1.0f,
+			 0.5f,	-0.5f, -0.5f,	0.0f, 0.0f, 0.0f,		1.0f, 0.0f,
+			-0.5f,	-0.5f,  0.5f,	0.0f, 0.0f, 0.0f,		0.0f, 0.0f,
+			-0.5f,	 0.5f,  0.5f,	0.0f, 0.0f, 0.0f,		0.0f, 1.0f,
+			 0.5f,	 0.5f,  0.5f,	0.0f, 0.0f, 0.0f,		1.0f, 1.0f,
+			 0.5f,	-0.5f,  0.5f,	0.0f, 0.0f, 0.0f,		1.0f, 0.0f,
 		};
 
-		TSharedPtr<IVertexArray> VertexArray = IVertexArray::Create();
-
-		TSharedPtr<IVertexBuffer> VertexBuffer = IVertexBuffer::Create(Positions, 3 * 8, 0);
-
-		CVertexBufferLayout Layout = {
-			{ EShaderVarType::Float3, "Position" }
-			//{ EShaderVarType::Float3, "Normal" }
-		};
-
-		VertexBuffer->SetLayout(Layout);
-		VertexArray->AddVertexBuffer(VertexBuffer);
-
-		uint32_t Indices[3 * 12] = { 
+		TArray<uint32_t> Indices = {
 			0, 1, 2, 
 			2, 3, 0,
 			3, 7, 2,
@@ -128,13 +122,13 @@ namespace AAEngine {
 			5, 6, 7,
 			7, 4, 5
 		};
-		TSharedPtr<IIndexBuffer> IndexBuffer = IIndexBuffer::Create(Indices, 3 * 12, 0);
 
-		VertexArray->SetIndexBuffer(IndexBuffer);
+		TSharedPtr<CMesh> Mesh = MakeShared<CMesh>(Vertices, Indices, Layout);
+		TSharedPtr<CMesh> Model = MakeShared<CMesh>("../AAEngine/Assets/Models/DamagedHelmet/DamagedHelmet.gltf", Layout);
 
 		TUniquePtr<CPerspectiveCamera> Camera = MakeUnique<CPerspectiveCamera>(60.0f, (float)ApplicationWindow->GetWindowWidth() / (float)ApplicationWindow->GetWindowHeight(), 0.01f, 100.f);
 		
-		FVector3f CurrentCamPos(0.0f, 0.0f, -1.f);
+		FVector3f CurrentCamPos(0.0f, 0.0f, 2.f);
 		FEulerf CurrentCameraRotation(0.0f);
 		FVector3f Position(0.0f, 0.0f, 10.f);
 		FEulerf Rotation(0.0f);
@@ -203,11 +197,12 @@ namespace AAEngine {
 
 			Camera->SetCameraLocation(CurrentCamPos);
 			Camera->SetCameraRotation(CurrentCameraRotation);
+			Camera->RecalculateViewMatrix();
 			
-			FMatrix44f Transform = FMatrix44f::MakeFromLocation(FVector3f(0.0f, 0.0f, 5.0f)); // FMatrix44f::MakeFromRotationXYZ(Rotation) * FMatrix44f::MakeFromLocation(Position);
 			CRenderer::BeginScene(*Camera);
 			
-			CRenderer::Submit(Shader, VertexArray, Transform);
+			//CRenderer::Submit(Shader, Mesh);
+			CRenderer::Submit(Shader, Model);
 
 			CRenderer::EndScene();
 

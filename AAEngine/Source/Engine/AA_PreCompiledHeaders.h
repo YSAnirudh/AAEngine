@@ -27,8 +27,8 @@
 #include "Core/Logging/Log.h"
 
 // Core Folder Includes
-#include "Core/Memory/IncludesMemory.h"
-#include "Core/Containers/IncludesContainers.h"
-#include "Core/Math/IncludesMath.h"
+#include "Core/Memory/MemoryIncludes.h"
+#include "Core/Containers/ContainersIncludes.h"
+#include "Core/Math/MathIncludes.h"
 
 #include "Core/Containers/TempSTDContainers.h"

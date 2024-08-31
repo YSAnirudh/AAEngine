@@ -13,6 +13,7 @@ includeDirs["GLFW"] = "AAEngine/ThirdParty/GLFW/include"
 includeDirs["GLAD"] = "AAEngine/ThirdParty/GLAD/include"
 includeDirs["ImGui"] = "AAEngine/ThirdParty/ImGui"
 includeDirs["stb"] = "AAEngine/ThirdParty/stb"
+includeDirs["assimp"] = "AAEngine/ThirdParty/assimp/include"
 -- TEMPORARY FOR TESTING
 includeDirs["glm"] = "AAEngine/ThirdParty/glm"
 
@@ -40,6 +41,7 @@ project "AAEngine"
 	{ 
 		"%{prj.name}/Source/**.h",
 		"%{prj.name}/Source/**.cpp",
+		"%{prj.name}/Source/**.glsl",
 		"%{prj.name}/ThirdParty/stb/**.cpp",
 		"%{prj.name}/ThirdParty/stb/**.h"
 	}
@@ -47,6 +49,7 @@ project "AAEngine"
 	includedirs 
 	{ 
 		--- Include 3rd party libraries for the engine etc
+		"%{prj.name}/Assets",
 		"%{prj.name}/Source",
 		"%{prj.name}/Source/Engine",
 		"%{prj.name}/Source/Engine/Core",
@@ -54,6 +57,7 @@ project "AAEngine"
 		"%{includeDirs.GLAD}",
 		"%{includeDirs.ImGui}",
 		"%{includeDirs.stb}",
+		"%{includeDirs.assimp}",
 		-- TEMP IMCLUDES
 		"%{includeDirs.glm}",
 	}
@@ -63,7 +67,13 @@ project "AAEngine"
 		"GLFW",
 		"GLAD",
 		"ImGui",
-		"opengl32.lib"
+		"opengl32.lib",
+		"assimp.lib",
+	}
+
+	libdirs 
+	{
+		"AAEngine/ThirdParty/assimp/lib/Debug"
 	}
 
 	disablewarnings

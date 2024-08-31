@@ -337,29 +337,32 @@ namespace Math {
 		* TO DO: Make Perspective matrices support -1 to 1 and 0 to 1 depending of the Graphics API
 		* TO DO: Convert to Z - Up, Y - Right, X - Forward ???
 		* 
-		* Euler		- Pitch = Y (Right)
-		*			- Yaw = Z (Up)
-		*			- Roll = X (Forward)
+		* Euler		- Pitch = X (Right)
+		*			- Yaw = Y (Up)
+		*			- Roll = Z (Forward)
 		*/
 
 		FORCEINLINE constexpr static TMatrix44 LookAt(const TVector3<T>& Eye, const TVector3<T>& LookingAt, const TVector3<T>& Up)
 		{
-			FVector3f LookDir = LookingAt - Eye;
-			TVector3<T> Forward = LookDir.GetSafeNormal();
-			TVector3<T> Right = TVector3<T>::CrossProduct(Up, Forward).GetSafeNormal();
-			TVector3<T> ViewUp = TVector3<T>::CrossProduct(Forward, Right);
+			const FVector3f LookDir = LookingAt - Eye;
+			const TVector3<T> Forward = LookDir.GetSafeNormal();
+			const TVector3<T> Right = TVector3<T>::CrossProduct(Up, Forward).GetSafeNormal();
+			const TVector3<T> ViewUp = TVector3<T>::CrossProduct(Forward, Right);
 			
 			TMatrix44 LookAtMatrix = TMatrix44::IdentityMatrix;
 
 			LookAtMatrix.M[0][0] = Right[0];
 			LookAtMatrix.M[1][0] = Right[1];
 			LookAtMatrix.M[2][0] = Right[2];
+
 			LookAtMatrix.M[0][1] = ViewUp[0];
 			LookAtMatrix.M[1][1] = ViewUp[1];
 			LookAtMatrix.M[2][1] = ViewUp[2];
+
 			LookAtMatrix.M[0][2] = Forward[0];
 			LookAtMatrix.M[1][2] = Forward[1];
 			LookAtMatrix.M[2][2] = Forward[2];
+
 			LookAtMatrix.M[3][0] = -Eye.Dot(Right);
 			LookAtMatrix.M[3][1] = -Eye.Dot(ViewUp);
 			LookAtMatrix.M[3][2] = -Eye.Dot(Forward);
@@ -474,9 +477,9 @@ namespace Math {
 			T TanFOVBy2 = FMath::Tan(FOV / static_cast<T>(2.0f));
 			T OneByFarMinusNear = static_cast<T>(1.0f) / (Far - Near);
 
-			PerspectiveProjectionMatrix.M[0][0] = static_cast<T>(1.0f) / (Aspect * TanFOVBy2);
-			PerspectiveProjectionMatrix.M[1][1] = static_cast<T>(1.0f) / TanFOVBy2;
-			PerspectiveProjectionMatrix.M[2][2] = (Far + Near) * OneByFarMinusNear;
+			PerspectiveProjectionMatrix.M[0][0] = static_cast<T>(1.0f) / (Aspect * TanFOVBy2); // Right
+			PerspectiveProjectionMatrix.M[1][1] = static_cast<T>(1.0f) / TanFOVBy2; // Up
+			PerspectiveProjectionMatrix.M[2][2] = (Far + Near) * OneByFarMinusNear; // Forward
 			PerspectiveProjectionMatrix.M[2][3] = static_cast<T>(1.0f);
 			PerspectiveProjectionMatrix.M[3][2] = -static_cast<T>(2.0f) * Far * Near * OneByFarMinusNear;
 

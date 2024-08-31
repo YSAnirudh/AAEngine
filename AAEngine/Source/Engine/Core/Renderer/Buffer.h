@@ -1,4 +1,5 @@
 #pragma once
+#include "RendererCommons.h"
 
 namespace AAEngine {
 
@@ -8,17 +9,17 @@ namespace AAEngine {
 	enum class EShaderVarType : uint8_t
 	{
 		None = 0,
-		Float,
-		Float2,
-		Float3,
-		Float4,
-		Mat3,
-		Mat4,
-		Int,
-		Int2,
-		Int3,
-		Int4,
-		Bool,
+		SVT_Float,
+		SVT_Float2,
+		SVT_Float3,
+		SVT_Float4,
+		SVT_Mat3,
+		SVT_Mat4,
+		SVT_Int,
+		SVT_Int2,
+		SVT_Int3,
+		SVT_Int4,
+		SVT_Bool,
 	};
 
 	/*
@@ -28,17 +29,17 @@ namespace AAEngine {
 	{
 		switch (Type)
 		{
-		case EShaderVarType::Float:		return sizeof(float) * 1;
-		case EShaderVarType::Float2:	return sizeof(float) * 2;
-		case EShaderVarType::Float3:	return sizeof(float) * 3;
-		case EShaderVarType::Float4:	return sizeof(float) * 4;
-		case EShaderVarType::Mat3:		return sizeof(float) * 3 * 3;
-		case EShaderVarType::Mat4:		return sizeof(float) * 4 * 4;
-		case EShaderVarType::Int:		return sizeof(int) * 1;
-		case EShaderVarType::Int2:		return sizeof(int) * 2;
-		case EShaderVarType::Int3:		return sizeof(int) * 3;
-		case EShaderVarType::Int4:		return sizeof(int) * 4;
-		case EShaderVarType::Bool:		return sizeof(bool) * 1;
+		case EShaderVarType::SVT_Float:		return sizeof(float) * 1;
+		case EShaderVarType::SVT_Float2:	return sizeof(float) * 2;
+		case EShaderVarType::SVT_Float3:	return sizeof(float) * 3;
+		case EShaderVarType::SVT_Float4:	return sizeof(float) * 4;
+		case EShaderVarType::SVT_Mat3:		return sizeof(float) * 3 * 3;
+		case EShaderVarType::SVT_Mat4:		return sizeof(float) * 4 * 4;
+		case EShaderVarType::SVT_Int:		return sizeof(int) * 1;
+		case EShaderVarType::SVT_Int2:		return sizeof(int) * 2;
+		case EShaderVarType::SVT_Int3:		return sizeof(int) * 3;
+		case EShaderVarType::SVT_Int4:		return sizeof(int) * 4;
+		case EShaderVarType::SVT_Bool:		return sizeof(bool) * 1;
 		}
 		return 0;
 	}
@@ -50,17 +51,17 @@ namespace AAEngine {
 	{
 		switch (Type)
 		{
-		case EShaderVarType::Float:		return 1;
-		case EShaderVarType::Float2:	return 2;
-		case EShaderVarType::Float3:	return 3;
-		case EShaderVarType::Float4:	return 4;
-		case EShaderVarType::Mat3:		return 3 * 3;
-		case EShaderVarType::Mat4:		return 4 * 4;
-		case EShaderVarType::Int:		return 1;
-		case EShaderVarType::Int2:		return 2;
-		case EShaderVarType::Int3:		return 3;
-		case EShaderVarType::Int4:		return 4;
-		case EShaderVarType::Bool:		return 1;
+		case EShaderVarType::SVT_Float:		return 1;
+		case EShaderVarType::SVT_Float2:	return 2;
+		case EShaderVarType::SVT_Float3:	return 3;
+		case EShaderVarType::SVT_Float4:	return 4;
+		case EShaderVarType::SVT_Mat3:		return 3 * 3;
+		case EShaderVarType::SVT_Mat4:		return 4 * 4;
+		case EShaderVarType::SVT_Int:		return 1;
+		case EShaderVarType::SVT_Int2:		return 2;
+		case EShaderVarType::SVT_Int3:		return 3;
+		case EShaderVarType::SVT_Int4:		return 4;
+		case EShaderVarType::SVT_Bool:		return 1;
 		}
 		return 0;
 	}
@@ -91,6 +92,10 @@ namespace AAEngine {
 		*/
 		std::string Name;
 		/*
+		* Vertex Input Type of the variable in the Shader
+		*/
+		EVertexInputType VertexInputType;
+		/*
 		* Data Type of the Shader Variable
 		*/
 		EShaderVarType Type;
@@ -108,11 +113,11 @@ namespace AAEngine {
 		* Constructor that takes in Variable type, the name of the variable in the Shader, and default parameter for whether values should be normalized
 		* 
 		* @param InVarType - Data Type of the Shader Variable
-		* @param InVarName - Name of the Shader Variable in the Shader
+		* @param InVertexInputType - Vertex Input Type of the Shader Variable in the Shader
 		* @param bShouldNormalize - Default Parameter for whether the values sent into the shader should be normalized between 0.0f and 1.0f
 		*/
-		FVertexBufferElement(EShaderVarType InVarType, const std::string& InVarName, bool bShouldNormalize = false)
-			: Name(InVarName), Type(InVarType), Size(ShaderVariableTypeSize(InVarType)), Offset(0), bShouldNormalize(bShouldNormalize)
+		FVertexBufferElement(EShaderVarType InVarType, EVertexInputType InVertexInputType, bool bShouldNormalize = false)
+			: VertexInputType(InVertexInputType), Name(CRendererUtils::GetVertexInputName(InVertexInputType)), Type(InVarType), Size(ShaderVariableTypeSize(InVarType)), Offset(0), bShouldNormalize(bShouldNormalize)
 		{
 		}
 
@@ -184,6 +189,9 @@ namespace AAEngine {
 		TArray<FVertexBufferElement>::Iterator		end()			{ return VertexBufferElements.end(); }
 		TArray<FVertexBufferElement>::ConstIterator	begin() const	{ return VertexBufferElements.begin(); }
 		TArray<FVertexBufferElement>::ConstIterator	end() const		{ return VertexBufferElements.end(); }
+
+		static CVertexBufferLayout PhongLayout;
+
 	private:
 		/*
 		* Private function to calculate Offsets for each element and the Stride for the Layout
@@ -309,5 +317,51 @@ namespace AAEngine {
 		* @returns A Platform indepentent Index Buffer
 		*/
 		static TSharedPtr<IIndexBuffer> Create(uint32_t* Indices, uint32_t Count, uint32_t EnumUsage);
+	};
+
+	enum class EAttachmentType
+	{
+		AT_None = 0,
+		AT_Color,
+		AT_Depth,
+		AT_DepthStencil,
+	};
+
+	enum class EFramebufferMode
+	{
+		FM_None = 0,
+		FM_Write,
+		FM_Read
+	};
+
+	class ITexture2D;
+	class IFramebuffer
+	{
+	public:
+		/*
+		* Virtual Destructor as we know we will have derived classes
+		*/
+		virtual ~IFramebuffer() {}
+
+		/*
+		* Pure virtual Bind function to Bind to the Framebuffer.
+		*/
+		virtual void Bind() = 0;
+
+		/*
+		* Pure virtual UnBind function to UnBind from the Framebuffer.
+		*/
+		virtual void UnBind() = 0;
+
+		/*
+		* Static create method as create method doesn't vary based on instances.
+		*
+		* @param Indices - float pointer of Indices. Array passed in as a pointer.
+		* @param Count - size_t Count of the Indices
+		* @param EnumUsage - Usage of the buffer - Ex: OpenGL - GL_STATIC_DRAW
+		*
+		* @returns A Platform indepentent Index Buffer
+		*/
+		static TSharedPtr<IFramebuffer> Create(ITexture2D* Texture, EAttachmentType FramebufferAttachmentType, uint32_t ColorAttachmentIndex = 0, EFramebufferMode FramebufferMode = EFramebufferMode::FM_None);
 	};
 }

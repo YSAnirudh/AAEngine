@@ -50,7 +50,6 @@ namespace AAEngine {
 		uint32_t VertexCount;
 	};
 
-
 	/*
 	* OpenGL specific Index Buffer class
 	*/
@@ -95,5 +94,49 @@ namespace AAEngine {
 		* Index Count stores the number of Indices
 		*/
 		uint32_t IndexCount;
+	};
+
+
+	/*
+	* OpenGL specific Index Buffer class
+	*/
+	class COpenGLFramebuffer : public IFramebuffer
+	{
+	public:
+		/*
+		* Constructor that takes in Texture and Framebuffer Attachment type (Currently useful for OpenGL)
+		*
+		* @param Texture - 2D Texture used by the framebuffer.
+		* @param FramebufferAttachmentType - Attachment Type of the frameuffer. Ex: Color Attachment
+		*/
+		COpenGLFramebuffer(ITexture2D* Texture, EAttachmentType FramebufferAttachmentType, uint32_t ColorAttachmentIndex, EFramebufferMode FramebufferMode);
+
+		/*
+		* Overriden Virtual destructor to delete Index Buffers
+		*/
+		virtual ~COpenGLFramebuffer() override;
+
+		/*
+		* Overriden virtual Bind function to Bind to the GL Index Buffer.
+		*/
+		virtual void Bind() override;
+		/*
+		* Overriden virtual UnBind function to UnBind from the GL Index Buffer.
+		*/
+		virtual void UnBind() override;
+
+		uint32_t GetGLFramebufferMode(EFramebufferMode FramebufferMode) const;
+		uint32_t GetGLAttachmentType(EAttachmentType FramebufferAttachmentType, uint32_t ColorAttachmentIndex = 0) const;
+
+	private:
+		/*
+		* Framebuffer Index to index this framebuffer by for OpenGL
+		*/
+		uint32_t Framebuffer = 0;
+
+		/*
+		* Framebuffer Target for OpenGL
+		*/
+		uint32_t GLFramebufferTarget = 0;
 	};
 }

@@ -1,8 +1,10 @@
 #pragma once
 
 #include "RenderCommand.h"
-
+#include "RendererCommons.h"
+#include "Renderable.h"
 #include "Camera.h"
+
 #include "Platform/OpenGL/OpenGLShader.h"
 
 namespace AAEngine {
@@ -26,7 +28,8 @@ namespace AAEngine {
 		*/
 		static void BeginScene(CCamera& Camera)
 		{
-			SceneData->ViewProjectionMatrix = Camera.GetCameraViewProjectionMatrix();
+			SceneData->FrameShaderData.ViewMatrix = Camera.GetCameraViewMatrix();
+			SceneData->FrameShaderData.ProjectionMatrix = Camera.GetCameraProjectionMatrix();
 		}
 		/*
 		* After we end a scene render
@@ -38,11 +41,14 @@ namespace AAEngine {
 		* 
 		* @param Vertex Array
 		*/
-		static void Submit(const TSharedPtr<IShader>& Shader, const TSharedPtr<IVertexArray>& VertexArray, const FMatrix44f& Transform)
+		static void Submit(const TSharedPtr<IShader>& Shader, const TSharedPtr<IRenderable>& RenderableObject)
 		{
 			Shader->Bind();
-			std::dynamic_pointer_cast<COpenGLShader>(Shader)->UploadUniformMat4("MVPMatrix", Transform * SceneData->ViewProjectionMatrix);
-			CRenderCommand::DrawIndexed(VertexArray);
+			FMatrix44f Transform = FMatrix44f::MakeFromLocation(FVector3f(0.0f, 0.0f, 5.0f)); // FMatrix44f::MakeFromRotationXYZ(Rotation) * FMatrix44f::MakeFromLocation(Position);
+			std::dynamic_pointer_cast<COpenGLShader>(Shader)->UploadUniformMat4("ModelMatrix", RenderableObject->GetModelMatrix());
+			std::dynamic_pointer_cast<COpenGLShader>(Shader)->UploadUniformMat4("ViewMatrix", SceneData->FrameShaderData.ViewMatrix);
+			std::dynamic_pointer_cast<COpenGLShader>(Shader)->UploadUniformMat4("ProjectionMatrix", SceneData->FrameShaderData.ProjectionMatrix);
+			RenderableObject->Render();
 		}
 
 		/*
@@ -52,7 +58,7 @@ namespace AAEngine {
 	private:
 		struct FSceneData
 		{
-			FMatrix44f ViewProjectionMatrix;
+			FPerFrameShaderData FrameShaderData;
 		};
 
 		static FSceneData* SceneData;

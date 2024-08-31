@@ -28,7 +28,7 @@ namespace AAEngine {
 
 	void COpenGLVertexArray::AddVertexBuffer(const TSharedPtr<IVertexBuffer>& VertexBuffer)
 	{
-		glBindVertexArray(VertexArray);
+		Bind();
 		VertexBuffer->Bind();
 
 		const CVertexBufferLayout& Layout = VertexBuffer->GetLayout();
@@ -45,6 +45,7 @@ namespace AAEngine {
 				Layout.GetStride(),
 				reinterpret_cast<const void*>(Elem.Offset)
 			);
+			Index++;
 		}
 
 		VertexBuffers.EmplaceBack(VertexBuffer);

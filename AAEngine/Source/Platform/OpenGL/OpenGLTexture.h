@@ -54,6 +54,16 @@ namespace AAEngine {
 		*/
 		virtual void Bind(uint32_t Slot = 0) const override;
 
+		/*
+		* Getter for Texture ID.
+		*
+		* @returns ID of the Texture
+		*/
+		uint32_t GetTextureID() const
+		{
+			return TextureID;
+		}
+
 	private:
 		/*
 		* Function to create a GL Texture 2D with parameters

@@ -3,9 +3,9 @@
 #include "Core/Core.h"
 
 #if AA_PLATFORM_USING_SIMD
-#include "Memory/IncludesMemory.h"
+#include "Memory/MemoryIncludes.h"
 #include "Math/MathForwards.h"
-#include "Platform/IncludesSIMD.h"
+#include "Platform/SIMDIncludes.h"
 
 namespace AAEngine {
 namespace Math {

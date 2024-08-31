@@ -113,6 +113,11 @@ namespace Math {
 
 			return Vector;
 		}
+
+		FORCEINLINE static constexpr bool AreNearlyEqual(const TEuler<T>& Vec1, const TEuler<T>& Vec2, T Tolerance = AA_SMALL_NUMBER) noexcept
+		{
+			return FMath::Abs(Vec1.Roll - Vec2.Roll) < Tolerance && FMath::Abs(Vec1.Pitch - Vec2.Pitch) < Tolerance && FMath::Abs(Vec1.Yaw - Vec2.Yaw) < Tolerance;
+		}
 	};
 }
 }

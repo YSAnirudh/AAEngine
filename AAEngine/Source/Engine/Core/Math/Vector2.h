@@ -316,6 +316,11 @@ namespace AAEngine {
 				SS << "X: " << X << ", Y: " << Y;
 				return SS.str();
 			}
+
+			FORCEINLINE static constexpr bool AreNearlyEqual(const TVector2<T>& Vec1, const TVector2<T>& Vec2, T Tolerance = AA_SMALL_NUMBER) noexcept
+			{
+				return FMath::Abs(Vec1.X - Vec2.X) < Tolerance && FMath::Abs(Vec1.Y - Vec2.Y) < Tolerance;
+			}
 		};
 
 		template<typename T>

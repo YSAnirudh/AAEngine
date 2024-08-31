@@ -325,6 +325,11 @@ namespace Math {
 			SS << "X: " << X << ", Y: " << Y << ", Z: " << Z << ", W: " << W;
 			return SS.str();
 		}
+
+		FORCEINLINE static constexpr bool AreNearlyEqual(const TVector4<T>& Vec1, const TVector4<T>& Vec2, T Tolerance = AA_SMALL_NUMBER) noexcept
+		{
+			return FMath::Abs(Vec1.X - Vec2.X) < Tolerance && FMath::Abs(Vec1.Y - Vec2.Y) < Tolerance && FMath::Abs(Vec1.Z - Vec2.Z) < Tolerance && FMath::Abs(Vec1.W - Vec2.W) < Tolerance;
+		}
 	};
 
 	template<typename T>

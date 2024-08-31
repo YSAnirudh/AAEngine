@@ -12,36 +12,52 @@ namespace AAEngine {
 
 		void SetCameraLocation(const FVector3f& NewLocation)
 		{
+			if (FVector3f::AreNearlyEqual(NewLocation, Location))
+			{
+				return;
+			}
 			Location = NewLocation;
-			CalculateViewMatrix();
+			bPropertiesDirtied = true;
 		}
 
 		void SetCameraRotation(const FEulerf& NewRotation)
 		{
+			if (FEulerf::AreNearlyEqual(NewRotation, Rotation))
+			{
+				return;
+			}
 			Rotation = NewRotation;
-			CalculateViewMatrix();
+			bPropertiesDirtied = true;
 		}
 
-		const FMatrix44f& GetCameraViewProjectionMatrix() const { return ViewProjectionMatrix; };
+		void RecalculateViewMatrix()
+		{
+			if (bPropertiesDirtied)
+			{
+				CalculateViewMatrix();
+			}
+		}
+
 		const FMatrix44f& GetCameraProjectionMatrix() const { return ProjectionMatrix; };
 		const FMatrix44f& GetCameraViewMatrix() const { return ViewMatrix; };
 
 	protected:
 		virtual void CalculateViewMatrix()
 		{
-			FVector3f LookAtVector = Location + Rotation.ToVector();
+			const FVector3f LookAtVector = Location + Rotation.ToVector();
 
 			ViewMatrix = FMatrix44f::LookAt(Location, LookAtVector, FVector3f(0.0f, 1.0f, 0.0f));
 			ViewMatrix.InverseFast();
 
-			ViewProjectionMatrix = ViewMatrix * ProjectionMatrix;
+			bPropertiesDirtied = false;
 		}
 
 		FMatrix44f ProjectionMatrix;
 		FMatrix44f ViewMatrix;
-		FMatrix44f ViewProjectionMatrix;
 		FVector3f Location;
 		FEulerf Rotation;
+
+		bool bPropertiesDirtied = false;
 	};
 
 	class CPerspectiveCamera : public CCamera
@@ -54,7 +70,7 @@ namespace AAEngine {
 			Rotation = FEulerf::ZeroEuler;
 			FOV = FOVDeg;
 			AspectRatio = InAspectRatio;
-			CalculateViewMatrix();
+			bPropertiesDirtied = true;
 		}
 	private:
 

@@ -26,6 +26,8 @@ namespace AAEngine {
 		AA_CORE_LOG(Info, "	Graphics Vendor:  %s", glGetString(GL_VENDOR));
 		AA_CORE_LOG(Info, "	Graphics Driver:  %s", glGetString(GL_RENDERER));
 		AA_CORE_LOG(Info, "	OpenGL Version:	  %s", glGetString(GL_VERSION));
+
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void COpenGLRenderingContext::SwapBuffers()

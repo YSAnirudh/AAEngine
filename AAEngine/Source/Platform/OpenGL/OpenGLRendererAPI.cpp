@@ -23,7 +23,7 @@ namespace AAEngine {
 	void COpenGLRendererAPI::DrawIndexed(const TSharedPtr<IVertexArray>& VertexArray)
 	{
 		VertexArray->Bind();
-		glDrawElements(GL_TRIANGLES, VertexArray->GetIndexBuffer()->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(VertexArray->GetIndexBuffer()->GetIndexCount()), GL_UNSIGNED_INT, nullptr);
 	}
 
 }

@@ -336,6 +336,11 @@ namespace AAEngine {
 			{
 				return (Vec1 - Vec2).Size();
 			}
+
+			FORCEINLINE static constexpr bool AreNearlyEqual(const TVector3<T>& Vec1, const TVector3<T>& Vec2, T Tolerance = AA_SMALL_NUMBER) noexcept
+			{
+				return FMath::Abs(Vec1.X - Vec2.X) < Tolerance && FMath::Abs(Vec1.Y - Vec2.Y) < Tolerance && FMath::Abs(Vec1.Z - Vec2.Z) < Tolerance;
+			}
 		};
 
 		template<typename T>

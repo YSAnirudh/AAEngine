@@ -11,8 +11,15 @@ uniform mat4 MVPMatrix;
 
 void main()
 {
-	gl_Position = MVPMatrix * vec4(Position, 1.0f);
-	gl_Position.z = -gl_Position.z;
+	mat4 Transform;
+	Transform[0] = vec4(0, 0, -1, 0);
+	Transform[1] = vec4(1, 0, 0, 0);
+	Transform[2] = vec4(0, 1, 0, 0);
+	Transform[3] = vec4(0, 0, 0, 1);
+
+	mat4 TransMVPMatrix = MVPMatrix * Transform;
+
+	gl_Position = TransMVPMatrix * vec4(Position, 1.0f);
 }
 
 #aa_shader_type fragment
