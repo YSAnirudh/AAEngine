@@ -61,17 +61,16 @@ namespace AAEngine {
 			return ShaderName;
 		}
 
-
 		/*
 		* Upload uniform functions with params as uniform name and specified data to the shader.
 		* 
 		* @param UniformName - name of the uniform variable.
 		* @param DataType - varying from Int to Vec4 to Mat4 - data to be uploaded to the uniform variable
 		*/
-		void UploadUniformInt(const std::string& UniformName, int Value);
-		void UploadUniformVec3(const std::string& UniformName, const FVector3f& Value);
-		void UploadUniformVec4(const std::string& UniformName, const FVector4f& Value);
-		void UploadUniformMat4(const std::string& UniformName, const FMatrix44f& Value);
+		virtual void UploadUniformInt(const char* UniformName, int Value) override;
+		virtual void UploadUniformVec3(const char* UniformName, const FVector3f& Value) override;
+		virtual void UploadUniformVec4(const char* UniformName, const FVector4f& Value) override;
+		virtual void UploadUniformMat4(const char* UniformName, const FMatrix44f& Value) override;
 	private:
 		/*
 		* Function to read shader code from a file.

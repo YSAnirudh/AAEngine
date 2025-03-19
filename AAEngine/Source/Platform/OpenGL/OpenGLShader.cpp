@@ -60,27 +60,27 @@ namespace AAEngine {
 		glUseProgram(0);
 	}
 
-	void COpenGLShader::UploadUniformInt(const std::string& UniformName, int Value)
+	void COpenGLShader::UploadUniformInt(const char* UniformName, int Value)
 	{
-		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName.c_str());
+		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName);
 		glUniform1i(Location, Value);
 	}
 
-	void COpenGLShader::UploadUniformVec3(const std::string& UniformName, const FVector3f& Value)
+	void COpenGLShader::UploadUniformVec3(const char* UniformName, const FVector3f& Value)
 	{
-		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName.c_str());
+		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName);
 		glUniform3f(Location, Value.X, Value.Y, Value.Z);
 	}
 
-	void COpenGLShader::UploadUniformVec4(const std::string& UniformName, const FVector4f& Value)
+	void COpenGLShader::UploadUniformVec4(const char* UniformName, const FVector4f& Value)
 	{
-		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName.c_str());
+		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName);
 		glUniform4f(Location, Value.X, Value.Y, Value.Z, Value.W);
 	}
 
-	void COpenGLShader::UploadUniformMat4(const std::string& UniformName, const FMatrix44f& Value)
+	void COpenGLShader::UploadUniformMat4(const char* UniformName, const FMatrix44f& Value)
 	{
-		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName.c_str());
+		GLuint Location = glGetUniformLocation(ShaderProgram, UniformName);
 		glUniformMatrix4fv(Location, 1, GL_FALSE, Value.MLin);
 	}
 

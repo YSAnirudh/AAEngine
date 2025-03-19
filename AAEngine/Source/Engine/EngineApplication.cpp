@@ -135,7 +135,7 @@ namespace AAEngine {
 		FVector2f CurrMousePos(CInput::GetMouseX(), CInput::GetMouseY());
 		//FVector2f CurrMousePos
 		float MouseSensitivity = 1.0f;
-		
+
 		while(bIsApplicationRunning)
 		{
 			/*
@@ -200,7 +200,8 @@ namespace AAEngine {
 			Camera->RecalculateViewMatrix();
 			
 			CRenderer::BeginScene(*Camera);
-			
+			Shader->Bind();
+			CRenderer::UploadSceneUniforms(Shader);
 			//CRenderer::Submit(Shader, Mesh);
 			CRenderer::Submit(Shader, Model);
 
